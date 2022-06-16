@@ -1,0 +1,13 @@
+---
+import { Tweet } from '../_types'
+
+export type Props = {
+  tweet: Tweet
+}
+
+const { tweet } = Astro.props as Props
+---
+
+<li>
+  {tweet.text}
+</li>
