@@ -3,23 +3,31 @@ export type TweetResponse = {
   includes: {
     media: Media[];
   }
-  meta: any;
+  meta: {};
 }
 
 export type Tweet = {
-  text: string;
   id: string;
-  attachments: {
+  text: string;
+  entities?: {
+    hashtags?: {
+      start: number;
+      end: number;
+      tag: string;
+    }[];
+  };
+  attachments?: {
     media_keys: string[];
-  }
+  };
 }
 
 export type Media = {
   media_key: string;
+} & ({ type: string } | {
   type: 'video';
   variants: {
     content_type: 'video/mp4' | 'application/x-mpegURL';
-    bit_rate: number;
+    bit_rate?: number;
     url: string;
-  }[]
-}
+  }[];
+});
