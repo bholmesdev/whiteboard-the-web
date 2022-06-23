@@ -1,5 +1,5 @@
 ---
-import { Tweet } from '../_types'
+import type { Tweet } from '../_types'
 
 export type Props = {
   tweet: Tweet
@@ -9,5 +9,5 @@ const { tweet } = Astro.props as Props
 ---
 
 <li>
-  {tweet.text}
+  {JSON.stringify(tweet)}
 </li>
