@@ -11,5 +11,9 @@
   "devDependencies": {
     "@astrojs/netlify": "^0.4.4",
     "astro": "^1.0.0-beta.47"
+  },
+  "dependencies": {
+    "ts-to-zod": "^1.11.0",
+    "zod": "^3.17.3"
   }
 }
