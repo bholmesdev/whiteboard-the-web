@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "generate-types": "ts-to-zod src/_types.ts src/_types.generated.ts",
+    "generate-types:watch": "ts-to-zod src/_types.ts src/_types.generated.ts --watch",
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
