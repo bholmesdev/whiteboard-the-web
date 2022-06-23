@@ -1,10 +1,11 @@
 ---
-import { TweetResponse } from '../_types'
+import type { TweetResponse } from '../_types'
+import { tweetResponseSchema } from '../_types.generated'
 import Layout from '../layouts/Layout.astro';
 import Tweet from '../components/Tweet.astro';
+import { toWhiteboardTheWebTweets } from '../utils';
 
-let twitterFetchError = false
-let tweetResponse: TweetResponse
+let fetchState: TweetResponse | 'error' = 'error';
 
 try {
 	const reqHeaders = new Headers()
@@ -16,28 +17,28 @@ try {
 		headers: reqHeaders,
 	}).then(res => res.json())
 
-	console.log({userId})
-
 	const userUrl = new URL(`https://api.twitter.com/2/users/${userId}/tweets`)
 	userUrl.searchParams.set('expansions', 'attachments.media_keys')
 	userUrl.searchParams.set('tweet.fields', 'entities')
 	userUrl.searchParams.set('media.fields', 'variants')
+	userUrl.searchParams.set('exclude', 'replies')
+	userUrl.searchParams.set('max_results', '100')
 
-	tweetResponse = await fetch(userUrl.toString(), {
+	const rawResponse = await fetch(userUrl.toString(), {
 		method: 'GET',
 		headers: reqHeaders,
 	}).then(res => res.json())
-} catch {
-	twitterFetchError = true
+	fetchState = tweetResponseSchema.parse(rawResponse);
+} catch (e) {
+	console.error(e)
 }
-
 ---
 <Layout title="Welcome to Astro.">
-	{twitterFetchError ? 'Ah!' : (
+	{fetchState === 'error' ? 'Ah!' : (
 		<main>
 			<h1>#WhiteboardtheWeb</h1>
 			<ul role="list" class="tweet-list">
-				{tweetResponse.data.map(tweet => <Tweet tweet={tweet} />)}
+				{toWhiteboardTheWebTweets(fetchState.data).map(tweet => <Tweet tweet={tweet} />)}
 			</ul>
 		</main>
 	)}
