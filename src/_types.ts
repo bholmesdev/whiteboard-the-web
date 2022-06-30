@@ -23,7 +23,7 @@ export type Tweet = {
 
 export type Media = {
   media_key: string;
-} & ({ type: string } | {
+} & ({ type: 'photo' } | {
   type: 'video';
   variants: {
     content_type: 'video/mp4' | 'application/x-mpegURL';
