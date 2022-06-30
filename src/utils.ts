@@ -1,6 +1,6 @@
 import { Tweet } from "./_types";
 
-const WTW = 'whiteboardtheweb';
+export const WTW = 'whiteboardtheweb';
 
 export function toWhiteboardTheWebTweets(tweets: Tweet[]) {
   return tweets.filter(tweet => {
