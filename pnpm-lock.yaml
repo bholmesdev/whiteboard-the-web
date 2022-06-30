@@ -1,7 +1,9 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@anatine/zod-mock': ^3.1.1
   '@astrojs/netlify': ^0.4.4
+  '@faker-js/faker': ^7.3.0
   astro: ^1.0.0-beta.47
   ts-to-zod: ^1.11.0
   vitest: ^0.16.0
@@ -13,7 +15,9 @@ dependencies:
   zod: 3.17.3
 
 devDependencies:
+  '@anatine/zod-mock': 3.1.1_ddatlbf7p3akkiw65hcnf2kmde
   '@astrojs/netlify': 0.4.4
+  '@faker-js/faker': 7.3.0
   astro: 1.0.0-beta.47
 
 packages:
@@ -24,6 +28,17 @@ packages:
     dependencies:
       '@jridgewell/gen-mapping': 0.1.1
       '@jridgewell/trace-mapping': 0.3.13
+    dev: true
+
+  /@anatine/zod-mock/3.1.1_ddatlbf7p3akkiw65hcnf2kmde:
+    resolution: {integrity: sha512-1VyuwqjydbfHRsYdTHAFf8jUWyXE/8SRy2VtlXUZys/00x2+04D7GqMZ+KUfCMR/QIRBeZXc5S/s05QwpWJdHQ==}
+    peerDependencies:
+      '@faker-js/faker': ^6.0.0-beta.0
+      zod: ^3.13.4
+    dependencies:
+      '@faker-js/faker': 7.3.0
+      randexp: 0.5.3
+      zod: 3.17.3
     dev: true
 
   /@astrojs/compiler/0.15.2:
@@ -340,6 +355,11 @@ packages:
 
   /@emmetio/scanner/1.0.0:
     resolution: {integrity: sha512-8HqW8EVqjnCmWXVpqAOZf+EGESdkR27odcMMMGefgKXtar00SoYNSryGv//TELI4T3QFsECo78p+0lmalk/CFA==}
+    dev: true
+
+  /@faker-js/faker/7.3.0:
+    resolution: {integrity: sha512-1W0PZezq2rxlAssoWemi9gFRD8IQxvf0FPL5Km3TOmGHFG7ib0TbFBJ0yC7D/1NsxunjNTK6WjUXV8ao/mKZ5w==}
+    engines: {node: '>=14.0.0', npm: '>=6.0.0'}
     dev: true
 
   /@jridgewell/gen-mapping/0.1.1:
@@ -1160,6 +1180,11 @@ packages:
       dom-serializer: 1.4.1
       domelementtype: 2.3.0
       domhandler: 4.3.1
+    dev: true
+
+  /drange/1.1.1:
+    resolution: {integrity: sha512-pYxfDYpued//QpnLIm4Avk7rsNtAtQkUES2cwAYSvD/wd2pKD71gN2Ebj3e7klzXwjocvE8c5vx/1fxwpqmSxA==}
+    engines: {node: '>=4'}
     dev: true
 
   /dset/3.1.2:
@@ -3097,6 +3122,14 @@ packages:
   /queue-microtask/1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
+  /randexp/0.5.3:
+    resolution: {integrity: sha512-U+5l2KrcMNOUPYvazA3h5ekF80FHTUG+87SEAmHZmolh1M+i/WyTCxVzmi+tidIa1tM4BSe8g2Y/D3loWDjj+w==}
+    engines: {node: '>=4'}
+    dependencies:
+      drange: 1.1.1
+      ret: 0.2.2
+    dev: true
+
   /readable-stream/3.6.0:
     resolution: {integrity: sha512-BViHy7LKeTz4oNnkcLJ+lVSL6vpiFeX6/d3oSH8zCW7UxP2onchk+vTGB143xuFjHS3deTgkKoXXymXqymiIdA==}
     engines: {node: '>= 6'}
@@ -3208,6 +3241,11 @@ packages:
     dependencies:
       onetime: 5.1.2
       signal-exit: 3.0.7
+    dev: true
+
+  /ret/0.2.2:
+    resolution: {integrity: sha512-M0b3YWQs7R3Z917WRQy1HHA7Ba7D8hvZg6UE5mLykJxQVE2ju0IXbGlaHPPlkY+WN7wFP+wUMXmBFA0aV6vYGQ==}
+    engines: {node: '>=4'}
     dev: true
 
   /retext-latin/3.1.0:

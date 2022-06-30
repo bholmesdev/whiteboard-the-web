@@ -8,10 +8,14 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "test:watch": "vitest",
+    "test": "vitest run"
   },
   "devDependencies": {
+    "@anatine/zod-mock": "^3.1.1",
     "@astrojs/netlify": "^0.4.4",
+    "@faker-js/faker": "^7.3.0",
     "astro": "^1.0.0-beta.47"
   },
   "dependencies": {
