@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "ts-to-zod": "^1.11.0",
+    "vitest": "^0.16.0",
     "zod": "^3.17.3"
   }
 }
