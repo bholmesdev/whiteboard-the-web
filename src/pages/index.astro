@@ -37,9 +37,9 @@ try {
 	{fetchState === 'error' ? 'Ah!' : (
 		<main>
 			<h1>#WhiteboardtheWeb</h1>
-			<ul role="list" class="tweet-list">
-				{toWhiteboardTheWebTweets(fetchState.data).map(tweet => <Tweet tweet={tweet} />)}
-			</ul>
+			<div class="tweet-list">
+				{toWhiteboardTheWebTweets(fetchState.data).map(tweet => <Tweet tweet={tweet} media={fetchState.includes.media} />)}
+			</div>
 		</main>
 	)}
 </Layout>

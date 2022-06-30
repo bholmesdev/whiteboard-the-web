@@ -1,13 +1,26 @@
 ---
-import type { Tweet } from '../_types'
+import type { Tweet, TweetResponse } from '../_types'
 
 export type Props = {
-  tweet: Tweet
+  tweet: Tweet;
+  media: TweetResponse['includes']['media'];
 }
 
-const { tweet } = Astro.props as Props
+const { tweet, media } = Astro.props as Props
 ---
 
-<li>
-  {JSON.stringify(tweet)}
-</li>
+<article>
+  {tweet.text.split('\n').map(paragraph => <p>{paragraph}</p>)}
+  {tweet.attachments?.media_keys.map(mediaKey => {
+    const mediaInfo = media.find(m => m.media_key === mediaKey)
+    return mediaInfo?.type === 'video' ? (
+      <video crossorigin="anonymous" controls>
+        {mediaInfo.variants
+          .sort((a, b) => (b.bit_rate ?? 0) - (a.bit_rate ?? 0))
+          .map(({ content_type, url, bit_rate }) => (
+            <source src={url} type={content_type} data-bit-rate={bit_rate}>
+          ))}
+      </video>
+    ) : null
+  })}
+</article>
