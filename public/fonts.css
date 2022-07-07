@@ -1,0 +1,50 @@
+@font-face {
+  font-family: Atkinson;
+  src:
+    url("/fonts/Atkinson-Hyperlegible-Regular.woff2"),
+    url("/fonts/Atkinson-Hyperlegible-Regular.woff"),
+    url("/fonts/Atkinson-Hyperlegible-Regular.ttf");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: Atkinson;
+  src:
+    url("/fonts/Atkinson-Hyperlegible-Italic.woff2"),
+    url("/fonts/Atkinson-Hyperlegible-Italic.woff"),
+    url("/fonts/Atkinson-Hyperlegible-Italic.ttf");
+  font-style: normal;
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: Atkinson;
+  src:
+    url("/fonts/Atkinson-Hyperlegible-Bold.woff2"),
+    url("/fonts/Atkinson-Hyperlegible-Bold.woff"),
+    url("/fonts/Atkinson-Hyperlegible-Bold.ttf");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: Atkinson;
+  src:
+    url("/fonts/Atkinson-Hyperlegible-BoldItalic.woff2"),
+    url("/fonts/Atkinson-Hyperlegible-BoldItalic.woff"),
+    url("/fonts/Atkinson-Hyperlegible-BoldItalic.ttf");
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: Sriracha;
+  src:
+    url("/fonts/Sriracha-Regular.woff2"),
+    url("/fonts/Sriracha-Regular.ttf");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
