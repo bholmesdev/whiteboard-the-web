@@ -8,19 +8,29 @@ export type Props = {
 
 const { tweet, media } = Astro.props as Props
 ---
-
 <article>
   {tweet.text.split('\n').map(paragraph => <p>{paragraph}</p>)}
   {tweet.attachments?.media_keys.map(mediaKey => {
     const mediaInfo = media.find(m => m.media_key === mediaKey)
     return mediaInfo?.type === 'video' ? (
-      <video crossorigin="anonymous" controls>
-        {mediaInfo.variants
-          .sort((a, b) => (b.bit_rate ?? 0) - (a.bit_rate ?? 0))
-          .map(({ content_type, url, bit_rate }) => (
-            <source src={url} type={content_type} data-bit-rate={bit_rate}>
-          ))}
-      </video>
+      <figure>
+        <video crossorigin="anonymous" controls>
+          {mediaInfo.variants
+            .sort((a, b) => (b.bit_rate ?? 0) - (a.bit_rate ?? 0))
+            .map(({ content_type, url, bit_rate }) => (
+              <source src={url} type={content_type} data-bit-rate={bit_rate} />
+            ))}
+        </video>
+        <figcaption>
+          Having trouble viewing this video? <a href={`https://twitter.com/bholmesdev/status/${tweet.id}`}>Watch over here!</a>
+        </figcaption>
+      </figure>
     ) : null
   })}
 </article>
+
+<style>
+  figcaption {
+    font-style: italic;
+  }
+</style>
