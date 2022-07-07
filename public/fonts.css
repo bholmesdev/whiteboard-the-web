@@ -14,7 +14,6 @@
     url("/fonts/Atkinson-Hyperlegible-Italic.woff2"),
     url("/fonts/Atkinson-Hyperlegible-Italic.woff"),
     url("/fonts/Atkinson-Hyperlegible-Italic.ttf");
-  font-style: normal;
   font-weight: 400;
   font-style: italic;
   font-display: swap;
