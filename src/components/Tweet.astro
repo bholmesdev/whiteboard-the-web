@@ -1,5 +1,5 @@
 ---
-import type { Tweet, TweetResponse } from '../_types'
+import type { Tweet, TweetResponse, Media } from '../_types'
 import VideoViewer from './VideoViewer';
 
 export type Props = {
@@ -8,38 +8,45 @@ export type Props = {
 }
 
 const { tweet, media } = Astro.props as Props
+
+function getFirstVideo(mediaKeys: string[]): Media & { type: 'video' } | null {
+  for (const mediaKey of mediaKeys) {
+    const match = media.find(m => m.media_key === mediaKey)
+    if (match?.type === 'video') return match
+  }
+  return null
+}
+
+const videoInfo = getFirstVideo(tweet.attachments?.media_keys ?? [])
 ---
 <article>
   {tweet.text.split('\n').map(paragraph => <p>{paragraph}</p>)}
-  <VideoViewer client:idle>
-    <Fragment slot="video">
-      {tweet.attachments?.media_keys.map(mediaKey => {
-        const mediaInfo = media.find(m => m.media_key === mediaKey)
-        return mediaInfo?.type === 'video' ? (
-          <figure>
-            <video crossorigin="anonymous" controls>
-              {mediaInfo.variants
-                .sort((a, b) => (b.bit_rate ?? 0) - (a.bit_rate ?? 0))
-                .map(({ content_type, url, bit_rate }) => (
-                  <source src={url} type={content_type} data-bit-rate={bit_rate} />
-                ))}
-            </video>
-            <figcaption>
-              Having trouble viewing this video? <a href={`https://twitter.com/bholmesdev/status/${tweet.id}`}>Watch over here!</a>
-            </figcaption>
-          </figure>
-        ) : null
-      })}
-    </Fragment>
-  </VideoViewer>
+  {videoInfo ? (
+    <figure>
+      <video crossorigin="anonymous" controls>
+        {videoInfo.variants
+          .sort((a, b) => (b.bit_rate ?? 0) - (a.bit_rate ?? 0))
+          .map(({ content_type, url, bit_rate }) => (
+            <source src={url} type={content_type} data-bit-rate={bit_rate} />
+          ))}
+      </video>
+      <figcaption>
+        Having trouble viewing this video? <a href={`https://twitter.com/bholmesdev/status/${tweet.id}`}>Watch over here!</a>
+      </figcaption>
+    </figure>
+  ) : null}
 </article>
 
 <style>
+  article {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr max-content;
+  }
   figcaption {
     font-style: italic;
   }
   video {
     aspect-ratio: 9 / 16;
-
   }
 </style>
