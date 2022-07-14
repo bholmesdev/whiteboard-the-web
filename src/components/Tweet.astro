@@ -1,6 +1,6 @@
 ---
+import { toRandomNotUglyColor } from '../utils';
 import type { Tweet, TweetResponse, Media } from '../_types'
-import VideoViewer from './VideoViewer';
 
 export type Props = {
   tweet: Tweet;
@@ -19,10 +19,9 @@ function getFirstVideo(mediaKeys: string[]): Media & { type: 'video' } | null {
 
 const videoInfo = getFirstVideo(tweet.attachments?.media_keys ?? [])
 ---
-<article>
-  {tweet.text.split('\n').map(paragraph => <p>{paragraph}</p>)}
+<article style={`--color: ${toRandomNotUglyColor()};`}>
   {videoInfo ? (
-    <figure>
+    <figure class="video-container">
       <video crossorigin="anonymous" controls>
         {videoInfo.variants
           .sort((a, b) => (b.bit_rate ?? 0) - (a.bit_rate ?? 0))
@@ -30,11 +29,12 @@ const videoInfo = getFirstVideo(tweet.attachments?.media_keys ?? [])
             <source src={url} type={content_type} data-bit-rate={bit_rate} />
           ))}
       </video>
-      <figcaption>
-        Having trouble viewing this video? <a href={`https://twitter.com/bholmesdev/status/${tweet.id}`}>Watch over here!</a>
-      </figcaption>
     </figure>
   ) : null}
+  <div class="tweet-container">
+    {tweet.text.split('\n').map(paragraph => <p>{paragraph}</p>)}
+  </div>
+  <a class="cta" href={`https://twitter.com/bholmesdev/status/${tweet.id}`}>Share on twitter</a>
 </article>
 
 <style>
@@ -42,11 +42,25 @@ const videoInfo = getFirstVideo(tweet.attachments?.media_keys ?? [])
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr max-content;
+    grid-template-areas: 'video tweet'
+                         'video cta';
+    border: 2px solid var(--color);
+    border-radius: 0.5rem;
+  }
+  .video-container {
+    grid-area: video;
   }
   figcaption {
     font-style: italic;
   }
   video {
+    width: 100%;
     aspect-ratio: 9 / 16;
+  }
+  .tweet-container {
+    grid-area: tweet;
+  }
+  .cta {
+    grid-area: cta;
   }
 </style>
