@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@anatine/zod-mock': ^3.1.1
+  '@anatine/zod-mock': ^3.5.6
   '@astrojs/netlify': ^0.4.4
   '@astrojs/solid-js': ^0.2.0
   '@faker-js/faker': ^7.3.0
@@ -21,7 +21,7 @@ dependencies:
   zod: 3.17.3
 
 devDependencies:
-  '@anatine/zod-mock': 3.1.1_ddatlbf7p3akkiw65hcnf2kmde
+  '@anatine/zod-mock': 3.5.6_@faker-js+faker@7.3.0
   '@astrojs/netlify': 0.4.4
   '@astrojs/solid-js': 0.2.0_solid-js@1.4.5
   '@faker-js/faker': 7.3.0
@@ -38,15 +38,13 @@ packages:
       '@jridgewell/trace-mapping': 0.3.13
     dev: true
 
-  /@anatine/zod-mock/3.1.1_ddatlbf7p3akkiw65hcnf2kmde:
-    resolution: {integrity: sha512-1VyuwqjydbfHRsYdTHAFf8jUWyXE/8SRy2VtlXUZys/00x2+04D7GqMZ+KUfCMR/QIRBeZXc5S/s05QwpWJdHQ==}
+  /@anatine/zod-mock/3.5.6_@faker-js+faker@7.3.0:
+    resolution: {integrity: sha512-GEZxCEAdT4LX7iumXyGRfK5YbWKiBBMnoXS6fDoxzWUU6t7YgqYpG3VukfIS0AzsdrxpefdX1P76BrAaOMQ4gw==}
     peerDependencies:
       '@faker-js/faker': ^6.0.0-beta.0
-      zod: ^3.13.4
     dependencies:
       '@faker-js/faker': 7.3.0
       randexp: 0.5.3
-      zod: 3.17.3
     dev: true
 
   /@astrojs/compiler/0.22.1:
