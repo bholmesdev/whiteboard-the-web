@@ -6,6 +6,7 @@ specifiers:
   '@astrojs/solid-js': ^0.2.0
   '@faker-js/faker': ^7.3.0
   astro: 0.0.0-rc-20220726043527
+  astro-xelement: ^3.2.0
   open-props: ^1.3.16
   solid-js: ^1.3.6
   ts-to-zod: ^1.11.0
@@ -13,6 +14,7 @@ specifiers:
   zod: ^3.17.3
 
 dependencies:
+  astro-xelement: 3.2.0
   open-props: 1.3.16
   ts-to-zod: 1.11.0
   vitest: 0.16.0
@@ -807,6 +809,10 @@ packages:
     dependencies:
       tslib: 2.4.0
     dev: true
+
+  /astro-xelement/3.2.0:
+    resolution: {integrity: sha512-uzy2z/Yaoz822qXppXawkomc074g3K0+0iGgqOEdwzlOJrj9ne4+BEVh6HWHo5fjEZHy7UcXk5IDGw+pfVaR2w==}
+    dev: false
 
   /astro/0.0.0-rc-20220726043527:
     resolution: {integrity: sha512-VeugaHbQceSUcdLf6Da3YQhbNlWVyVLNuh8aLlUgQhIf0AV1QxEtVOsOz/TOv7VYVQ0YpOkqT1Jq4rDh5Okz5A==}
