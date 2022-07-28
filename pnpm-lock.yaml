@@ -3,12 +3,10 @@ lockfileVersion: 5.4
 specifiers:
   '@anatine/zod-mock': ^3.5.6
   '@astrojs/netlify': ^0.4.4
-  '@astrojs/solid-js': ^0.2.0
   '@faker-js/faker': ^6.0.0-beta.0
   astro: 0.0.0-rc-20220726043527
   astro-xelement: ^3.2.0
   open-props: ^1.3.16
-  solid-js: ^1.3.6
   ts-to-zod: ^1.11.0
   vitest: ^0.16.0
   zod: ^3.17.3
@@ -23,10 +21,8 @@ dependencies:
 devDependencies:
   '@anatine/zod-mock': 3.5.6_@faker-js+faker@6.3.1
   '@astrojs/netlify': 0.4.4
-  '@astrojs/solid-js': 0.2.0_solid-js@1.4.5
   '@faker-js/faker': 6.3.1
   astro: 0.0.0-rc-20220726043527
-  solid-js: 1.4.5
 
 packages:
 
@@ -122,18 +118,6 @@ packages:
   /@astrojs/prism/0.6.1:
     resolution: {integrity: sha512-/Hoppze9XPUfCIx44EUzKe3Tg7alr1MHl2++QJlDRQZfKfIvMBvf8mRMSPh7vzfayH6IlFaQUS/jMtGUWKt9wA==}
     engines: {node: ^14.18.0 || >=16.12.0}
-    dev: true
-
-  /@astrojs/solid-js/0.2.0_solid-js@1.4.5:
-    resolution: {integrity: sha512-gsRP5Ng3M3goYH6djTE9dL+/7FYHH5I3NvLSLrPAM/S8TwTLT+Vqcc9yiWlQ4/6lSDgEbeVpwNvW8lOWXkrM0Q==}
-    engines: {node: ^14.15.0 || >=16.0.0}
-    peerDependencies:
-      solid-js: ^1.3.6
-    dependencies:
-      babel-preset-solid: 1.4.5
-      solid-js: 1.4.5
-    transitivePeerDependencies:
-      - '@babel/core'
     dev: true
 
   /@astrojs/telemetry/0.4.1:
@@ -242,13 +226,6 @@ packages:
       '@babel/types': 7.18.7
     dev: true
 
-  /@babel/helper-module-imports/7.16.0:
-    resolution: {integrity: sha512-kkH7sWzKPq0xt3H1n+ghb4xEMP8k0U7XV3kkB+ZGy69kDk2ySFW1qPi06sjKzFY3t1j6XbJSqr4mF9L7CYVyhg==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      '@babel/types': 7.18.4
-    dev: true
-
   /@babel/helper-module-imports/7.18.6:
     resolution: {integrity: sha512-0NFvs3VkuSYbFi1x2Vd6tKrywq+z/cLeYC/RJNFrIX/30Bf5aiGYbtvGXolEktzJH8o5E5KJ3tT+nkxuuZFVlA==}
     engines: {node: '>=6.9.0'}
@@ -291,11 +268,6 @@ packages:
       '@babel/types': 7.18.7
     dev: true
 
-  /@babel/helper-validator-identifier/7.16.7:
-    resolution: {integrity: sha512-hsEnFemeiW4D08A5gUAZxLBTXpZ39P+a+DGDsHw1yxqyQ/jzFEnxf5uTEGp+3bzAbNOxU1paTgYS4ECU/IgfDw==}
-    engines: {node: '>=6.9.0'}
-    dev: true
-
   /@babel/helper-validator-identifier/7.18.6:
     resolution: {integrity: sha512-MmetCkz9ej86nJQV+sFCxoGGrUbU3q02kgLciwkrt9QqEB7cP39oKEY0PakknEO0Gu20SskMRi+AYZ3b1TpN9g==}
     engines: {node: '>=6.9.0'}
@@ -332,15 +304,6 @@ packages:
     hasBin: true
     dependencies:
       '@babel/types': 7.18.7
-    dev: true
-
-  /@babel/plugin-syntax-jsx/7.18.6:
-    resolution: {integrity: sha512-6mmljtAedFGTWu2p/8WIORGwy+61PLgOMPOdazc7YoJ9ZCWUyFy3A6CpPkRKLKD1ToAesxX8KGEViAiLo9N+7Q==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/helper-plugin-utils': 7.18.6
     dev: true
 
   /@babel/plugin-syntax-jsx/7.18.6_@babel+core@7.18.5:
@@ -392,14 +355,6 @@ packages:
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /@babel/types/7.18.4:
-    resolution: {integrity: sha512-ThN1mBcMq5pG/Vm2IcBmPPfyPXbd8S02rS+OBIDENdufvqC7Z/jHPCv9IcP01277aKtDI8g/2XysBN4hA8niiw==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      '@babel/helper-validator-identifier': 7.16.7
-      to-fast-properties: 2.0.0
     dev: true
 
   /@babel/types/7.18.7:
@@ -898,25 +853,6 @@ packages:
   /available-typed-arrays/1.0.5:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
-    dev: true
-
-  /babel-plugin-jsx-dom-expressions/0.33.11:
-    resolution: {integrity: sha512-dDrPvr0RwU+IzNdCRuFz3MqtUMSvSI6Qvrgx1QuSCLO+OMB8PsGMKioy/SwQVhRpVfeaD0zKxe4wihwHnEnw5A==}
-    dependencies:
-      '@babel/helper-module-imports': 7.16.0
-      '@babel/plugin-syntax-jsx': 7.18.6
-      '@babel/types': 7.18.4
-      html-entities: 2.3.2
-    transitivePeerDependencies:
-      - '@babel/core'
-    dev: true
-
-  /babel-preset-solid/1.4.5:
-    resolution: {integrity: sha512-9ryx+y9aXklHJrUTxEk92HVDl563sYqtVKxKT+gdjqbHjfVx9mZfZMo5NAasAsBwabdesK0mkR2Bq+jX8MnYFg==}
-    dependencies:
-      babel-plugin-jsx-dom-expressions: 0.33.11
-    transitivePeerDependencies:
-      - '@babel/core'
     dev: true
 
   /bail/2.0.2:
@@ -2127,10 +2063,6 @@ packages:
       hast-util-parse-selector: 3.1.0
       property-information: 6.1.1
       space-separated-tokens: 2.0.1
-    dev: true
-
-  /html-entities/2.3.2:
-    resolution: {integrity: sha512-c3Ab/url5ksaT0WyleslpBEthOzWhrjQbg75y7XUsfSzi3Dgzt0l8w5e7DylRn15MTlMMD58dTfzddNS2kcAjQ==}
     dev: true
 
   /html-entities/2.3.3:
@@ -3673,10 +3605,6 @@ packages:
   /slash/4.0.0:
     resolution: {integrity: sha512-3dOsAHXXUkQTpOYcoAxLIorMTp4gIQr5IW3iVb7A7lFIp0VHhnynm9izx6TssdrIcVIESAlVjtnO2K8bg+Coew==}
     engines: {node: '>=12'}
-    dev: true
-
-  /solid-js/1.4.5:
-    resolution: {integrity: sha512-32NGpuabEJDTeQ7fjaTR2TLC7R/X5hbqhYdEQ1e+GcIK8r8+/V0Nv17eZQii5Z/97/mtdt8yi63chzg73qnz/A==}
     dev: true
 
   /source-map-js/1.0.2:
