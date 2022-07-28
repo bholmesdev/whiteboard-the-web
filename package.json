@@ -7,7 +7,7 @@
     "generate-types:watch": "ts-to-zod src/_types.ts src/_types.generated.ts --watch",
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "ts-to-zod src/_types.ts src/_types.generated.ts && astro build",
     "preview": "astro preview",
     "test:watch": "vitest",
     "test": "vitest run"
