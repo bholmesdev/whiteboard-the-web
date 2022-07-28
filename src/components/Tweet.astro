@@ -19,7 +19,7 @@ function getFirstVideo(mediaKeys: string[]): Media & { type: 'video' } | null {
 
 const videoInfo = getFirstVideo(tweet.attachments?.media_keys ?? [])
 ---
-<article style={`--color: ${toRandomNotUglyColor()};`}>
+<article>
   {videoInfo ? (
     <figure class="video-container">
       <video crossorigin="anonymous" controls>
@@ -37,7 +37,7 @@ const videoInfo = getFirstVideo(tweet.attachments?.media_keys ?? [])
   <a class="cta" href={`https://twitter.com/bholmesdev/status/${tweet.id}`}>Share on twitter</a>
 </article>
 
-<style>
+<style define:vars={{ color: toRandomNotUglyColor() }}>
   article {
     display: grid;
     grid-template-columns: 1fr 1fr;
