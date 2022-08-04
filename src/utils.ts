@@ -9,7 +9,7 @@ export function toWhiteboardTheWebTweets(tweets: Tweet[]) {
   })
 }
 
-const SANCTIONED_COLORS = ['#FF007A', '#6100FF', '#0085FF', '#FF1F00', '#10BB4A']
+const SANCTIONED_COLORS = ['#e30570', '#6100FF', '#de230a', '#12880a']
 
 export function toRandomNotUglyColor() {
   const randomIdx = Math.floor(Math.random() * SANCTIONED_COLORS.length)
