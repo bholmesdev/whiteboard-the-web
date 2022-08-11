@@ -59,8 +59,20 @@ const videoInfo = getFirstVideo(tweet.attachments?.media_keys ?? [])
                          'video cta';
     border-radius: 1.8rem;
     transition: border 0.2s;
-    padding: 0.5rem;
+    padding: 1.5rem;
+    column-gap: 1.5rem;
     background-color: #F8F9FD;
+  }
+
+  @media(max-width: 600px) {
+    article {
+      grid-template-columns: 1fr;
+      grid-template-rows: unset;
+      grid-template-areas: 'tweet'
+                          'video'
+                          'cta';
+      row-gap: 1rem;
+    }
   }
   
   article::before {
@@ -98,12 +110,17 @@ const videoInfo = getFirstVideo(tweet.attachments?.media_keys ?? [])
   .video-container {
     grid-area: video;
   }
+  figure {
+    margin: 0;
+  }
   figcaption {
     font-style: italic;
   }
   video {
+    display: block;
     width: 100%;
     aspect-ratio: 9 / 16;
+    border-radius: 0.5rem;
   }
   .tweet-container {
     grid-area: tweet;
