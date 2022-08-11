@@ -21,13 +21,15 @@ export type Tweet = {
   };
 }
 
+export type Variant = {
+  content_type: 'video/mp4' | 'application/x-mpegURL';
+  bit_rate?: number;
+  url: string;
+};
+
 export type Media = {
   media_key: string;
 } & ({ type: 'photo' } | {
   type: 'video';
-  variants: {
-    content_type: 'video/mp4' | 'application/x-mpegURL';
-    bit_rate?: number;
-    url: string;
-  }[];
+  variants: Variant[];
 });

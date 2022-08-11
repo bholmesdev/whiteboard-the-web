@@ -1,10 +1,8 @@
 ---
 import { toRandomNotUglyColor } from '../utils';
-import type { Tweet, TweetResponse, Media } from '../_types'
-import XElement from 'astro-xelement';
+import type { Tweet, TweetResponse, Media } from '../_types';
 import RightArrowCircle from './icons/RightArrowCircle.astro';
-
-const { Video } = XElement
+import Video from '../components/Video';
 
 export type Props = {
   tweet: Tweet;
@@ -21,26 +19,12 @@ function getFirstVideo(mediaKeys: string[]): Media & { type: 'video' } | null {
   return null
 }
 
-function handleVideoPlay (event: any) {
-  const container = event.currentTarget?.closest('article')
-  container.toggleAttribute('data-video-playing')
-}
-
 const videoInfo = getFirstVideo(tweet.attachments?.media_keys ?? [])
 ---
 <article>
   {videoInfo ? (
     <figure class="video-container">
-      <Video
-      @play={handleVideoPlay}
-      @pause={handleVideoPlay}
-      crossorigin="anonymous" controls>
-        {videoInfo.variants
-          .sort((a, b) => (b.bit_rate ?? 0) - (a.bit_rate ?? 0))
-          .map(({ content_type, url, bit_rate }) => (
-            <source src={url} type={content_type} data-bit-rate={bit_rate} />
-          ))}
-      </Video>
+      <Video client:load variants={videoInfo.variants} />
     </figure>
   ) : null}
   <div class="tweet-container">
@@ -116,7 +100,7 @@ const videoInfo = getFirstVideo(tweet.attachments?.media_keys ?? [])
   figcaption {
     font-style: italic;
   }
-  video {
+  article :global(video) {
     display: block;
     width: 100%;
     aspect-ratio: 9 / 16;
