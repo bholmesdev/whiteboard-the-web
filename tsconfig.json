@@ -11,6 +11,8 @@
     "isolatedModules": true,
     // Add type definitions for our Vite runtime.
     "types": ["vite/client"],
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "jsxImportSource": "solid-js",
+    "jsx": "preserve"
   }
 }
