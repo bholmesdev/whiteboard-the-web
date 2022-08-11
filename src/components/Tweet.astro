@@ -3,6 +3,7 @@ import { toRandomNotUglyColor } from '../utils';
 import type { Tweet, TweetResponse, Media } from '../_types';
 import RightArrowCircle from './icons/RightArrowCircle.astro';
 import Video from '../components/Video';
+import Play from './icons/Play.astro';
 
 export type Props = {
   tweet: Tweet;
@@ -24,7 +25,9 @@ const videoInfo = getFirstVideo(tweet.attachments?.media_keys ?? [])
 <article>
   {videoInfo ? (
     <figure class="video-container">
-      <Video client:load variants={videoInfo.variants} />
+      <Video client:load variants={videoInfo.variants}>
+        <Play slot="playButtonChildren" />
+      </Video>
     </figure>
   ) : null}
   <div class="tweet-container">
@@ -95,16 +98,49 @@ const videoInfo = getFirstVideo(tweet.attachments?.media_keys ?? [])
     grid-area: video;
   }
   figure {
+    position: relative;
     margin: 0;
+    display: grid;
   }
   figcaption {
     font-style: italic;
   }
   article :global(video) {
+    grid-area: 1 / -1;
     display: block;
     width: 100%;
     aspect-ratio: 9 / 16;
+    border-radius: inherit;
     border-radius: 0.5rem;
+    transition: filter 0.2s;
+  }
+  article :global([data-video-overlay]) {
+    grid-area: 1 / -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    background: linear-gradient(var(--color) 0, transparent 50%, transparent 100%);
+    background-position-y: 33%;
+    background-size: 100% 200%;
+    border-radius: inherit;
+    border-radius: 0.5rem;
+    transition:  background-position-y 0.2s;
+  }
+  article :global([data-video-overlay]) :global(button) {
+    line-height: 0;
+    color: white;
+    pointer-events: auto;
+  }
+  article :global([data-video-overlay]) :global(button) :global(svg) {
+    width: 3rem;
+    height: 3rem;
+  }
+  article[data-video-playing] :global(button) {
+    visibility: hidden;
+  }
+  article[data-video-playing] :global([data-video-overlay]) {
+    background-position-y: 100%;
   }
   .tweet-container {
     grid-area: tweet;

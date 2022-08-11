@@ -1,3 +1,4 @@
+import type { JSX } from 'solid-js'; 
 import type { Variant } from '../_types';
 
 function handleVideoPlay (event: any) {
@@ -7,9 +8,10 @@ function handleVideoPlay (event: any) {
 
 type Props = {
   variants: Variant[];
+  playButtonChildren: JSX.Element;
 }
 
-export default function Video({ variants }: Props) {
+export default function Video({ variants, playButtonChildren }: Props) {
   return (
     <>
       <video
@@ -23,6 +25,12 @@ export default function Video({ variants }: Props) {
             <source src={url} type={content_type} data-bit-rate={bit_rate} />
           ))}
       </video>
+      {/* TODO: pass through heading */}
+      <div data-video-overlay>
+        <button aria-label="Play edition XX">
+          {playButtonChildren}
+        </button>
+      </div>
     </>
   )
 }
