@@ -34,7 +34,7 @@ try {
 }
 ---
 <Layout title="Welcome to Astro.">
-	{fetchState === 'error' ? 'Ah!' : (
+	{fetchState === 'error' ? <p>Uh oh, the site is down! <a href="https://twitter.com/bholmesdev">DM @bholmesdev on Twitter</a>, thanks {`:)`}</p> : (
 		<main>
 			<h1>#WhiteboardtheWeb</h1>
 			<div class="tweet-list">
