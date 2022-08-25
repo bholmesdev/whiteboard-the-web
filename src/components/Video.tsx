@@ -6,6 +6,10 @@ function handleVideoPlay (event: any) {
   container.toggleAttribute('data-video-playing')
 }
 
+function toProxyUrl(url: string) {
+  return url.replace(new RegExp(`^https://video.twimg.com/`), '/video/')
+}
+
 type Props = {
   variants: Variant[];
   playButtonChildren: JSX.Element;
@@ -22,7 +26,7 @@ export default function Video({ variants, playButtonChildren }: Props) {
           {variants
           .sort((a, b) => (b.bit_rate ?? 0) - (a.bit_rate ?? 0))
           .map(({ content_type, url, bit_rate }) => (
-            <source src={url} type={content_type} data-bit-rate={bit_rate} />
+            <source src={toProxyUrl(url)} type={content_type} data-bit-rate={bit_rate} />
           ))}
       </video>
       {/* TODO: pass through heading */}
