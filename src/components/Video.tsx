@@ -6,10 +6,6 @@ function handleVideoPlay (event: any) {
   container.toggleAttribute('data-video-playing')
 }
 
-function toProxyUrl(url: string) {
-  return url.replace(new RegExp(`^https://video.twimg.com/`), '/video/')
-}
-
 type Props = {
   variants: Variant[];
   playButtonChildren: JSX.Element;
