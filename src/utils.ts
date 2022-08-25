@@ -4,7 +4,7 @@ export const WTW = 'whiteboardtheweb';
 
 export function toWhiteboardTheWebTweets(tweets: Tweet[]) {
   return tweets.filter(tweet => {
-    const isMatchingTitle = /^#whiteboardtheweb EDITION \d+/.test(tweet.text);
+    const isMatchingTitle = /#whiteboardtheweb edition \d+/.test(tweet.text.toLowerCase());
     return isMatchingTitle;
   })
 }
