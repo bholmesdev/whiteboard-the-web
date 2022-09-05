@@ -1,9 +1,8 @@
 ---
 import type { VideoFrontmatter } from '../_types';
 import { toRandomNotUglyColor } from '../utils';
-import type { Tweet, TweetResponse, Media } from '../_types';
-import RightArrowCircle from './icons/RightArrowCircle.astro';
 import Video from '../components/Video';
+import CtaLink from './CtaLink.astro';
 
 type Props = VideoFrontmatter & {
   heading?: string;
@@ -23,8 +22,10 @@ const { twitter, youtube, heading, htmlBody } = Astro.props;
     {heading ? <h2>{heading}</h2> : null}
     <Fragment set:html={htmlBody} />
   </div>
-  {twitter ? <a class="cta" href={twitter}>Share on twitter <RightArrowCircle /></a> : null}
-  {youtube ? <a class="cta" href={youtube}>Share on YouTube <RightArrowCircle /></a> : null}
+  <div class="ctas">
+  {twitter ? <CtaLink href={twitter}>Twitter</CtaLink> : null}
+  {youtube ? <CtaLink href={youtube}>YouTube</CtaLink> : null}
+</div>
 </article>
 
 <style define:vars={{ color: toRandomNotUglyColor(), test: '331, 96%' }}>
@@ -34,7 +35,7 @@ const { twitter, youtube, heading, htmlBody } = Astro.props;
     grid-template-columns: 2fr 3fr;
     grid-template-rows: 1fr max-content;
     grid-template-areas: 'video body'
-                         'video cta';
+                         'video ctas';
     border-radius: 1.8rem;
     transition: border 0.2s;
     padding: 1.5rem;
@@ -48,7 +49,7 @@ const { twitter, youtube, heading, htmlBody } = Astro.props;
       grid-template-rows: unset;
       grid-template-areas: 'body'
                           'video'
-                          'cta';
+                          'ctas';
       row-gap: 1rem;
     }
   }
@@ -99,28 +100,12 @@ const { twitter, youtube, heading, htmlBody } = Astro.props;
   .body-container {
     grid-area: body;
   }
-  .cta, .cta:visited {
-    grid-area: cta;
-    text-decoration: none;
-    color: rgb(76, 81, 82);
-    font-weight: 700;
-    padding: 0.4rem;
-    padding-inline-start: 1rem;
+
+  .ctas {
+    grid-area: ctas;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-wrap: wrap;
     gap: 1rem;
-    border: 2px solid currentColor;
-    border-radius: 9e9px;
-    background: linear-gradient(90deg, transparent 50%, var(--color) 50%);
-    background-size: 200% 100%;
-    transition-property: background-position-x, color, border-color;
-    transition-duration: 0.2s;
-  }
-  
-  .cta:hover, .cta:focus-visible {
-    background-position-x: -100%;
-    color: white;
-    border-color: var(--color);
+    justify-content: flex-end;
   }
 </style>

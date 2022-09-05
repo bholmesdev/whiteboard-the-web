@@ -1,0 +1,37 @@
+---
+import RightArrowCircle from "./icons/RightArrowCircle.astro";
+
+type Props = {
+  href: string;
+}
+
+const { href } = Astro.props;
+---
+
+<a class="cta" target="_blank" rel="noreferrer" {href}><slot /> <RightArrowCircle /></a>
+
+<style>
+  .cta, .cta:visited {
+    text-decoration: none;
+    color: rgb(76, 81, 82);
+    font-weight: 700;
+    padding: 0.4rem;
+    padding-inline-start: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border: 2px solid currentColor;
+    border-radius: 9e9px;
+    background: linear-gradient(90deg, transparent 50%, var(--color) 50%);
+    background-size: 200% 100%;
+    transition-property: background-position-x, color, border-color;
+    transition-duration: 0.2s;
+  }
+  
+  .cta:hover, .cta:focus-visible {
+    background-position-x: -100%;
+    color: white;
+    border-color: var(--color);
+  }
+</style>
