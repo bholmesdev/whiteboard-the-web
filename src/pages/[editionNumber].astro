@@ -13,7 +13,6 @@ for (const edition of editions) {
 
 
 const { editionNumber } = Astro.params;
-console.log(numToUrlMap, editionNumber, typeof editionNumber)
 
 if (typeof editionNumber !== 'string') return Astro.redirect('/');
 
