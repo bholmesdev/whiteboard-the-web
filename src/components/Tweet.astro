@@ -5,6 +5,7 @@ import Video from '../components/Video';
 import CtaLink from './CtaLink.astro';
 
 type Props = VideoFrontmatter & {
+  url?: string;
   title?: string;
   showTitleAsHeading?: boolean;
   htmlBody: string;
@@ -15,6 +16,7 @@ const {
   twitter,
   showTitleAsHeading = true,
   youtube,
+  url,
   htmlBody,
 } = Astro.props;
 ---
@@ -30,13 +32,15 @@ const {
     <Fragment set:html={htmlBody} />
   </div>
   <div class="ctas">
-  {twitter ? <CtaLink href={twitter}>Twitter</CtaLink> : null}
-  {youtube ? <CtaLink href={youtube}>YouTube</CtaLink> : null}
+  {url ? <CtaLink href={url} target="_blank" rel="noreferrer">Permalink</CtaLink> : null}
+  {twitter ? <CtaLink href={twitter} target="_blank" rel="noreferrer">Twitter</CtaLink> : null}
+  {youtube ? <CtaLink href={youtube} target="_blank" rel="noreferrer">YouTube</CtaLink> : null}
 </div>
 </article>
 
-<style define:vars={{ color: toRandomNotUglyColor(), test: '331, 96%' }}>
+<style define:vars={{ randomColor: toRandomNotUglyColor() }}>
   article {
+    --color: var(--cardColor, var(--randomColor));
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;

@@ -12,10 +12,11 @@ const hasYoutubeEmbed = videos.some(video => Boolean(video.frontmatter.youtube))
 <Layout title="#whiteboardtheweb" preconnectToYoutube={hasYoutubeEmbed}>
 		<h1>#WhiteboardtheWeb</h1>
 		<div class="list">
-			{sortBy(videos, 'file').reverse().map(({ compiledContent, frontmatter, getHeadings }) => (
+			{sortBy(videos, 'file').reverse().map(({ url, compiledContent, frontmatter, getHeadings }) => (
 				<Card
 					title={getHeadings().find(h => h.depth === 1)?.text}
 					htmlBody={stripHtmlHeadings(compiledContent())} 
+					url={url}
 					{...frontmatter} />
 			))}
 		</div>

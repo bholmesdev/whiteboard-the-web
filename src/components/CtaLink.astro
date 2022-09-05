@@ -1,14 +1,10 @@
 ---
 import RightArrowCircle from "./icons/RightArrowCircle.astro";
 
-type Props = {
-  href: string;
-}
-
-const { href } = Astro.props;
+type Props = any;
 ---
 
-<a class="cta" target="_blank" rel="noreferrer" {href}><slot /> <RightArrowCircle /></a>
+<a class="cta" {...Astro.props}><slot /> <RightArrowCircle /></a>
 
 <style>
   .cta, .cta:visited {
@@ -21,7 +17,7 @@ const { href } = Astro.props;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    border: 2px solid currentColor;
+    border: 2px solid rgb(205, 214, 215);
     border-radius: 9e9px;
     background: linear-gradient(90deg, transparent 50%, var(--color) 50%);
     background-size: 200% 100%;
