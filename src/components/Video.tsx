@@ -10,19 +10,34 @@ type Props = {
 };
 
 export default function Video({ src, type, title }: Props) {
-  const [playing, setPlaying] = createSignal(false);
+  let containerRef: HTMLElement | null | undefined;
+  const [isPlaying, setIsPlaying] = createSignal(false);
+  const isOffscreenObserver = new IntersectionObserver((changes) => {
+    for (const change of changes) {
+      if (!change.isIntersecting) handlePlaybackToggle(false);
+    }
+  });
 
-  function handleVideoPlay(event: any) {
-    const container = event.currentTarget?.closest("article");
-    container.toggleAttribute("data-video-playing");
-    setPlaying(true);
+  function handlePlaybackToggle(isPlaying: boolean) {
+    setIsPlaying(isPlaying);
+    if (isPlaying) {
+      containerRef?.setAttribute("data-video-playing", "");
+    } else {
+      containerRef?.removeAttribute("data-video-playing");
+    }
   }
   return (
     <>
       {type === "youtube" ? (
         <>
-          <div class={c.player}>
-            {playing() ? (
+          <div
+            class={c.player}
+            ref={(el) => {
+              isOffscreenObserver.observe(el);
+              containerRef = el.closest("article");
+            }}
+          >
+            {isPlaying() ? (
               <iframe
                 width="225"
                 height="400"
@@ -35,8 +50,8 @@ export default function Video({ src, type, title }: Props) {
             ) : (
               <button
                 class={c.thumbnail}
-                onClick={handleVideoPlay}
-                aria-label={`Watch "${title}"`}
+                onClick={() => handlePlaybackToggle(true)}
+                aria-label={`Watch - ${title}`}
               >
                 <img src={youtubeShortToThumbnail(src)} alt={title} />
                 <div class={c.iconContainer}>
