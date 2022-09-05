@@ -10,7 +10,7 @@
   position: relative;
   cursor: pointer;
   backdrop-filter: blur(2px);
-  border-radius: 1rem;
+  border-radius: 0.4rem;
   line-height: 0;
   overflow: hidden;
 }
