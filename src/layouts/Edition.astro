@@ -17,7 +17,7 @@ Astro.response.headers.set(
 const title = headings.find(h => h.depth === 1)?.text ?? 'Whiteboard the Web'
 ---
 
-<BaseLayout title={title}>
+<BaseLayout title={title} preconnectToYoutube={Boolean(frontmatter.youtube)}>
   <a href={frontmatter.youtube}>Youtube</a>
   <a href={frontmatter.twitter}>twitter</a>
   <slot />

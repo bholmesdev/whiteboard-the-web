@@ -1,9 +1,10 @@
 ---
-export interface Props {
+type Props = {
 	title: string;
+  preconnectToYoutube?: boolean;
 }
 
-const { title } = Astro.props as Props;
+const { title, preconnectToYoutube } = Astro.props as Props;
 ---
 
 <!DOCTYPE html>
@@ -11,6 +12,10 @@ const { title } = Astro.props as Props;
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width">
+  {preconnectToYoutube ? (
+    <link rel="preconnect" href="https://www.youtube-nocookie.com">
+    <link rel="preconnect" href="https://img.youtube.com.com">
+  ) : null}
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   <link
     rel="preload"
