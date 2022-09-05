@@ -54,6 +54,9 @@ const { title, preconnectToYoutube } = Astro.props as Props;
   <main>
     <slot />
   </main>
+  <footer>
+    <p>Made with ❤️ by <a href="https://twitter.com/bholmesdev" target="_blank" rel="noreferrer">@bholmesdev</a></p>  
+  </footer>
 </body>
 </html>
 
@@ -84,6 +87,19 @@ const { title, preconnectToYoutube } = Astro.props as Props;
     	padding: 1em;
 		max-width: var(--content-max-width);
 	}
+
+  footer {
+    padding-block-start: 2rem;
+    padding-block-end: 4rem;
+    font-style: italic;
+    display: grid;
+    place-items: center;
+  }
+
+  footer a, footer a:visited {
+    font-weight: bold;
+    color: currentColor;
+  }
 
   :global(h1) {
     font-family: Sriracha, system-ui, sans-serif;
