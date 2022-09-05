@@ -2,61 +2,33 @@
 import type { TweetResponse } from '../_types'
 import { tweetResponseSchema } from '../_types.generated'
 import Layout from '../layouts/Layout.astro';
-import Tweet from '../components/Tweet.astro';
-import { toWhiteboardTheWebTweets } from '../utils';
+import Card from '../components/Card.astro';
+import sortBy from 'just-sort-by';
+import { stripHtmlHeadings } from '../utils';
 
-let fetchState: TweetResponse | 'error' = 'error';
+const videos: VideoDocument[] = await Astro.glob('./*.md');
 
-try {
-	const reqHeaders = new Headers()
-	reqHeaders.set('Content-Type', 'application/json')
-	reqHeaders.set('Authorization', `Bearer ${import.meta.env.TWITTER_API_TOKEN}`)
-
-	const { data: { id: userId } } = await fetch('https://api.twitter.com/2/users/by/username/BHolmesDev', {
-		method: 'GET',
-		headers: reqHeaders,
-	}).then(res => res.json())
-
-	const userUrl = new URL(`https://api.twitter.com/2/users/${userId}/tweets`)
-	userUrl.searchParams.set('expansions', 'attachments.media_keys')
-	userUrl.searchParams.set('tweet.fields', 'entities')
-	userUrl.searchParams.set('media.fields', 'variants')
-	userUrl.searchParams.set('exclude', 'replies')
-	userUrl.searchParams.set('max_results', '100')
-
-	const rawResponse = await fetch(userUrl.toString(), {
-		method: 'GET',
-		headers: reqHeaders,
-	}).then(res => res.json())
-	fetchState = tweetResponseSchema.parse(rawResponse);
-} catch (e) {
-	console.error(e)
-}
 ---
 <Layout title="#whiteboardtheweb">
-	{fetchState === 'error' ? <p>Uh oh, the site is down! <a href="https://twitter.com/bholmesdev">DM @bholmesdev on Twitter</a>, thanks {`:)`}</p> : (
-		<main>
-			<h1>#WhiteboardtheWeb</h1>
-			<div class="tweet-list">
-				{toWhiteboardTheWebTweets(fetchState.data).map(tweet => <Tweet tweet={tweet} media={fetchState.includes.media} />)}
-			</div>
-		</main>
-	)}
+		<h1>#WhiteboardtheWeb</h1>
+		<div class="list">
+			{sortBy(videos, 'file').reverse().map(({ compiledContent, frontmatter, getHeadings }) => (
+				<Card
+					heading={getHeadings().find(h => h.depth === 1)?.text}
+					htmlBody={stripHtmlHeadings(compiledContent())} 
+					{...frontmatter} />
+			))}
+		</div>
 </Layout>
 
 <style>
 
 	h1 {
 		margin: 2rem 0;
+		font-size: var(--font-size-xxl) !important;
 	}
 
-	main {
-		margin: auto;
-    	padding: 1em;
-		max-width: var(--content-max-width);
-	}
-
-	.tweet-list {
+	.list {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;

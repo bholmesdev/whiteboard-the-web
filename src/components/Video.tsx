@@ -1,36 +1,52 @@
-import type { JSX } from 'solid-js'; 
-import type { Variant } from '../_types';
-
-function handleVideoPlay (event: any) {
-  const container = event.currentTarget?.closest('article')
-  container.toggleAttribute('data-video-playing')
-}
+import { youtubeShortToEmbed, youtubeShortToThumbnail } from "~/utils";
+import Play from "./icons/Play";
+import c from "./Video.module.css";
+import { createSignal } from "solid-js";
 
 type Props = {
-  variants: Variant[];
-  playButtonChildren: JSX.Element;
-}
+  src: string;
+  type: "youtube" | "twitter";
+  title?: string;
+};
 
-export default function Video({ variants, playButtonChildren }: Props) {
+export default function Video({ src, type, title }: Props) {
+  const [playing, setPlaying] = createSignal(false);
+
+  function handleVideoPlay(event: any) {
+    const container = event.currentTarget?.closest("article");
+    container.toggleAttribute("data-video-playing");
+    setPlaying(true);
+  }
   return (
     <>
-      <video
-        onPlay={handleVideoPlay}
-        onPause={handleVideoPlay}
-        crossorigin="anonymous"
-        controls>
-          {variants
-          .sort((a, b) => (b.bit_rate ?? 0) - (a.bit_rate ?? 0))
-          .map(({ content_type, url, bit_rate }) => (
-            <source src={url} type={content_type} data-bit-rate={bit_rate} />
-          ))}
-      </video>
-      {/* TODO: pass through heading */}
-      <div data-video-overlay>
-        <button aria-label="Play edition XX">
-          {playButtonChildren}
-        </button>
-      </div>
+      {type === "youtube" ? (
+        <>
+          <div class={c.player}>
+            {playing() ? (
+              <iframe
+                width="225"
+                height="400"
+                src={youtubeShortToEmbed(src)}
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            ) : (
+              <button
+                class={c.thumbnail}
+                onClick={handleVideoPlay}
+                aria-label={`Watch "${title}"`}
+              >
+                <img src={youtubeShortToThumbnail(src)} alt={title} />
+                <div class={c.iconContainer}>
+                  <Play />
+                </div>
+              </button>
+            )}
+          </div>
+        </>
+      ) : null}
     </>
-  )
+  );
 }

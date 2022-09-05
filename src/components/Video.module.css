@@ -1,0 +1,47 @@
+.player iframe,
+.thumbnail img {
+  border-radius: 0.4rem;
+  aspect-ratio: 9 / 16;
+  width: 100%;
+  height: auto;
+}
+
+.thumbnail {
+  position: relative;
+  cursor: pointer;
+  backdrop-filter: blur(2px);
+  border-radius: 1rem;
+  line-height: 0;
+  overflow: hidden;
+}
+
+.thumbnail::after {
+  content: '';
+  border-radius: 0.4rem;
+  position: absolute;
+  inset: 0;
+  background: var(--color);
+  opacity: 0.3;
+}
+
+.thumbnail img {
+  filter: blur(2px);
+  object-fit: cover;
+}
+
+.iconContainer {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.iconContainer svg {
+  color: white;
+  background: var(--color);
+  width: 3rem;
+  height: auto;
+  padding: 1rem;
+  border-radius: 9e9px;
+  box-shadow: #0009 0 4px 0;
+}

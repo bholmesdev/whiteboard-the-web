@@ -1,48 +1,43 @@
 ---
+import type { VideoFrontmatter, VideoSource } from '../_types';
 import { toRandomNotUglyColor } from '../utils';
 import type { Tweet, TweetResponse, Media } from '../_types';
 import RightArrowCircle from './icons/RightArrowCircle.astro';
 import Video from '../components/Video';
 import Play from './icons/Play.astro';
 
-export type Props = {
-  tweet: Tweet;
-  media: TweetResponse['includes']['media'];
+type Props = VideoFrontmatter & {
+  heading?: string;
+  htmlBody: string;
 }
 
-const { tweet, media } = Astro.props as Props
-
-function getFirstVideo(mediaKeys: string[]): Media & { type: 'video' } | null {
-  for (const mediaKey of mediaKeys) {
-    const match = media.find(m => m.media_key === mediaKey)
-    if (match?.type === 'video') return match
-  }
-  return null
-}
-
-const videoInfo = getFirstVideo(tweet.attachments?.media_keys ?? [])
+const { twitter, youtube, heading, htmlBody } = Astro.props;
+// const videoSources: VideoSource[] = rawVideoSources.map(src => {
+//   return { src: `/vids/${src}`, type: src.endsWith('.webm') ? 'video/webm' : 'video/mp4' };
+// })
 ---
 <article>
-  {videoInfo ? (
-    <figure class="video-container">
-      <Video client:load variants={videoInfo.variants}>
-        <Play slot="playButtonChildren" />
+  <figure class="video-container">
+    {youtube ? (
+      <Video client:load src={youtube} type='youtube' title={heading}>
       </Video>
-    </figure>
-  ) : null}
-  <div class="tweet-container">
-    {tweet.text.split('\n').map(paragraph => <p>{paragraph}</p>)}
+    ) : null}
+  </figure>
+  <div class="body-container">
+    {heading ? <h2>{heading}</h2> : null}
+    <Fragment set:html={htmlBody} />
   </div>
-  <a class="cta" href={`https://twitter.com/bholmesdev/status/${tweet.id}`}>Share on twitter <RightArrowCircle /></a>
+  {twitter ? <a class="cta" href={twitter}>Share on twitter <RightArrowCircle /></a> : null}
+  {youtube ? <a class="cta" href={youtube}>Share on YouTube <RightArrowCircle /></a> : null}
 </article>
 
 <style define:vars={{ color: toRandomNotUglyColor(), test: '331, 96%' }}>
   article {
     position: relative;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 2fr 3fr;
     grid-template-rows: 1fr max-content;
-    grid-template-areas: 'video tweet'
+    grid-template-areas: 'video body'
                          'video cta';
     border-radius: 1.8rem;
     transition: border 0.2s;
@@ -55,7 +50,7 @@ const videoInfo = getFirstVideo(tweet.attachments?.media_keys ?? [])
     article {
       grid-template-columns: 1fr;
       grid-template-rows: unset;
-      grid-template-areas: 'tweet'
+      grid-template-areas: 'body'
                           'video'
                           'cta';
       row-gap: 1rem;
@@ -105,45 +100,8 @@ const videoInfo = getFirstVideo(tweet.attachments?.media_keys ?? [])
   figcaption {
     font-style: italic;
   }
-  article :global(video) {
-    grid-area: 1 / -1;
-    display: block;
-    width: 100%;
-    aspect-ratio: 9 / 16;
-    border-radius: inherit;
-    border-radius: 0.5rem;
-    transition: filter 0.2s;
-  }
-  article :global([data-video-overlay]) {
-    grid-area: 1 / -1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    pointer-events: none;
-    background: linear-gradient(var(--color) 0, transparent 50%, transparent 100%);
-    background-position-y: 33%;
-    background-size: 100% 200%;
-    border-radius: inherit;
-    border-radius: 0.5rem;
-    transition:  background-position-y 0.2s;
-  }
-  article :global([data-video-overlay]) :global(button) {
-    line-height: 0;
-    color: white;
-    pointer-events: auto;
-  }
-  article :global([data-video-overlay]) :global(button) :global(svg) {
-    width: 3rem;
-    height: 3rem;
-  }
-  article[data-video-playing] :global(button) {
-    visibility: hidden;
-  }
-  article[data-video-playing] :global([data-video-overlay]) {
-    background-position-y: 100%;
-  }
-  .tweet-container {
-    grid-area: tweet;
+  .body-container {
+    grid-area: body;
   }
   .cta, .cta:visited {
     grid-area: cta;
