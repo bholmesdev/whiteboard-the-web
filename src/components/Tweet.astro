@@ -1,10 +1,9 @@
 ---
-import type { VideoFrontmatter, VideoSource } from '../_types';
+import type { VideoFrontmatter } from '../_types';
 import { toRandomNotUglyColor } from '../utils';
 import type { Tweet, TweetResponse, Media } from '../_types';
 import RightArrowCircle from './icons/RightArrowCircle.astro';
 import Video from '../components/Video';
-import Play from './icons/Play.astro';
 
 type Props = VideoFrontmatter & {
   heading?: string;
@@ -12,9 +11,6 @@ type Props = VideoFrontmatter & {
 }
 
 const { twitter, youtube, heading, htmlBody } = Astro.props;
-// const videoSources: VideoSource[] = rawVideoSources.map(src => {
-//   return { src: `/vids/${src}`, type: src.endsWith('.webm') ? 'video/webm' : 'video/mp4' };
-// })
 ---
 <article>
   <figure class="video-container">
