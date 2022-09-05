@@ -39,7 +39,7 @@ const {
   article {
     position: relative;
     display: grid;
-    grid-template-columns: 2fr 3fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr max-content;
     grid-template-areas: 'video body'
                          'video ctas';
@@ -111,8 +111,10 @@ const {
   .ctas {
     grid-area: ctas;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 1rem;
     justify-content: flex-end;
+    max-width: 10rem;
+    margin-inline-start: auto;
   }
 </style>
