@@ -2,9 +2,9 @@ export type TweetResponse = {
   data: Tweet[];
   includes: {
     media: Media[];
-  }
+  };
   meta: {};
-}
+};
 
 export type Tweet = {
   id: string;
@@ -19,17 +19,20 @@ export type Tweet = {
   attachments?: {
     media_keys: string[];
   };
-}
+};
 
 export type Variant = {
-  content_type: 'video/mp4' | 'application/x-mpegURL';
+  content_type: "video/mp4" | "application/x-mpegURL";
   bit_rate?: number;
   url: string;
 };
 
 export type Media = {
   media_key: string;
-} & ({ type: 'photo' } | {
-  type: 'video';
-  variants: Variant[];
-});
+} & (
+  | { type: "photo" }
+  | {
+      type: "video";
+      variants: Variant[];
+    }
+);
