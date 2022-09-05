@@ -13,6 +13,10 @@
     "types": ["vite/client"],
     "strictNullChecks": true,
     "jsxImportSource": "solid-js",
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["src/*"],
+    }
   }
 }
