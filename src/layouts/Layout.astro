@@ -38,15 +38,17 @@ const { title } = Astro.props as Props;
     crossorigin="anonymous">
     <link
     rel="preload"
-    href="/fonts/Sriracha-Regular.woff2"
+    href="/fonts/Sriracha-Regular.ttf"
     as="font"
-    type="font/woff2"
+    type="font/ttf"
     crossorigin="anonymous">
   <link rel="stylesheet" href="/fonts.css">
 	<title>{title}</title>
 </head>
 <body>
-	<slot />
+  <main>
+    <slot />
+  </main>
 </body>
 </html>
 
@@ -54,7 +56,8 @@ const { title } = Astro.props as Props;
   :root {
     --font-size-base: clamp(1rem, 0.34vw + 0.91rem, 1.19rem);
 		--font-size-lg: clamp(1.2rem, 0.7vw + 1.2rem, 1.5rem); 
-    --font-size-xl: clamp(2.44rem, 2.38vw + 1.85rem, 3.75rem);
+		--font-size-xl: clamp(1.6rem, 1.4vw + 1.45rem, 2.1rem); 
+    --font-size-xxl: clamp(2.44rem, 2.38vw + 1.85rem, 3.75rem);
 
     --color-text: hsl(12, 5%, 4%);
     --content-max-width: 60ch;
@@ -70,6 +73,12 @@ const { title } = Astro.props as Props;
   body {
     margin: 0;
   }
+
+  main {
+		margin: auto;
+    	padding: 1em;
+		max-width: var(--content-max-width);
+	}
 
   :global(h1) {
     font-family: Sriracha, system-ui, sans-serif;
