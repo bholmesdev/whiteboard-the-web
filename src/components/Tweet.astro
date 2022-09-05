@@ -5,21 +5,28 @@ import Video from '../components/Video';
 import CtaLink from './CtaLink.astro';
 
 type Props = VideoFrontmatter & {
-  heading?: string;
+  title?: string;
+  showTitleAsHeading?: boolean;
   htmlBody: string;
 }
 
-const { twitter, youtube, heading, htmlBody } = Astro.props;
+const {
+  title,
+  twitter,
+  showTitleAsHeading = true,
+  youtube,
+  htmlBody,
+} = Astro.props;
 ---
 <article>
   <figure class="video-container">
     {youtube ? (
-      <Video client:load src={youtube} type='youtube' title={heading}>
+      <Video client:load src={youtube} type='youtube' title={title}>
       </Video>
     ) : null}
   </figure>
   <div class="body-container">
-    {heading ? <h2>{heading}</h2> : null}
+    {title && showTitleAsHeading ? <h2>{title}</h2> : null}
     <Fragment set:html={htmlBody} />
   </div>
   <div class="ctas">

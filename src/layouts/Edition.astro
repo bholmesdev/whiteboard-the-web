@@ -1,13 +1,15 @@
 ---
 import { MarkdownLayoutProps } from 'astro';
-import BaseLayout from './Layout.astro'
+import Card from '~/components/Card.astro';
+import BaseLayout from './Layout.astro';
+import { stripHtmlHeadings } from '~/utils';
 
 type Props = MarkdownLayoutProps<{
   youtube: string;
   twitter: string;
 }>;
 
-const { headings, frontmatter } = Astro.props;
+const { headings, compiledContent, frontmatter } = Astro.props;
 
 Astro.response.headers.set(
 	'Cache-control',
@@ -18,7 +20,11 @@ const title = headings.find(h => h.depth === 1)?.text ?? 'Whiteboard the Web'
 ---
 
 <BaseLayout title={title} preconnectToYoutube={Boolean(frontmatter.youtube)}>
-  <a href={frontmatter.youtube}>Youtube</a>
-  <a href={frontmatter.twitter}>twitter</a>
-  <slot />
+  <h1>{title}</h1>
+  <Card 
+    title={title}
+    showTitleAsHeading={false}
+    htmlBody={stripHtmlHeadings(compiledContent())}
+    {...frontmatter}
+  />
 </BaseLayout>

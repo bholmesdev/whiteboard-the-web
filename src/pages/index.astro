@@ -14,7 +14,7 @@ const hasYoutubeEmbed = videos.some(video => Boolean(video.frontmatter.youtube))
 		<div class="list">
 			{sortBy(videos, 'file').reverse().map(({ compiledContent, frontmatter, getHeadings }) => (
 				<Card
-					heading={getHeadings().find(h => h.depth === 1)?.text}
+					title={getHeadings().find(h => h.depth === 1)?.text}
 					htmlBody={stripHtmlHeadings(compiledContent())} 
 					{...frontmatter} />
 			))}
