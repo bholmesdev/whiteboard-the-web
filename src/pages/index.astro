@@ -8,6 +8,11 @@ import CtaLink from '~/components/CtaLink.astro';
 
 const videos: VideoDocument[] = await Astro.glob('../editions/*.md');
 const hasYoutubeEmbed = videos.some(video => Boolean(video.frontmatter.youtube));
+
+Astro.response.headers.set(
+	'cache-control',
+	'public, max-age=31536000'
+);
 ---
 <Layout title="#whiteboardtheweb" preconnectToYoutube={hasYoutubeEmbed}>
 		<h1>#WhiteboardtheWeb</h1>
