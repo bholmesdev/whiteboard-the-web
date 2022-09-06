@@ -1,10 +1,11 @@
 ---
 type Props = {
 	title: string;
+  canonicalBase?: string;
   preconnectToYoutube?: boolean;
 }
 
-const { title, preconnectToYoutube } = Astro.props as Props;
+const { title, canonicalBase, preconnectToYoutube } = Astro.props as Props;
 ---
 
 <!DOCTYPE html>
@@ -16,6 +17,7 @@ const { title, preconnectToYoutube } = Astro.props as Props;
     <link rel="preconnect" href="https://www.youtube-nocookie.com">
     <link rel="preconnect" href="https://img.youtube.com.com">
   ) : null}
+  {canonicalBase ? <link rel="canonical" href={new URL(`./${canonicalBase}`, Astro.site)} /> : null}
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   <link
     rel="preload"

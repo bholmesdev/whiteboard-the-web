@@ -9,20 +9,19 @@ export function toRandomNotUglyColor() {
   return SANCTIONED_COLORS[randomIdx];
 }
 
-export function getEditionNumber(file: string): number | Error {
-  const badMatch = new Error(
-    "File does not match edition naming convention: #-page-name.md"
-  );
-  // matches first digit after the last "/" in a file path
-  // ex. "/example/44/32.md" will match "32"
-  const match = file.match(/(\d+)(\w|-|\.)+$/);
-  if (!match) return badMatch;
+export function getEditionInfo(
+  file: string
+): { base: string; num: number } | undefined {
+  // matches file basename and first digit after the last "/" in a file path
+  // ex. "/example/44/32-eslint-prettier.md" will match "32-eslint-prettier" and "32"
+  const match = file.match(/((\d+)(\w|-)+)(\w|-|\.)+$/);
+  if (!match) return undefined;
 
-  const [, rawNum] = match;
+  const [, base, rawNum] = match;
   const num = Number.parseInt(rawNum);
-  if (Number.isNaN(num)) return badMatch;
+  if (Number.isNaN(num)) return undefined;
 
-  return num;
+  return { base, num };
 }
 
 export function stripHtmlHeadings(rawHtml: string): string {

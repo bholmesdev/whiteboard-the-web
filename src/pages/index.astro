@@ -1,22 +1,21 @@
 ---
-import type { TweetResponse } from '../_types'
-import { tweetResponseSchema } from '../_types.generated'
+import { VideoDocument } from '~/_types'
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
 import sortBy from 'just-sort-by';
-import { stripHtmlHeadings } from '../utils';
+import { getEditionInfo, stripHtmlHeadings } from '~/utils';
 
-const videos: VideoDocument[] = await Astro.glob('./*.md');
+const videos: VideoDocument[] = await Astro.glob('../editions/*.md');
 const hasYoutubeEmbed = videos.some(video => Boolean(video.frontmatter.youtube));
 ---
 <Layout title="#whiteboardtheweb" preconnectToYoutube={hasYoutubeEmbed}>
 		<h1>#WhiteboardtheWeb</h1>
 		<div class="list">
-			{sortBy(videos, 'file').reverse().map(({ url, compiledContent, frontmatter, getHeadings }) => (
+			{sortBy(videos, 'file').reverse().map(({ file, compiledContent, frontmatter, getHeadings }) => (
 				<Card
 					title={getHeadings().find(h => h.depth === 1)?.text}
 					htmlBody={stripHtmlHeadings(compiledContent())} 
-					url={url}
+					url={`/${getEditionInfo(file)?.base ?? ''}`}
 					{...frontmatter} />
 			))}
 		</div>
