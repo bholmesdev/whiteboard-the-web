@@ -1,4 +1,6 @@
 ---
+import { toRandomNotUglyColor } from '~/utils';
+
 type Props = {
 	title: string;
   canonicalBase?: string;
@@ -62,7 +64,7 @@ const { title, canonicalBase, preconnectToYoutube } = Astro.props as Props;
 </body>
 </html>
 
-<style>
+<style define:vars={{ color: toRandomNotUglyColor() }}>
   :root {
     --font-size-base: clamp(1rem, 0.34vw + 0.91rem, 1.19rem);
 		--font-size-lg: clamp(1.2rem, 0.7vw + 1.2rem, 1.5rem); 
