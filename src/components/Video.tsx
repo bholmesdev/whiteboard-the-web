@@ -53,7 +53,12 @@ export default function Video({ src, type, title }: Props) {
                 onClick={() => handlePlaybackToggle(true)}
                 aria-label={`Watch - ${title}`}
               >
-                <img src={youtubeShortToThumbnail(src)} alt={title} />
+                <img
+                  src={youtubeShortToThumbnail(src)}
+                  alt={title}
+                  width={200}
+                  height={356}
+                />
                 <div class={c.iconContainer}>
                   <Play />
                 </div>
