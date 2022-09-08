@@ -15,7 +15,7 @@ Astro.response.headers.set(
 	'public, max-age=31536000'
 );
 ---
-<Layout title="#whiteboardtheweb" preconnectToYoutube={hasYoutubeEmbed}>
+<Layout title="#whiteboardtheweb" canonicalBase="/" preconnectToYoutube={hasYoutubeEmbed}>
 		<h1>#WhiteboardtheWeb</h1>
 		<div class="list">
 			{sortBy(videos, 'file').reverse().map(({ file, compiledContent, frontmatter, getHeadings }) => (

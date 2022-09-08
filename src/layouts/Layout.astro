@@ -2,14 +2,22 @@
 import { toRandomColorVariable } from '~/utils';
 
 type Props = {
-	title: string;
+	title?: string;
+  description?: string;
   canonicalBase?: string;
   preconnectToYoutube?: boolean;
 }
 
 const randomBaseColor = toRandomColorVariable();
 
-const { title, canonicalBase, preconnectToYoutube } = Astro.props as Props;
+const {
+  title,
+  description = "Web development in 1 minute",
+  canonicalBase,
+  preconnectToYoutube,
+} = Astro.props as Props;
+
+const canonical = canonicalBase ? new URL(`./${canonicalBase}`, Astro.site) : null;
 ---
 
 <!DOCTYPE html>
@@ -21,7 +29,7 @@ const { title, canonicalBase, preconnectToYoutube } = Astro.props as Props;
     <link rel="preconnect" href="https://www.youtube-nocookie.com">
     <link rel="preconnect" href="https://img.youtube.com.com">
   ) : null}
-  {canonicalBase ? <link rel="canonical" href={new URL(`./${canonicalBase}`, Astro.site)} /> : null}
+  {canonical ? <link rel="canonical" href={canonical} /> : null}
   <link rel="icon" type="image/x-icon" href="/favicon.png" />
   <link
     rel="preload"
@@ -55,6 +63,14 @@ const { title, canonicalBase, preconnectToYoutube } = Astro.props as Props;
     crossorigin="anonymous">
   <link rel="stylesheet" href="/fonts.css">
 	<title>{title}</title>
+  <meta name="description" content={description}>
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  {canonical ? <meta property="og:url" content={canonical} /> : null}
+
+  <meta name="twitter:title" content={title}>
+  <meta name="twitter:description" content={description}>
+  <meta name="twitter:site" content="bholmesdev">
 </head>
 <body>
   <main>
