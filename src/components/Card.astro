@@ -1,6 +1,5 @@
 ---
 import type { VideoFrontmatter } from '../_types';
-import Video from '../components/Video';
 import CtaLink from './CtaLink.astro';
 
 type Props = VideoFrontmatter & {
@@ -8,26 +7,23 @@ type Props = VideoFrontmatter & {
   title?: string;
   showTitleAsHeading?: boolean;
   htmlBody: string;
+  colorIntersectionObserver?: boolean;
 }
 
 const {
   title,
   twitter,
-  showTitleAsHeading = true,
   youtube,
   url,
   htmlBody,
 } = Astro.props;
 ---
 <article>
-  <figure class="video-container">
-    {youtube ? (
-      <Video client:load src={youtube} type='youtube' title={title}>
-      </Video>
-    ) : null}
-  </figure>
+  <div class="video-container">
+    <slot name="video"></slot>
+  </div>
   <div class="body-container">
-    {title && showTitleAsHeading ? <h2>{title}</h2> : null}
+    {title ? <h2>{title}</h2> : null}
     <Fragment set:html={htmlBody} />
   </div>
   <div class="ctas">
@@ -49,23 +45,7 @@ const {
     transition: border 0.2s;
     padding: 1.5rem;
     column-gap: 1.5rem;
-    background-color: #F8F9FD;
-  }
-
-  article:nth-child(4n + 1) {
-    --color: var(--orange);
-  }
-
-  article:nth-child(4n + 2) {
-    --color: var(--green);
-  }
-
-  article:nth-child(4n + 3) {
-    --color: var(--pink);
-  }
-
-  article:nth-child(4n + 4) {
-    --color: var(--purple);
+    background-color: hsl(var(--color-hs), 99%);
   }
 
   @media(max-width: 600px) {
@@ -83,7 +63,7 @@ const {
     content: '';
     position: absolute;
     inset: 1px;
-    background-color: #E8EFF0;
+    background-color: hsl(var(--color-hs), 90%);
     z-index: -1;
     border-radius: inherit;
     transform: translateY(4px);
@@ -97,7 +77,7 @@ const {
     inset: 0;
     border-radius: 2rem;
     background: red;
-    background: linear-gradient(0, var(--color) 50%,#F8F9FD 50%);
+    background: linear-gradient(0, var(--color) 50%,hsl(var(--color-hs), 98%) 50%);
     background-size: 100% 200%;
     transition: background-position-y 0.2s, inset 0.2s;
   }

@@ -7,6 +7,8 @@ type Props = {
   preconnectToYoutube?: boolean;
 }
 
+const randomBaseColor = toRandomColorVariable();
+
 const { title, canonicalBase, preconnectToYoutube } = Astro.props as Props;
 ---
 
@@ -56,6 +58,7 @@ const { title, canonicalBase, preconnectToYoutube } = Astro.props as Props;
 </head>
 <body>
   <main>
+    <div id="color-backdrop"></div>
     <slot />
   </main>
   <footer>
@@ -64,7 +67,7 @@ const { title, canonicalBase, preconnectToYoutube } = Astro.props as Props;
 </body>
 </html>
 
-<style define:vars={{ color: `var(--${toRandomColorVariable()})` }}>
+<style define:vars={{ color: `var(--${randomBaseColor})`, colorHs: `var(--${randomBaseColor}-hs)` }}>
   :root {
     --font-size-base: clamp(1rem, 0.34vw + 0.91rem, 1.19rem);
 		--font-size-lg: clamp(1.2rem, 0.7vw + 1.2rem, 1.5rem); 
@@ -80,6 +83,8 @@ const { title, canonicalBase, preconnectToYoutube } = Astro.props as Props;
     --pink: hsl(var(--pink-hs), 45%);
     --green: hsl(var(--green-hs), 34%);
 
+    --color-hs: var(--colorHs);
+
     --color-text: hsl(12, 5%, 4%);
     --content-max-width: 55ch;
   }
@@ -93,6 +98,17 @@ const { title, canonicalBase, preconnectToYoutube } = Astro.props as Props;
 
   body {
     margin: 0;
+  }
+
+  #color-backdrop {
+    content: '';
+    z-index: -1;
+    position: fixed;
+    inset: 0;
+    bottom: 70vh;
+    pointer-events: none;
+    background-color: hsl(var(--color-hs), 95%);
+    transition: background-color 0.2s;
   }
 
   main {

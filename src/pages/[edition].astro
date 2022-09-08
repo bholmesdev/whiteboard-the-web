@@ -4,6 +4,7 @@ import Card from '~/components/Card.astro';
 import BaseLayout from '~/layouts/Layout.astro';
 import { getEditionInfo, stripHtmlHeadings } from '~/utils';
 import CtaLink from '~/components/CtaLink.astro';
+import Video from '~/components/Video';
 
 if (typeof Astro.params.edition !== 'string') return Astro.redirect('/');
 
@@ -35,12 +36,12 @@ const canonicalBase = getEditionInfo(file)?.base;
   <div>
     <h1>{title}</h1>
     <Card 
-      title={title}
-      showTitleAsHeading={false}
       htmlBody={stripHtmlHeadings(compiledContent())}
       twitter={frontmatter.twitter}
       youtube={frontmatter.youtube}
-    />
+    >
+      <Video slot="video" client:load type="youtube" title={title} src={frontmatter.youtube} colorIntersectionObserver={false} />
+    </Card>
     <CtaLink href="/">Hey, I learned something. Gimme more!</CtaLink>
   </div>
 </BaseLayout>

@@ -5,6 +5,7 @@ import Card from '~/components/Card.astro';
 import sortBy from 'just-sort-by';
 import { getEditionInfo, stripHtmlHeadings } from '~/utils';
 import CtaLink from '~/components/CtaLink.astro';
+import Video from '~/components/Video';
 
 const videos: VideoDocument[] = await Astro.glob('../editions/*.md');
 const hasYoutubeEmbed = videos.some(video => Boolean(video.frontmatter.youtube));
@@ -22,7 +23,9 @@ Astro.response.headers.set(
 					title={getHeadings().find(h => h.depth === 1)?.text}
 					htmlBody={stripHtmlHeadings(compiledContent())} 
 					url={`/${getEditionInfo(file)?.base ?? ''}`}
-					{...frontmatter} />
+					{...frontmatter}>
+					<Video slot="video" client:load type="youtube" title={getHeadings().find(h => h.depth === 1)?.text} src={frontmatter.youtube} />
+				</Card>
 			))}
 			<CtaLink href="https://twitter.com/hashtag/whiteboardtheweb?f=live">Explore full #whiteboardtheweb archive</CtaLink>
 		</div>
@@ -40,4 +43,24 @@ Astro.response.headers.set(
 		flex-direction: column;
 		gap: 1rem;
 	}
+
+	.list :global(article):nth-child(4n + 1) {
+    --color: var(--orange);
+    --color-hs: var(--orange-hs);
+  }
+  
+  .list :global(article):nth-child(4n + 2) {
+    --color: var(--green);
+    --color-hs: var(--green-hs);
+  }
+  
+  .list :global(article):nth-child(4n + 3) {
+    --color: var(--pink);
+    --color-hs: var(--pink-hs);
+  }
+  
+  .list :global(article):nth-child(4n + 4) {
+    --color: var(--purple);
+    --color-hs: var(--purple-hs);
+  }
 </style>
