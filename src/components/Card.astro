@@ -1,6 +1,5 @@
 ---
 import type { VideoFrontmatter } from '../_types';
-import { toRandomNotUglyColor } from '../utils';
 import Video from '../components/Video';
 import CtaLink from './CtaLink.astro';
 
@@ -38,9 +37,8 @@ const {
   </div>
 </article>
 
-<style define:vars={{ randomColor: toRandomNotUglyColor() }}>
+<style>
   article {
-    --color: var(--cardColor, var(--randomColor));
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -52,6 +50,22 @@ const {
     padding: 1.5rem;
     column-gap: 1.5rem;
     background-color: #F8F9FD;
+  }
+
+  article:nth-child(4n + 1) {
+    --color: var(--orange);
+  }
+
+  article:nth-child(4n + 2) {
+    --color: var(--green);
+  }
+
+  article:nth-child(4n + 3) {
+    --color: var(--pink);
+  }
+
+  article:nth-child(4n + 4) {
+    --color: var(--purple);
   }
 
   @media(max-width: 600px) {

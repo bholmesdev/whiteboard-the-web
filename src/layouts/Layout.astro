@@ -1,5 +1,5 @@
 ---
-import { toRandomNotUglyColor } from '~/utils';
+import { toRandomColorVariable } from '~/utils';
 
 type Props = {
 	title: string;
@@ -64,12 +64,21 @@ const { title, canonicalBase, preconnectToYoutube } = Astro.props as Props;
 </body>
 </html>
 
-<style define:vars={{ color: toRandomNotUglyColor() }}>
+<style define:vars={{ color: `var(--${toRandomColorVariable()})` }}>
   :root {
     --font-size-base: clamp(1rem, 0.34vw + 0.91rem, 1.19rem);
 		--font-size-lg: clamp(1.2rem, 0.7vw + 1.2rem, 1.5rem); 
 		--font-size-xl: clamp(1.6rem, 1.4vw + 1.45rem, 2.1rem); 
     --font-size-xxl: clamp(2.44rem, 2.38vw + 1.85rem, 3.75rem);
+
+    --orange-hs: 7, 91%;
+    --purple-hs: 263, 100%;
+    --pink-hs: 331, 96%;
+    --green-hs: 116, 86%;
+    --orange: hsl(var(--orange-hs), 50%);
+    --purple: hsl(var(--purple-hs), 50%);
+    --pink: hsl(var(--pink-hs), 45%);
+    --green: hsl(var(--green-hs), 34%);
 
     --color-text: hsl(12, 5%, 4%);
     --content-max-width: 55ch;

@@ -2,7 +2,7 @@
 import type { VideoDocument, VideoFrontmatter } from '~/_types';
 import Card from '~/components/Card.astro';
 import BaseLayout from '~/layouts/Layout.astro';
-import { getEditionInfo, stripHtmlHeadings, toRandomNotUglyColor } from '~/utils';
+import { getEditionInfo, stripHtmlHeadings } from '~/utils';
 import CtaLink from '~/components/CtaLink.astro';
 
 if (typeof Astro.params.edition !== 'string') return Astro.redirect('/');

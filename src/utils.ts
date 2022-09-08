@@ -2,11 +2,11 @@ import { parseHTML } from "linkedom";
 
 export const WTW = "whiteboardtheweb";
 
-const SANCTIONED_COLORS = ["#e30570", "#6100FF", "#de230a", "#12880a"];
+const COLOR_VARIABLES = ["orange", "green", "pink", "purple"];
 
-export function toRandomNotUglyColor() {
-  const randomIdx = Math.floor(Math.random() * SANCTIONED_COLORS.length);
-  return SANCTIONED_COLORS[randomIdx];
+export function toRandomColorVariable() {
+  const randomIdx = Math.floor(Math.random() * COLOR_VARIABLES.length);
+  return COLOR_VARIABLES[randomIdx];
 }
 
 export function getEditionInfo(
