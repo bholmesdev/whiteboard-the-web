@@ -22,7 +22,7 @@ const { title, canonicalBase, preconnectToYoutube } = Astro.props as Props;
     <link rel="preconnect" href="https://img.youtube.com.com">
   ) : null}
   {canonicalBase ? <link rel="canonical" href={new URL(`./${canonicalBase}`, Astro.site)} /> : null}
-  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="/favicon.png" />
   <link
     rel="preload"
     href="/fonts/Atkinson-Hyperlegible-Regular.woff2"
