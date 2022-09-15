@@ -6,28 +6,32 @@ type Props = {
   description?: string;
   canonicalBase?: string;
   preconnectToYoutube?: boolean;
+  ogType?: string;
 }
 
 const randomBaseColor = toRandomColorVariable();
 
 const {
   title,
-  description = "Web development in 1 minute",
+  description = "Learn the web in 1 minute",
   canonicalBase,
   preconnectToYoutube,
+  ogType,
 } = Astro.props as Props;
 
-const canonical = canonicalBase ? new URL(`./${canonicalBase}`, Astro.site) : null;
+const canonical = typeof canonicalBase === 'string' ? new URL(`./${canonicalBase}`, Astro.site) : null;
+const socialImage = new URL('./social-banner.png', Astro.site);
+const socialImageAlt = 'Whiteboard the web - Learn the web in 1 minute';
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width">
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width" />
   {preconnectToYoutube ? (
-    <link rel="preconnect" href="https://www.youtube-nocookie.com">
-    <link rel="preconnect" href="https://img.youtube.com.com">
+    <link rel="preconnect" href="https://www.youtube-nocookie.com" />
+    <link rel="preconnect" href="https://img.youtube.com" />
   ) : null}
   {canonical ? <link rel="canonical" href={canonical} /> : null}
   <link rel="icon" type="image/x-icon" href="/favicon.png" />
@@ -63,14 +67,21 @@ const canonical = canonicalBase ? new URL(`./${canonicalBase}`, Astro.site) : nu
     crossorigin="anonymous">
   <link rel="stylesheet" href="/fonts.css">
 	<title>{title}</title>
-  <meta name="description" content={description}>
-  <meta property="og:title" content={title}>
-  <meta property="og:description" content={description}>
-  {canonical ? <meta property="og:url" content={canonical} /> : null}
-
-  <meta name="twitter:title" content={title}>
-  <meta name="twitter:description" content={description}>
-  <meta name="twitter:site" content="bholmesdev">
+  <meta name="description" content={description} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={socialImage} />
+  <meta property="og:image:alt" content={socialImageAlt} />
+  <meta property="og:type" content={ogType ?? 'website'} />
+  <meta property="og:locale" content="en_US" />
+  <meta name="robots" content="follow, index" />
+  
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:site" content="bholmesdev" />
+  <meta name="twitter:image" content={socialImage} />
+  <meta name="twitter:image:alt" content={socialImageAlt} />
+  <meta name="twitter:card" content="summary_large_image" />
 </head>
 <body>
   <main>

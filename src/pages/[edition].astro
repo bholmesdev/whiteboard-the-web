@@ -32,7 +32,7 @@ const title = getHeadings().find(h => h.depth === 1)?.text ?? 'Whiteboard the We
 const canonicalBase = getEditionInfo(file)?.base;
 ---
 
-<BaseLayout title={title} canonicalBase={canonicalBase} preconnectToYoutube={Boolean(frontmatter.youtube)}>
+<BaseLayout title={title} canonicalBase={canonicalBase} ogType="video.other" preconnectToYoutube={Boolean(frontmatter.youtube)}>
   <div>
     <h1>{title}</h1>
     <Card 
