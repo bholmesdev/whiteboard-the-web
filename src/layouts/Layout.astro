@@ -85,7 +85,12 @@ const socialImageAlt = 'Whiteboard the web - Learn the web in 1 minute';
   <meta name="twitter:image:alt" content={socialImageAlt} />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <script defer data-domain="wtw.dev" src="https://plausible.io/js/plausible.js"></script>
+  <script
+    defer
+    src="/stats/js/script.js"
+    data-domain="wtw.dev"
+    data-api="/stats/api/event">
+  </script>
 </head>
 <body>
   <main>
