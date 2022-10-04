@@ -9,25 +9,28 @@ import Video from '~/components/Video';
 if (typeof Astro.params.edition !== 'string') return Astro.redirect('/');
 
 const editions = await Astro.glob<VideoFrontmatter>('../editions/*.md');
-const numToUrlMap: Map<string, VideoDocument> = new Map();
-const baseToUrlMap: Map<string, VideoDocument> = new Map();
 
+let matchingEdition: VideoDocument | undefined = undefined;
 for (const edition of editions) {
   const info = getEditionInfo(edition.file);
   if (info) {
-    numToUrlMap.set(`${info.num}`, edition);
-    baseToUrlMap.set(`${info.base}`, edition);
+    if (Astro.params.edition === `${info.num}`) {
+      // ex. redirect wtw.dev/48 -> wtw.dev/48-is-solid-what-react-shouldve-been
+      return Astro.redirect(`/${info.base}`);
+    } else if (Astro.params.edition === info.base) {
+      matchingEdition = edition;
+      break;
+    }
   }
 }
 
-const edition = baseToUrlMap.get(Astro.params.edition) ?? numToUrlMap.get(Astro.params.edition);
-if (!edition) return Astro.redirect('/');
+if (!matchingEdition) return Astro.redirect('/');
 
 Astro.response.headers.set(
 	'cache-control',
 	'public, max-age=31536000'
 );
-const { file, getHeadings, compiledContent, frontmatter } = edition;
+const { file, getHeadings, compiledContent, frontmatter } = matchingEdition;
 const title = getHeadings().find(h => h.depth === 1)?.text ?? 'Whiteboard the Web';
 const canonicalBase = getEditionInfo(file)?.base;
 ---
