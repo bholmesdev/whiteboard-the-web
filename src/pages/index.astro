@@ -24,7 +24,7 @@ Astro.response.headers.set(
 					htmlBody={stripHtmlHeadings(compiledContent())} 
 					url={`/${getEditionInfo(file)?.base ?? ''}`}
 					{...frontmatter}>
-					<Video slot="video" client:load type="youtube" title={getHeadings().find(h => h.depth === 1)?.text} src={frontmatter.youtube} />
+					<Video slot="video" client:load type="youtube" title={getHeadings().find(h => h.depth === 1)?.text} src={frontmatter.youtube} editionInfo={getEditionInfo(file)} />
 				</Card>
 			))}
 			<CtaLink href="https://twitter.com/hashtag/whiteboardtheweb?f=live">Explore full #whiteboardtheweb archive</CtaLink>

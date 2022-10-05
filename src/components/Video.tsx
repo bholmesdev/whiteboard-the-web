@@ -1,13 +1,15 @@
-import { youtubeShortToEmbed, youtubeShortToThumbnail } from "~/utils";
+import { youtubeVidToEmbed, youtubeVidToThumbnail } from "~/utils";
 import Play from "./icons/Play";
 import c from "./Video.module.css";
 import { createSignal } from "solid-js";
+import { EditionInfo } from "~/_types";
 
 type Props = {
   src: string;
   type: "youtube" | "twitter";
   title?: string;
   colorIntersectionObserver?: boolean;
+  editionInfo?: EditionInfo;
 };
 
 export default function Video({
@@ -15,6 +17,7 @@ export default function Video({
   type,
   title,
   colorIntersectionObserver = true,
+  editionInfo,
 }: Props) {
   let containerRef: HTMLElement | null | undefined;
   const [isPlaying, setIsPlaying] = createSignal(false);
@@ -64,7 +67,7 @@ export default function Video({
               <iframe
                 width="225"
                 height="400"
-                src={youtubeShortToEmbed(src)}
+                src={youtubeVidToEmbed(src)}
                 title="YouTube video player"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -77,10 +80,12 @@ export default function Video({
                 aria-label={`Watch - ${title}`}
               >
                 <img
-                  src={youtubeShortToThumbnail(src)}
+                  src={youtubeVidToThumbnail(src)}
                   alt={title}
                   width={200}
                   height={356}
+                  // special case: remove black borders from thumbnail crop
+                  style={editionInfo?.num === 39 ? "transform: scale(1.4)" : ""}
                 />
                 <div class={c.iconContainer}>
                   <Play />

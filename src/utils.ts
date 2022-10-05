@@ -1,4 +1,5 @@
 import { parseHTML } from "linkedom";
+import { EditionInfo } from "./_types";
 
 export const WTW = "whiteboardtheweb";
 
@@ -9,9 +10,7 @@ export function toRandomColorVariable() {
   return COLOR_VARIABLES[randomIdx];
 }
 
-export function getEditionInfo(
-  file: string
-): { base: string; num: number } | undefined {
+export function getEditionInfo(file: string): EditionInfo | undefined {
   // matches file basename and first digit after the last "/" in a file path
   // ex. "/example/44/32-eslint-prettier.md" will match "32-eslint-prettier" and "32"
   const match = file.match(/((\d+)(\w|-)+)(\w|-|\.)+$/);
@@ -32,16 +31,17 @@ export function stripHtmlHeadings(rawHtml: string): string {
   return document.toString();
 }
 
-export function youtubeShortToEmbed(shortUrl: string): string {
+export function youtubeVidToEmbed(videoUrl: string): string {
   return (
-    shortUrl
+    videoUrl
+      .replace("/watch?v=", "/embed/")
       .replace("/shorts/", "/embed/")
       .replace("youtube.com", "youtube-nocookie.com") + "?autoplay=1"
   );
 }
 
-export function youtubeShortToThumbnail(shortUrl: string): string | undefined {
-  const idMatch = shortUrl.match(/\/((\w|-)+)$/);
+export function youtubeVidToThumbnail(shortUrl: string): string | undefined {
+  const idMatch = shortUrl.match(/[\/=]((\w|-)+)$/);
   if (!idMatch) return undefined;
 
   const [, id] = idMatch;

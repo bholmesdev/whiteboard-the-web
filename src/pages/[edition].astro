@@ -43,7 +43,7 @@ const canonicalBase = getEditionInfo(file)?.base;
       twitter={frontmatter.twitter}
       youtube={frontmatter.youtube}
     >
-      <Video slot="video" client:load type="youtube" title={title} src={frontmatter.youtube} colorIntersectionObserver={false} />
+      <Video slot="video" client:load type="youtube" title={title} src={frontmatter.youtube} colorIntersectionObserver={false} editionInfo={getEditionInfo(file)} />
     </Card>
     <CtaLink href="/">Hey, I learned something. Gimme more!</CtaLink>
   </div>

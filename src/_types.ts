@@ -6,3 +6,5 @@ export type VideoFrontmatter = {
 };
 
 export type VideoDocument = MarkdownInstance<VideoFrontmatter>;
+
+export type EditionInfo = { base: string; num: number };
