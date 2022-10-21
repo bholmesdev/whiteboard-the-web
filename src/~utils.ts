@@ -1,5 +1,5 @@
 import { parseHTML } from "linkedom";
-import { EditionInfo } from "./_types";
+import { EditionInfo } from "./~types";
 
 export const WTW = "whiteboardtheweb";
 

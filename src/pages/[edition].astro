@@ -1,10 +1,10 @@
 ---
-import type { VideoDocument, VideoFrontmatter } from '~/_types';
-import Card from '~/components/Card.astro';
-import BaseLayout from '~/layouts/Layout.astro';
-import { getEditionInfo, stripHtmlHeadings } from '~/utils';
-import CtaLink from '~/components/CtaLink.astro';
-import Video from '~/components/Video';
+import type { VideoDocument, VideoFrontmatter } from '~types';
+import { getEditionInfo, stripHtmlHeadings } from '~utils';
+import Card from '~components/Card.astro';
+import BaseLayout from '~layouts/Layout.astro';
+import CtaLink from '~components/CtaLink.astro';
+import Video from '~components/Video';
 
 if (typeof Astro.params.edition !== 'string') return Astro.redirect('/');
 

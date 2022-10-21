@@ -16,7 +16,10 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "~/*": ["src/*"],
+      "~types": ["src/~types.ts"],
+      "~utils": ["src/~utils.ts"],
+      "~components/*": ["src/components/*"],
+      "~layouts/*": ["src/layouts/*"],
     }
   }
 }

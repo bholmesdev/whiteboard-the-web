@@ -1,8 +1,8 @@
-import { youtubeVidToEmbed, youtubeVidToThumbnail } from "~/utils";
+import { youtubeVidToEmbed, youtubeVidToThumbnail } from "~utils";
+import { EditionInfo } from "~types";
 import Play from "./icons/Play";
 import c from "./Video.module.css";
 import { createSignal } from "solid-js";
-import { EditionInfo } from "~/_types";
 
 type Props = {
   src: string;

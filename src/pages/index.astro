@@ -1,11 +1,11 @@
 ---
-import { VideoDocument } from '~/_types'
-import Layout from '~/layouts/Layout.astro';
-import Card from '~/components/Card.astro';
 import sortBy from 'just-sort-by';
-import { getEditionInfo, stripHtmlHeadings } from '~/utils';
-import CtaLink from '~/components/CtaLink.astro';
-import Video from '~/components/Video';
+import { VideoDocument } from '~types'
+import { getEditionInfo, stripHtmlHeadings } from '~utils';
+import Layout from '~layouts/Layout.astro';
+import Card from '~components/Card.astro';
+import CtaLink from '~components/CtaLink.astro';
+import Video from '~components/Video';
 
 const videos: VideoDocument[] = await Astro.glob('../editions/*.md');
 const hasYoutubeEmbed = videos.some(video => Boolean(video.frontmatter.youtube));
