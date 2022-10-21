@@ -17,9 +17,15 @@ Astro.response.headers.set(
 );
 ---
 <Layout title="#whiteboardtheweb" canonicalBase="" preconnectToYoutube={hasYoutubeEmbed}>
-	<h1>#WhiteboardtheWeb</h1>
+	<header>
+		<h1>#WhiteboardtheWeb</h1>
+		<ul class="social-links" role="list">
+			<li><a target="_blank" rel="noreferrer" href="https://www.youtube.com/channel/UCfFNverFD_Md_WDQGBBC7Zw">Sub on YouTube</a></li>
+			<li><a target="_blank" rel="noreferrer" href="https://twitter.com/bholmesdev">Follow on Twitter</a></li>
+		</ul>
+	</header>
 	<Newsletter /> 
-	<div class="list">
+	<main class="list">
 		{sortBy(videos, 'file').reverse().map(({ file, compiledContent, frontmatter, getHeadings }) => (
 			<Card
 				title={getHeadings().find(h => h.depth === 1)?.text}
@@ -30,14 +36,39 @@ Astro.response.headers.set(
 			</Card>
 		))}
 		<CtaLink href="https://twitter.com/hashtag/whiteboardtheweb?f=live">Explore full #whiteboardtheweb archive</CtaLink>
-	</div>
+	</main>
 </Layout>
 
 <style>
+	header {
+		display: grid;
+		margin-block: 2rem;
+	}
+
 	h1 {
-		margin: 2rem 0;
+		margin: 0;
 		font-size: var(--font-size-xxl) !important;
 		color: hsl(var(--color-hs), 20%) !important;
+		text-align: center;
+	}
+
+	.social-links {
+		padding: 0;
+		list-style: none;
+		display: flex;
+		gap: 1rem;
+		justify-content: center;
+	}
+	
+	.social-links a, .social-links a:visited {
+		color: hsl(var(--color-hs), 40%);
+		text-decoration: none;
+		font-weight: 700;
+		transition: opacity 0.2s;
+	}
+
+	.social-links a:hover {
+		opacity: 0.7;
 	}
 
 	.list {

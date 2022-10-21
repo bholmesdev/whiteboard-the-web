@@ -93,10 +93,10 @@ const socialImageAlt = 'Whiteboard the web - Learn the web in 1 minute';
   </script>
 </head>
 <body>
-  <main>
+  <div class="container">
     <div id="color-backdrop"></div>
     <slot />
-  </main>
+  </div>
   <footer>
     <p>Made with ❤️ by <a href="https://twitter.com/bholmesdev" target="_blank" rel="noreferrer">@bholmesdev</a></p>  
   </footer>
@@ -141,14 +141,14 @@ const socialImageAlt = 'Whiteboard the web - Learn the web in 1 minute';
     z-index: -1;
     position: fixed;
     inset: 0;
-    bottom: 70vh;
+    bottom: 60vh;
     pointer-events: none;
     background-color: hsl(var(--color-hs), 95%);
     transition: background-color 0.2s;
     clip-path: ellipse(100% 55% at 48% 44%);
   }
 
-  main {
+  .container {
 		margin: auto;
     	padding: 1em;
 		max-width: var(--content-max-width);
