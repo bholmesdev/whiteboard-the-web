@@ -9,7 +9,7 @@ type Props = {
   ogType?: string;
 }
 
-const randomBaseColor = toRandomColorVariable();
+const baseColor = 'purple';
 
 const {
   title,
@@ -103,7 +103,7 @@ const socialImageAlt = 'Whiteboard the web - Learn the web in 1 minute';
 </body>
 </html>
 
-<style define:vars={{ color: `var(--${randomBaseColor})`, colorHs: `var(--${randomBaseColor}-hs)` }}>
+<style define:vars={{ color: `var(--${baseColor})`, colorHs: `var(--${baseColor}-hs)` }}>
   :root {
     --font-size-base: clamp(1rem, 0.34vw + 0.91rem, 1.19rem);
 		--font-size-lg: clamp(1.2rem, 0.7vw + 1.2rem, 1.5rem); 
@@ -145,6 +145,7 @@ const socialImageAlt = 'Whiteboard the web - Learn the web in 1 minute';
     pointer-events: none;
     background-color: hsl(var(--color-hs), 95%);
     transition: background-color 0.2s;
+    clip-path: ellipse(100% 55% at 48% 44%);
   }
 
   main {

@@ -6,6 +6,7 @@ import Layout from '~layouts/Layout.astro';
 import Card from '~components/Card.astro';
 import CtaLink from '~components/CtaLink.astro';
 import Video from '~components/Video';
+import Newsletter from '../components/Newsletter.astro';
 
 const videos: VideoDocument[] = await Astro.glob('../editions/*.md');
 const hasYoutubeEmbed = videos.some(video => Boolean(video.frontmatter.youtube));
@@ -16,26 +17,27 @@ Astro.response.headers.set(
 );
 ---
 <Layout title="#whiteboardtheweb" canonicalBase="" preconnectToYoutube={hasYoutubeEmbed}>
-		<h1>#WhiteboardtheWeb</h1>
-		<div class="list">
-			{sortBy(videos, 'file').reverse().map(({ file, compiledContent, frontmatter, getHeadings }) => (
-				<Card
-					title={getHeadings().find(h => h.depth === 1)?.text}
-					htmlBody={stripHtmlHeadings(compiledContent())} 
-					url={`/${getEditionInfo(file)?.base ?? ''}`}
-					{...frontmatter}>
-					<Video slot="video" client:load type="youtube" title={getHeadings().find(h => h.depth === 1)?.text} src={frontmatter.youtube} editionInfo={getEditionInfo(file)} />
-				</Card>
-			))}
-			<CtaLink href="https://twitter.com/hashtag/whiteboardtheweb?f=live">Explore full #whiteboardtheweb archive</CtaLink>
-		</div>
+	<h1>#WhiteboardtheWeb</h1>
+	<Newsletter /> 
+	<div class="list">
+		{sortBy(videos, 'file').reverse().map(({ file, compiledContent, frontmatter, getHeadings }) => (
+			<Card
+				title={getHeadings().find(h => h.depth === 1)?.text}
+				htmlBody={stripHtmlHeadings(compiledContent())} 
+				url={`/${getEditionInfo(file)?.base ?? ''}`}
+				{...frontmatter}>
+				<Video slot="video" client:load type="youtube" title={getHeadings().find(h => h.depth === 1)?.text} src={frontmatter.youtube} editionInfo={getEditionInfo(file)} />
+			</Card>
+		))}
+		<CtaLink href="https://twitter.com/hashtag/whiteboardtheweb?f=live">Explore full #whiteboardtheweb archive</CtaLink>
+	</div>
 </Layout>
 
 <style>
-
 	h1 {
 		margin: 2rem 0;
 		font-size: var(--font-size-xxl) !important;
+		color: hsl(var(--color-hs), 20%) !important;
 	}
 
 	.list {
