@@ -166,22 +166,37 @@ const socialImageAlt = 'Whiteboard the web - Learn the web in 1 minute';
     font-weight: bold;
     color: currentColor;
   }
+</style>
 
-  :global(h1) {
+<style is:global>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+
+  h1 {
     font-family: Sriracha, system-ui, sans-serif;
     font-size: var(--font-size-xl);
   }
 
-  :global(h2) {
+  h2 {
     font-size: var(--font-size-lg);
   }
 
-  :global(code) {
+  code {
     font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
 			Bitstream Vera Sans Mono, Courier New, monospace;
   }
 
-  :global(button) {
+  button {
     all: unset;
   }
 </style>
