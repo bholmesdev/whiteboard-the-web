@@ -59,6 +59,7 @@ const {
     }
   }
   
+  /* bottom shadow */
   article::before {
     content: '';
     position: absolute;
@@ -68,6 +69,19 @@ const {
     border-radius: inherit;
     transform: translateY(4px);
     transition: transform 0.2s, background-color 0.2s;
+  }
+
+  /* video playing outline color */
+  article::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    border-radius: 2rem;
+    background: red;
+    background: linear-gradient(0, var(--color) 50%,hsl(var(--color-hs), 98%) 50%);
+    background-size: 100% 200%;
+    transition: background-position-y 0.2s, inset 0.2s;
   }
   
 
