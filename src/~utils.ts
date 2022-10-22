@@ -10,6 +10,23 @@ export function toRandomColorVariable() {
   return COLOR_VARIABLES[randomIdx];
 }
 
+export function colorIntersectionObserver(containerRef: HTMLElement) {
+  return new IntersectionObserver(
+    (changes) => {
+      for (const change of changes) {
+        if (change.isIntersecting && containerRef) {
+          const colorHs =
+            getComputedStyle(containerRef).getPropertyValue("--color-hs");
+          (
+            document.querySelector("#color-backdrop") as HTMLElement
+          ).style.setProperty("--color-hs", colorHs);
+        }
+      }
+    },
+    { rootMargin: "0px 0px -70% 0px", threshold: 0 }
+  );
+}
+
 export function getEditionInfo(file: string): EditionInfo | undefined {
   // matches file basename and first digit after the last "/" in a file path
   // ex. "/example/44/32-eslint-prettier.md" will match "32-eslint-prettier" and "32"

@@ -18,7 +18,7 @@ Astro.response.headers.set(
 ---
 <Layout title="#whiteboardtheweb" canonicalBase="" preconnectToYoutube={hasYoutubeEmbed}>
 	<header>
-		<h1>#WhiteboardtheWeb</h1>
+		<h1 id="whiteboardtheweb__heading">#WhiteboardtheWeb</h1>
 		<ul class="social-links" role="list">
 			<li><a target="_blank" rel="noreferrer" href="https://www.youtube.com/channel/UCfFNverFD_Md_WDQGBBC7Zw">Sub on YouTube</a></li>
 			<li><a target="_blank" rel="noreferrer" href="https://twitter.com/bholmesdev">Follow on Twitter</a></li>
@@ -38,6 +38,18 @@ Astro.response.headers.set(
 		<CtaLink href="https://twitter.com/hashtag/whiteboardtheweb?f=live">Explore full #whiteboardtheweb archive</CtaLink>
 	</main>
 </Layout>
+
+<script>
+	import { colorIntersectionObserver } from '~utils';
+
+	// shift bg color back to heading color
+	// when heading scrolls into view
+	const heading = document.getElementById('whiteboardtheweb__heading');
+	if (heading) {
+		const isTopOfPageObserver = colorIntersectionObserver(heading);
+		isTopOfPageObserver.observe(heading);
+	}
+</script>
 
 <style>
 	header {
