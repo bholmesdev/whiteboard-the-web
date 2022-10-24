@@ -53,7 +53,11 @@ export function youtubeVidToEmbed(videoUrl: string): string {
     videoUrl
       .replace("/watch?v=", "/embed/")
       .replace("/shorts/", "/embed/")
-      .replace("youtube.com", "youtube-nocookie.com") + "?autoplay=1"
+      .replace("https://www.youtube.com", "https://www.youtube-nocookie.com")
+      // map non-www URLs to www. Will raise SSL cert error without it!
+      // ex. https://nocookie-youtube.com/embed/HaFORudBWhQ
+      .replace("https://youtube.com", "https://www.youtube-nocookie.com") +
+    "?autoplay=1"
   );
 }
 
