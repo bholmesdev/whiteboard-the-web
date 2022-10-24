@@ -1,6 +1,6 @@
 ---
 twitter: https://twitter.com/BHolmesDev/status/1583095708424413185
-youtube: https://youtube.com/shorts/HaFORudBWhQ
+youtube: https://www.youtube.com/shorts/HaFORudBWhQ
 ---
 
 # render-as-you-fetch makes websites feel faster
