@@ -1,109 +1,141 @@
 ---
-import sortBy from 'just-sort-by';
-import { VideoDocument } from '~types'
-import { getEditionInfo, stripHtmlHeadings } from '~utils';
-import Layout from '~layouts/Layout.astro';
-import Card from '~components/Card.astro';
-import CtaLink from '~components/CtaLink.astro';
-import Video from '~components/Video';
-import Newsletter from '../components/Newsletter.astro';
+import sortBy from "just-sort-by";
+import { VideoDocument } from "~types";
+import { BIG_CACHE, getEditionInfo, stripHtmlHeadings } from "~utils";
+import Layout from "~layouts/Layout.astro";
+import Card from "~components/Card.astro";
+import CtaLink from "~components/CtaLink.astro";
+import Video from "~components/Video";
+import Newsletter from "../components/Newsletter.astro";
 
-const videos: VideoDocument[] = await Astro.glob('../editions/*.md');
-const hasYoutubeEmbed = videos.some(video => Boolean(video.frontmatter.youtube));
-
-Astro.response.headers.set(
-	'cache-control',
-	'public, s-maxage=31536000'
+const videos: VideoDocument[] = await Astro.glob("../editions/*.md");
+const hasYoutubeEmbed = videos.some((video) =>
+  Boolean(video.frontmatter.youtube)
 );
+
+Astro.response.headers.set("cache-control", BIG_CACHE);
 ---
-<Layout title="#whiteboardtheweb" canonicalBase="" preconnectToYoutube={hasYoutubeEmbed}>
-	<header>
-		<h1 id="whiteboardtheweb__heading">#WhiteboardtheWeb</h1>
-		<ul class="social-links" role="list">
-			<li><a target="_blank" rel="noreferrer" href="https://www.youtube.com/channel/UCfFNverFD_Md_WDQGBBC7Zw">Sub on YouTube</a></li>
-			<li><a target="_blank" rel="noreferrer" href="https://twitter.com/bholmesdev">Follow on Twitter</a></li>
-		</ul>
-	</header>
-	<Newsletter /> 
-	<main class="list">
-		{sortBy(videos, 'file').reverse().map(({ file, compiledContent, frontmatter, getHeadings }) => (
-			<Card
-				title={getHeadings().find(h => h.depth === 1)?.text}
-				htmlBody={stripHtmlHeadings(compiledContent())} 
-				url={`/${getEditionInfo(file)?.base ?? ''}`}
-				{...frontmatter}>
-				<Video slot="video" client:load type="youtube" title={getHeadings().find(h => h.depth === 1)?.text} src={frontmatter.youtube} editionInfo={getEditionInfo(file)} />
-			</Card>
-		))}
-		<CtaLink href="https://twitter.com/hashtag/whiteboardtheweb?f=live">Explore full #whiteboardtheweb archive</CtaLink>
-	</main>
+
+<Layout
+  title="#whiteboardtheweb"
+  canonicalBase=""
+  preconnectToYoutube={hasYoutubeEmbed}
+>
+  <header>
+    <h1 id="whiteboardtheweb__heading">#WhiteboardtheWeb</h1>
+    <ul class="social-links" role="list">
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://www.youtube.com/channel/UCfFNverFD_Md_WDQGBBC7Zw"
+          >Sub on YouTube</a
+        >
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://twitter.com/bholmesdev">Follow on Twitter</a
+        >
+      </li>
+    </ul>
+  </header>
+  <Newsletter />
+  <main class="list">
+    {
+      sortBy(videos, "file")
+        .reverse()
+        .map(({ file, compiledContent, frontmatter, getHeadings }) => (
+          <Card
+            title={getHeadings().find((h) => h.depth === 1)?.text}
+            htmlBody={stripHtmlHeadings(compiledContent())}
+            url={`/${getEditionInfo(file)?.base ?? ""}`}
+            {...frontmatter}
+          >
+            <Video
+              slot="video"
+              client:load
+              type="youtube"
+              title={getHeadings().find((h) => h.depth === 1)?.text}
+              src={frontmatter.youtube}
+              editionInfo={getEditionInfo(file)}
+            />
+          </Card>
+        ))
+    }
+    <CtaLink href="https://twitter.com/hashtag/whiteboardtheweb?f=live"
+      >Explore full #whiteboardtheweb archive</CtaLink
+    >
+  </main>
 </Layout>
 
 <script>
-	import { colorIntersectionObserver } from '~utils';
+  import { colorIntersectionObserver } from "~utils";
 
-	// shift bg color back to heading color
-	// when heading scrolls into view
-	const heading = document.getElementById('whiteboardtheweb__heading');
-	if (heading) {
-		const isTopOfPageObserver = colorIntersectionObserver(heading);
-		isTopOfPageObserver.observe(heading);
-	}
+  // shift bg color back to heading color
+  // when heading scrolls into view
+  const heading = document.getElementById("whiteboardtheweb__heading");
+  if (heading) {
+    const isTopOfPageObserver = colorIntersectionObserver(heading);
+    isTopOfPageObserver.observe(heading);
+  }
 </script>
 
 <style>
-	header {
-		display: grid;
-		margin-block: 2rem;
-	}
+  header {
+    display: grid;
+    margin-block: 2rem;
+  }
 
-	h1 {
-		margin: 0;
-		font-size: var(--font-size-xxl) !important;
-		color: hsl(var(--color-hs), 20%) !important;
-		text-align: center;
-	}
+  h1 {
+    margin: 0;
+    font-size: var(--font-size-xxl) !important;
+    color: hsl(var(--color-hs), 20%) !important;
+    text-align: center;
+  }
 
-	.social-links {
-		padding: 0;
-		list-style: none;
-		display: flex;
-		gap: 1rem;
-		justify-content: center;
-	}
-	
-	.social-links a, .social-links a:visited {
-		color: hsl(var(--color-hs), 40%);
-		text-decoration: none;
-		font-weight: 700;
-		transition: opacity 0.2s;
-	}
+  .social-links {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
 
-	.social-links a:hover {
-		opacity: 0.7;
-	}
+  .social-links a,
+  .social-links a:visited {
+    color: hsl(var(--color-hs), 40%);
+    text-decoration: none;
+    font-weight: 700;
+    transition: opacity 0.2s;
+  }
 
-	.list {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-	}
+  .social-links a:hover {
+    opacity: 0.7;
+  }
 
-	.list :global(article):nth-child(4n + 1) {
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .list :global(article):nth-child(4n + 1) {
     --color: var(--orange);
     --color-hs: var(--orange-hs);
   }
-  
+
   .list :global(article):nth-child(4n + 2) {
     --color: var(--green);
     --color-hs: var(--green-hs);
   }
-  
+
   .list :global(article):nth-child(4n + 3) {
     --color: var(--pink);
     --color-hs: var(--pink-hs);
   }
-  
+
   .list :global(article):nth-child(4n + 4) {
     --color: var(--purple);
     --color-hs: var(--purple-hs);

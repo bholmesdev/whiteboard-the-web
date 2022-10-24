@@ -1,6 +1,6 @@
 ---
 import type { VideoDocument, VideoFrontmatter } from "~types";
-import { getEditionInfo, stripHtmlHeadings } from "~utils";
+import { BIG_CACHE, getEditionInfo, stripHtmlHeadings } from "~utils";
 import Card from "~components/Card.astro";
 import BaseLayout from "~layouts/Layout.astro";
 import CtaLink from "~components/CtaLink.astro";
@@ -26,7 +26,7 @@ for (const edition of editions) {
 
 if (!matchingEdition) return Astro.redirect("/");
 
-Astro.response.headers.set("cache-control", "public, max-age=31536000");
+Astro.response.headers.set("cache-control", BIG_CACHE);
 const { file, getHeadings, compiledContent, frontmatter } = matchingEdition;
 const title =
   getHeadings().find((h) => h.depth === 1)?.text ?? "Whiteboard the Web";
