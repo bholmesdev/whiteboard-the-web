@@ -4,15 +4,25 @@ import RightArrowCircle from "./icons/RightArrowCircle.astro";
 type Props = any;
 ---
 
-<a class="cta" {...Astro.props}><slot /> <RightArrowCircle /></a>
+<a class="cta" {...Astro.props}>
+  <span class="desktop">
+    <slot name="label" />
+  </span>
+  <span class="mobile sr-only">
+    <slot name="label" />
+  </span>
+  <slot name="icon">
+    <RightArrowCircle />
+  </slot>
+</a>
 
 <style>
-  .cta, .cta:visited {
+  .cta,
+  .cta:visited {
     text-decoration: none;
-    color: hsl(var(--color-hs), 7%);
+    color: hsl(var(--color-hs), 17%);
     font-weight: 700;
     padding: 0.4rem;
-    padding-inline-start: 1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -24,10 +34,32 @@ type Props = any;
     transition-property: background-position-x, color, border-color;
     transition-duration: 0.2s;
   }
-  
-  .cta:hover, .cta:focus-visible {
+
+  .cta:hover,
+  .cta:focus-visible {
     background-position-x: -100%;
     color: white;
     border-color: var(--color);
+  }
+
+  .desktop {
+    display: none;
+  }
+  .mobile {
+    display: inline;
+  }
+
+  @media (min-width: 600px) {
+    .cta,
+    .cta:visited {
+      padding-inline: 1rem;
+    }
+
+    .desktop {
+      display: inline;
+    }
+    .mobile {
+      display: none;
+    }
   }
 </style>

@@ -1,6 +1,9 @@
 ---
-import type { VideoFrontmatter } from '~types';
-import CtaLink from './CtaLink.astro';
+import type { VideoFrontmatter } from "~types";
+import CtaLink from "./CtaLink.astro";
+import Link from "./icons/Link.astro";
+import Twitter from "./icons/Twitter.astro";
+import YouTube from "./icons/YouTube.astro";
 
 type Props = VideoFrontmatter & {
   url?: string;
@@ -8,28 +11,44 @@ type Props = VideoFrontmatter & {
   showTitleAsHeading?: boolean;
   htmlBody: string;
   colorIntersectionObserver?: boolean;
-}
+};
 
-const {
-  title,
-  twitter,
-  youtube,
-  url,
-  htmlBody,
-} = Astro.props;
+const { title, twitter, youtube, url, htmlBody } = Astro.props;
 ---
+
 <article>
   <div class="video-container">
-    <slot name="video"></slot>
+    <slot name="video" />
   </div>
   <div class="body-container">
     {title ? <h2>{title}</h2> : null}
     <Fragment set:html={htmlBody} />
   </div>
   <div class="ctas">
-    {url ? <CtaLink href={url}>Permalink</CtaLink> : null}
-    {twitter ? <CtaLink href={twitter} target="_blank" rel="noreferrer">Twitter</CtaLink> : null}
-    {youtube ? <CtaLink href={youtube} target="_blank" rel="noreferrer">YouTube</CtaLink> : null}
+    {
+      url ? (
+        <CtaLink href={url}>
+          <Fragment slot="label">Permalink</Fragment>
+          <Link slot="icon" />
+        </CtaLink>
+      ) : null
+    }
+    {
+      twitter ? (
+        <CtaLink href={twitter} target="_blank" rel="noreferrer">
+          <Fragment slot="label">Twitter</Fragment>
+          <Twitter slot="icon" />
+        </CtaLink>
+      ) : null
+    }
+    {
+      youtube ? (
+        <CtaLink href={youtube} target="_blank" rel="noreferrer">
+          <Fragment slot="label">YouTube</Fragment>
+          <YouTube slot="icon" />
+        </CtaLink>
+      ) : null
+    }
   </div>
 </article>
 
@@ -37,31 +56,46 @@ const {
   article {
     position: relative;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr max-content;
-    grid-template-areas: 'video body'
-                         'video ctas';
+    grid-template-columns: 1fr;
+    grid-template-rows: unset;
+    grid-template-areas:
+      "body"
+      "video"
+      "ctas";
     border-radius: 1.8rem;
     transition: border 0.2s;
     padding: 1.5rem;
     column-gap: 1.5rem;
+    row-gap: 1rem;
     background-color: hsl(var(--color-hs), 99%);
   }
 
-  @media(max-width: 600px) {
+  .ctas {
+    grid-area: ctas;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    max-width: 10rem;
+    margin-inline-start: auto;
+  }
+
+  @media (min-width: 600px) {
     article {
-      grid-template-columns: 1fr;
-      grid-template-rows: unset;
-      grid-template-areas: 'body'
-                          'video'
-                          'ctas';
-      row-gap: 1rem;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr max-content;
+      grid-template-areas:
+        "video body"
+        "video ctas";
+    }
+
+    .ctas {
+      flex-direction: column;
     }
   }
-  
+
   /* bottom shadow */
   article::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 1px;
     background-color: hsl(var(--color-hs), 90%);
@@ -73,17 +107,19 @@ const {
 
   /* video playing outline color */
   article::after {
-    content: '';
+    content: "";
     position: absolute;
     z-index: -1;
     inset: 0;
     border-radius: 2rem;
-    background: red;
-    background: linear-gradient(0, var(--color) 50%,hsl(var(--color-hs), 98%) 50%);
+    background: linear-gradient(
+      0,
+      var(--color) 50%,
+      hsl(var(--color-hs), 98%) 50%
+    );
     background-size: 100% 200%;
     transition: background-position-y 0.2s, inset 0.2s;
   }
-  
 
   article[data-video-playing]::after {
     inset: -0.2rem;
@@ -107,15 +143,5 @@ const {
   }
   .body-container {
     grid-area: body;
-  }
-
-  .ctas {
-    grid-area: ctas;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    justify-content: flex-end;
-    max-width: 10rem;
-    margin-inline-start: auto;
   }
 </style>
