@@ -1,7 +1,6 @@
 ---
-Astro.response.headers.set(
-	'cache-control',
-	'public, max-age=31536000'
-);
-return Astro.redirect('https://tinyletter.com/bholmesdev');
+import { BIG_CACHE } from "~utils";
+Astro.response.headers.set("cache-control", BIG_CACHE);
+
+return Astro.redirect("https://tinyletter.com/bholmesdev");
 ---
