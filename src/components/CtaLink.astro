@@ -6,10 +6,10 @@ type Props = any;
 
 <a class="cta" {...Astro.props}>
   <span class="desktop">
-    <slot name="label" />
+    <slot name="label"><slot /></slot>
   </span>
   <span class="mobile sr-only">
-    <slot name="label" />
+    <slot name="label"><slot /></slot>
   </span>
   <slot name="icon">
     <RightArrowCircle />
