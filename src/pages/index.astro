@@ -1,26 +1,19 @@
 ---
 import sortBy from "just-sort-by";
-import { VideoDocument } from "~types";
-import { BIG_CACHE, getEditionInfo, stripHtmlHeadings } from "~utils";
+import { BIG_CACHE, getEditionInfo } from "~utils";
 import Layout from "~layouts/Layout.astro";
 import Card from "~components/Card.astro";
 import CtaLink from "~components/CtaLink.astro";
 import Video from "~components/Video";
 import Newsletter from "../components/Newsletter.astro";
+import { getCollection } from "astro:content";
 
-const videos: VideoDocument[] = await Astro.glob("../editions/*.md");
-const hasYoutubeEmbed = videos.some((video) =>
-  Boolean(video.frontmatter.youtube)
-);
+const videos = await getCollection("editions");
 
 Astro.response.headers.set("cache-control", BIG_CACHE);
 ---
 
-<Layout
-  title="#whiteboardtheweb"
-  canonicalBase=""
-  preconnectToYoutube={hasYoutubeEmbed}
->
+<Layout title="#whiteboardtheweb" canonicalBase="" preconnectToYoutube={true}>
   <header>
     <h1 id="whiteboardtheweb__heading">#WhiteboardtheWeb</h1>
     <ul class="social-links" role="list">
@@ -44,25 +37,27 @@ Astro.response.headers.set("cache-control", BIG_CACHE);
   <Newsletter />
   <main class="list">
     {
-      sortBy(videos, "file")
+      sortBy(videos, "id")
         .reverse()
-        .map(({ file, compiledContent, frontmatter, getHeadings }) => (
-          <Card
-            title={getHeadings().find((h) => h.depth === 1)?.text}
-            htmlBody={stripHtmlHeadings(compiledContent())}
-            url={`/${getEditionInfo(file)?.base ?? ""}`}
-            {...frontmatter}
-          >
-            <Video
-              slot="video"
-              client:load
-              type="youtube"
-              title={getHeadings().find((h) => h.depth === 1)?.text}
-              src={frontmatter.youtube}
-              editionInfo={getEditionInfo(file)}
-            />
-          </Card>
-        ))
+        .map(async ({ id, slug, data, render }) => {
+          const { Content, headings } = await render();
+          return (
+            <Card
+              title={headings.find((h) => h.depth === 1)?.text}
+              {slug}
+              {...data}
+            >
+              <Content slot="body" />
+              <Video
+                slot="video"
+                client:load
+                title={headings.find((h) => h.depth === 1)?.text}
+                editionInfo={getEditionInfo(id)}
+                {...data.youtube}
+              />
+            </Card>
+          );
+        })
     }
     <CtaLink href="https://twitter.com/hashtag/whiteboardtheweb?f=live"
       >Explore full #whiteboardtheweb archive</CtaLink

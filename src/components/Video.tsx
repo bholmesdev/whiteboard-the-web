@@ -1,27 +1,22 @@
-import {
-  colorIntersectionObserver,
-  youtubeVidToEmbed,
-  youtubeVidToThumbnail,
-} from "~utils";
+import { colorIntersectionObserver } from "~utils";
 import { EditionInfo } from "~types";
 import Play from "./icons/Play";
 import c from "./Video.module.css";
 import { createEffect, createSignal } from "solid-js";
+import { CollectionEntry } from "astro:content";
 
-type Props = {
-  src: string;
-  type: "youtube" | "twitter";
+type Props = CollectionEntry<"editions">["data"]["youtube"] & {
   title?: string;
   hasColorIntersectionObserver?: boolean;
   editionInfo?: EditionInfo;
 };
 
 export default function Video({
-  src,
-  type,
   title,
   hasColorIntersectionObserver = true,
   editionInfo,
+  embedUrl,
+  thumbnailUrl,
 }: Props) {
   let containerRef: HTMLElement | null | undefined;
   const [isPlaying, setIsPlaying] = createSignal(false);
@@ -50,46 +45,42 @@ export default function Video({
   }
   return (
     <>
-      {type === "youtube" ? (
-        <>
-          <div
-            class={c.player}
-            ref={(el) => {
-              containerRef = el.closest("article");
-            }}
+      <div
+        class={c.player}
+        ref={(el) => {
+          containerRef = el.closest("article");
+        }}
+      >
+        {isPlaying() ? (
+          <iframe
+            width="225"
+            height="400"
+            src={embedUrl}
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        ) : (
+          <button
+            class={c.thumbnail}
+            onClick={() => handlePlaybackToggle(true)}
+            aria-label={`Watch - ${title}`}
           >
-            {isPlaying() ? (
-              <iframe
-                width="225"
-                height="400"
-                src={youtubeVidToEmbed(src)}
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              ></iframe>
-            ) : (
-              <button
-                class={c.thumbnail}
-                onClick={() => handlePlaybackToggle(true)}
-                aria-label={`Watch - ${title}`}
-              >
-                <img
-                  src={youtubeVidToThumbnail(src)}
-                  alt={title}
-                  width={200}
-                  height={356}
-                  // special case: remove black borders from thumbnail crop
-                  style={editionInfo?.num === 39 ? "transform: scale(1.4)" : ""}
-                />
-                <div class={c.iconContainer}>
-                  <Play />
-                </div>
-              </button>
-            )}
-          </div>
-        </>
-      ) : null}
+            <img
+              src={thumbnailUrl}
+              alt={title}
+              width={200}
+              height={356}
+              // special case: remove black borders from thumbnail crop
+              style={editionInfo?.num === 39 ? "transform: scale(1.4)" : ""}
+            />
+            <div class={c.iconContainer}>
+              <Play />
+            </div>
+          </button>
+        )}
+      </div>
     </>
   );
 }

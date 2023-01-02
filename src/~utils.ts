@@ -30,10 +30,10 @@ export function colorIntersectionObserver(containerRef: HTMLElement) {
   );
 }
 
-export function getEditionInfo(file: string): EditionInfo | undefined {
-  // matches file basename and first digit after the last "/" in a file path
+export function getEditionInfo(id: string): EditionInfo | undefined {
+  // matches file basename and first digit after the last "/" in a collection id
   // ex. "/example/44/32-eslint-prettier.md" will match "32-eslint-prettier" and "32"
-  const match = file.match(/((\d+)(\w|-)+)(\w|-|\.)+$/);
+  const match = id.match(/((\d+)(\w|-)+)(\w|-|\.)+$/);
   if (!match) return undefined;
 
   const [, base, rawNum] = match;
@@ -49,25 +49,4 @@ export function stripHtmlHeadings(rawHtml: string): string {
     document.removeChild(h);
   }
   return document.toString();
-}
-
-export function youtubeVidToEmbed(videoUrl: string): string {
-  return (
-    videoUrl
-      .replace("/watch?v=", "/embed/")
-      .replace("/shorts/", "/embed/")
-      .replace("https://www.youtube.com", "https://www.youtube-nocookie.com")
-      // map non-www URLs to www. Will raise SSL cert error without it!
-      // ex. https://nocookie-youtube.com/embed/HaFORudBWhQ
-      .replace("https://youtube.com", "https://www.youtube-nocookie.com") +
-    "?autoplay=1"
-  );
-}
-
-export function youtubeVidToThumbnail(shortUrl: string): string | undefined {
-  const idMatch = shortUrl.match(/[\/=]((\w|-)+)$/);
-  if (!idMatch) return undefined;
-
-  const [, id] = idMatch;
-  return `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
 }
