@@ -44,7 +44,7 @@ const htmlBody = stripHtmlHeadings(await Astro.slots.render("body"));
     }
     {
       youtube ? (
-        <CtaLink href={youtube} target="_blank" rel="noreferrer">
+        <CtaLink href={youtube.url} target="_blank" rel="noreferrer">
           <Fragment slot="label">YouTube</Fragment>
           <YouTube slot="icon" />
         </CtaLink>

@@ -46,11 +46,10 @@ const canonicalBase = getEditionInfo(id)?.base;
       <Video
         slot="video"
         client:load
-        type="youtube"
         title={title}
-        src={data.youtube}
         hasColorIntersectionObserver={false}
         editionInfo={getEditionInfo(id)}
+        {...data.youtube}
       />
     </Card>
     <CtaLink href="/">Hey, I learned something. Gimme more!</CtaLink>

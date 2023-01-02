@@ -51,10 +51,9 @@ Astro.response.headers.set("cache-control", BIG_CACHE);
               <Video
                 slot="video"
                 client:load
-                type="youtube"
                 title={headings.find((h) => h.depth === 1)?.text}
-                src={data.youtube}
                 editionInfo={getEditionInfo(id)}
+                {...data.youtube}
               />
             </Card>
           );
