@@ -30,10 +30,10 @@ export function colorIntersectionObserver(containerRef: HTMLElement) {
   );
 }
 
-export function getEditionInfo(file: string): EditionInfo | undefined {
-  // matches file basename and first digit after the last "/" in a file path
+export function getEditionInfo(id: string): EditionInfo | undefined {
+  // matches file basename and first digit after the last "/" in a collection id
   // ex. "/example/44/32-eslint-prettier.md" will match "32-eslint-prettier" and "32"
-  const match = file.match(/((\d+)(\w|-)+)(\w|-|\.)+$/);
+  const match = id.match(/((\d+)(\w|-)+)(\w|-|\.)+$/);
   if (!match) return undefined;
 
   const [, base, rawNum] = match;

@@ -1,24 +1,24 @@
 ---
-import type { VideoDocument, VideoFrontmatter } from "~types";
-import { getEditionInfo, stripHtmlHeadings } from "~utils";
+import { getCollection } from "astro:content";
+import { getEditionInfo } from "~utils";
 
-const editions = await Astro.glob<VideoFrontmatter>("../../editions/*.md");
+const editions = await getCollection("editions");
 
 if (!["yt", "tw"].includes(`${Astro.params.shortlink}`)) {
   return Astro.redirect("/");
 }
 
-for (const edition of editions) {
-  const info = getEditionInfo(edition.file);
+for (const { id, data } of editions) {
+  const info = getEditionInfo(id);
   if (info) {
     if (
       Astro.params.edition === `${info.num}` ||
       Astro.params.edition === info.base
     ) {
       if (Astro.params.shortlink === "tw") {
-        return Astro.redirect(edition.frontmatter.twitter);
+        return Astro.redirect(data.twitter);
       } else if (Astro.params.shortlink === "yt") {
-        return Astro.redirect(edition.frontmatter.youtube);
+        return Astro.redirect(data.youtube);
       }
     }
   }

@@ -1,18 +1,18 @@
 ---
-import type { VideoDocument, VideoFrontmatter } from "~types";
 import { BIG_CACHE, getEditionInfo, stripHtmlHeadings } from "~utils";
 import Card from "~components/Card.astro";
 import BaseLayout from "~layouts/Layout.astro";
 import CtaLink from "~components/CtaLink.astro";
 import Video from "~components/Video";
+import { CollectionEntry, getCollection } from "astro:content";
 
 if (typeof Astro.params.edition !== "string") return Astro.redirect("/");
 
-const editions = await Astro.glob<VideoFrontmatter>("../editions/*.md");
+const editions = await getCollection("editions");
 
-let matchingEdition: VideoDocument | undefined = undefined;
+let matchingEdition: CollectionEntry<"editions"> | undefined = undefined;
 for (const edition of editions) {
-  const info = getEditionInfo(edition.file);
+  const info = getEditionInfo(edition.id);
   if (info) {
     if (Astro.params.edition === `${info.num}`) {
       // ex. redirect wtw.dev/48 -> wtw.dev/48-is-solid-what-react-shouldve-been
@@ -27,33 +27,30 @@ for (const edition of editions) {
 if (!matchingEdition) return Astro.redirect("/");
 
 Astro.response.headers.set("cache-control", BIG_CACHE);
-const { file, getHeadings, compiledContent, frontmatter } = matchingEdition;
-const title =
-  getHeadings().find((h) => h.depth === 1)?.text ?? "Whiteboard the Web";
-const canonicalBase = getEditionInfo(file)?.base;
+const { id, data } = matchingEdition;
+const { Content, headings } = await matchingEdition.render();
+const title = headings.find((h) => h.depth === 1)?.text ?? "Whiteboard the Web";
+const canonicalBase = getEditionInfo(id)?.base;
 ---
 
 <BaseLayout
   title={title}
   canonicalBase={canonicalBase}
   ogType="video.other"
-  preconnectToYoutube={Boolean(frontmatter.youtube)}
+  preconnectToYoutube={true}
 >
   <div>
     <h1>{title}</h1>
-    <Card
-      htmlBody={stripHtmlHeadings(compiledContent())}
-      twitter={frontmatter.twitter}
-      youtube={frontmatter.youtube}
-    >
+    <Card twitter={data.twitter} youtube={data.youtube}>
+      <Content slot="body" />
       <Video
         slot="video"
         client:load
         type="youtube"
         title={title}
-        src={frontmatter.youtube}
+        src={data.youtube}
         hasColorIntersectionObserver={false}
-        editionInfo={getEditionInfo(file)}
+        editionInfo={getEditionInfo(id)}
       />
     </Card>
     <CtaLink href="/">Hey, I learned something. Gimme more!</CtaLink>

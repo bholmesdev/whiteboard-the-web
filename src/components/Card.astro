@@ -1,19 +1,20 @@
 ---
-import type { VideoFrontmatter } from "~types";
+import { CollectionEntry } from "astro:content";
+import { stripHtmlHeadings } from "~utils";
 import CtaLink from "./CtaLink.astro";
 import Link from "./icons/Link.astro";
 import Twitter from "./icons/Twitter.astro";
 import YouTube from "./icons/YouTube.astro";
 
-type Props = VideoFrontmatter & {
-  url?: string;
+type Props = CollectionEntry<"editions">["data"] & {
+  slug?: CollectionEntry<"editions">["slug"];
   title?: string;
   showTitleAsHeading?: boolean;
-  htmlBody: string;
   colorIntersectionObserver?: boolean;
 };
 
-const { title, twitter, youtube, url, htmlBody } = Astro.props;
+const { title, twitter, youtube, slug } = Astro.props;
+const htmlBody = stripHtmlHeadings(await Astro.slots.render("body"));
 ---
 
 <article>
@@ -26,8 +27,8 @@ const { title, twitter, youtube, url, htmlBody } = Astro.props;
   </div>
   <div class="ctas">
     {
-      url ? (
-        <CtaLink href={url}>
+      slug ? (
+        <CtaLink href={slug}>
           <Fragment slot="label">Permalink</Fragment>
           <Link slot="icon" />
         </CtaLink>

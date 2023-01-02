@@ -8,4 +8,7 @@ export default defineConfig({
   integrations: [solid()],
   output: "server",
   adapter: vercel(),
+  experimental: {
+    contentCollections: true,
+  },
 });
