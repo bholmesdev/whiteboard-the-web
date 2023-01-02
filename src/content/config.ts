@@ -33,7 +33,7 @@ function youtubeVidToEmbed(videoUrl: string): string {
 
 function youtubeVidToThumbnail(shortUrl: string): string | undefined {
   const idMatch = shortUrl.match(/[\/=]((\w|-)+)$/);
-  if (!idMatch) return undefined;
+  if (!idMatch) throw Error("TODO: handle default thumbnail URL");
 
   const [, id] = idMatch;
   return `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
