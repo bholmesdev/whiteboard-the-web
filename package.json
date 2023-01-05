@@ -19,6 +19,7 @@
   "dependencies": {
     "@leeoniya/ufuzzy": "^0.9.0",
     "just-sort-by": "^3.1.1",
-    "linkedom": "^0.14.12"
+    "linkedom": "^0.14.12",
+    "ufuzzy": "link:@types/@leeoniya/ufuzzy"
   }
 }

@@ -8,11 +8,13 @@ specifiers:
   just-sort-by: ^3.1.1
   linkedom: ^0.14.12
   solid-js: ^1.6.6
+  ufuzzy: link:@types/@leeoniya/ufuzzy
 
 dependencies:
   '@leeoniya/ufuzzy': 0.9.0
   just-sort-by: 3.1.1
   linkedom: 0.14.12
+  ufuzzy: link:@types/@leeoniya/ufuzzy
 
 devDependencies:
   '@astrojs/solid-js': 1.2.3_solid-js@1.6.6
