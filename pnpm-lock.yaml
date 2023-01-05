@@ -3,12 +3,14 @@ lockfileVersion: 5.4
 specifiers:
   '@astrojs/solid-js': ^1.2.3
   '@astrojs/vercel': ^2.3.1
+  '@leeoniya/ufuzzy': ^0.9.0
   astro: 1.8.0
   just-sort-by: ^3.1.1
   linkedom: ^0.14.12
   solid-js: ^1.6.6
 
 dependencies:
+  '@leeoniya/ufuzzy': 0.9.0
   just-sort-by: 3.1.1
   linkedom: 0.14.12
 
@@ -470,6 +472,10 @@ packages:
       '@jridgewell/resolve-uri': 3.0.7
       '@jridgewell/sourcemap-codec': 1.4.13
     dev: true
+
+  /@leeoniya/ufuzzy/0.9.0:
+    resolution: {integrity: sha512-p2zWsX0GwO1x723Yhb3KLAoSwp1geQvzRPHgIoOR/0qn8Ptpsb3b01+W47iAYR/NWo0pX36XQoTU0alVRykMAg==}
+    dev: false
 
   /@ljharb/has-package-exports-patterns/0.0.2:
     resolution: {integrity: sha512-4/RWEeXDO6bocPONheFe6gX/oQdP/bEpv0oL4HqjPP5DCenBSt0mHgahppY49N0CpsaqffdwPq+TlX9CYOq2Dw==}
