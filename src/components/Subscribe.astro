@@ -1,3 +1,7 @@
+---
+import YouTube from "./icons/YouTube.astro";
+---
+
 <section class="newsletter-container">
   <div class="heading-container">
     <h2>
@@ -7,17 +11,11 @@
     </h2>
     <span class="eyes">👀</span>
   </div>
-  <form target="_blank" action="/newsletter">
-    <label class="sr-only" for="newsletter__email">Email</label>
-    <input
-      required
-      id="newsletter__email"
-      type="email"
-      name="email"
-      placeholder="whiteboardizen@wtw.dev"
-    />
-    <button>Subscribe</button>
-  </form>
+  <a
+    href="https://youtube.com/@bholmesdev?sub_confirmation=1"
+    class="subscribe-button"
+    >Subscribe on YouTube <YouTube />
+  </a>
 </section>
 
 <style>
@@ -128,52 +126,35 @@
     }
   }
 
-  .newsletter-container form {
+  .subscribe-button {
+    text-decoration: none;
+    cursor: pointer;
     display: flex;
-    --radius: 0.4rem;
-  }
-
-  .newsletter-container input {
-    border: none;
-    font-size: var(--font-size-base);
-    padding: 0.5rem 1rem;
-    background-color: hsl(var(--color-hs), 95%);
-    flex: 1;
-    border-top-left-radius: var(--radius);
-    border-bottom-left-radius: var(--radius);
-    font-family: inherit;
-  }
-
-  .newsletter-container button {
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
     background-color: var(--color);
     padding: 0.5rem 1rem;
-    border-top-right-radius: var(--radius);
-    border-bottom-right-radius: var(--radius);
+    border-radius: 0.6rem;
     color: white;
     font-weight: 700;
+    transition: background-color 0.2s, transform 0.2s;
   }
 
-  .newsletter-container :is(button, input):focus {
+  .subscribe-button :global(svg) {
+    padding-block-end: 0.05rem;
+  }
+
+  .subscribe-button:focus {
     outline: 2px solid var(--color);
   }
 
-  .newsletter-container button:is(:focus, :hover) {
+  .subscribe-button:is(:focus, :hover) {
     background-color: hsl(var(--color-hs), 70%);
+    transform: scale(1.03);
   }
 
-  .newsletter-container input::placeholder {
-    color: hsl(var(--color-hs), 80%);
-  }
-
-  .newsletter-container:has(input:is(:focus, :hover)) .eyes {
-    transform: scale(1.2);
-  }
-
-  .newsletter-container:has(button:is(:focus, :hover)) .eyes {
+  .newsletter-container:has(.subscribe-button:is(:focus, :hover)) .eyes {
     transform: scale(1.8);
-  }
-
-  svg {
-    color: hsl(var(--color-hs), 90%);
   }
 </style>

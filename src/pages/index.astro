@@ -5,7 +5,7 @@ import Layout from "~layouts/Layout.astro";
 import Card from "~components/Card.astro";
 import CtaLink from "~components/CtaLink.astro";
 import Video from "~components/Video";
-import Newsletter from "../components/Newsletter.astro";
+import Subscribe from "../components/Subscribe.astro";
 import { getCollection } from "astro:content";
 
 const videos = await getCollection("editions");
@@ -21,20 +21,26 @@ Astro.response.headers.set("cache-control", BIG_CACHE);
         <a
           target="_blank"
           rel="noreferrer"
-          href="https://www.youtube.com/channel/UCfFNverFD_Md_WDQGBBC7Zw"
-          >Sub on YouTube</a
+          href="https://www.youtube.com/@bholmesdev">YouTube</a
         >
       </li>
       <li>
         <a
           target="_blank"
           rel="noreferrer"
-          href="https://twitter.com/bholmesdev">Follow on Twitter</a
+          href="https://twitter.com/bholmesdev">Twitter</a
+        >
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://tiktok.com/@bholmesdev">TikTok</a
         >
       </li>
     </ul>
   </header>
-  <Newsletter />
+  <Subscribe />
   <main class="list">
     {
       sortBy(videos, "id")
