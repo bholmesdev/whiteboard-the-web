@@ -1,5 +1,7 @@
 import { getCollection } from "astro:content";
 
+export const prerender = true;
+
 export async function get() {
   const editions = await getCollection("editions");
   const editionsWithHeadings = await Promise.all(

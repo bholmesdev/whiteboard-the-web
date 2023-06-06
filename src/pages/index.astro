@@ -1,6 +1,8 @@
 ---
+export const prerender = true;
+
 import sortBy from "just-sort-by";
-import { BIG_CACHE, getEditionInfo } from "~utils";
+import { getEditionInfo } from "~utils";
 import Layout from "~layouts/Layout.astro";
 import Card from "~components/Card.astro";
 import CtaLink from "~components/CtaLink.astro";
@@ -9,8 +11,6 @@ import Subscribe from "../components/Subscribe.astro";
 import { getCollection } from "astro:content";
 
 const videos = await getCollection("editions");
-
-Astro.response.headers.set("cache-control", BIG_CACHE);
 ---
 
 <Layout title="#whiteboardtheweb" canonicalBase="" preconnectToYoutube={true}>
