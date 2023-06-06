@@ -5,9 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  just-sort-by:
-    specifier: ^3.1.1
-    version: 3.1.1
   linkedom:
     specifier: ^0.14.12
     version: 0.14.12
@@ -2044,10 +2041,6 @@ packages:
   /jsonc-parser@3.2.0:
     resolution: {integrity: sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==}
     dev: true
-
-  /just-sort-by@3.1.1:
-    resolution: {integrity: sha512-MZg7K4K9GDvQxXHjN3pmeIsGEKkGQHqVHKyzLye7IbE59byCLyeBtaSIZhmjYQBaGSqNGS/lWUN8y06uxIKclw==}
-    dev: false
 
   /kind-of@6.0.3:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}

@@ -1,7 +1,6 @@
 ---
 export const prerender = true;
 
-import sortBy from "just-sort-by";
 import { getEditionInfo } from "~utils";
 import Layout from "~layouts/Layout.astro";
 import Card from "~components/Card.astro";
@@ -10,7 +9,11 @@ import Video from "~components/Video";
 import Subscribe from "../components/Subscribe.astro";
 import { getCollection } from "astro:content";
 
-const videos = await getCollection("editions");
+const baseVideos = await getCollection("editions");
+const videos = baseVideos.map(v => ({
+  ...v,
+  sortableId: getEditionInfo(v.id)?.num ?? 0,
+}))
 ---
 
 <Layout title="#whiteboardtheweb" canonicalBase="" preconnectToYoutube={true}>
@@ -43,7 +46,7 @@ const videos = await getCollection("editions");
   <Subscribe />
   <main class="list">
     {
-      sortBy(videos, "id")
+      videos.sort((a, b) => a.sortableId - b.sortableId)
         .reverse()
         .map(async ({ id, slug, data, render }) => {
           const { Content, headings } = await render();

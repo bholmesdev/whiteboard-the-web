@@ -17,7 +17,6 @@
     "solid-js": "^1.7.6"
   },
   "dependencies": {
-    "just-sort-by": "^3.1.1",
     "linkedom": "^0.14.12"
   }
 }
