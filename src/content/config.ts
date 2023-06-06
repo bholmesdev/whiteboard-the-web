@@ -1,7 +1,7 @@
 import { defineCollection, z } from "astro:content";
 
 const editions = defineCollection({
-  schema: {
+  schema: z.object({
     youtube: z
       .string()
       .url()
@@ -11,7 +11,7 @@ const editions = defineCollection({
         thumbnailUrl: youtubeVidToThumbnail(url),
       })),
     twitter: z.string().url(),
-  },
+  }),
 });
 
 export const collections = {
