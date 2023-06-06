@@ -1,6 +1,7 @@
 # build output
 dist/
 .output/
+.astro/
 
 # dependencies
 node_modules/
@@ -15,7 +16,6 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
-*.generated.*
 
 # macOS-specific files
 .DS_Store
