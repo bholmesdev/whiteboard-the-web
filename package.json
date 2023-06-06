@@ -17,6 +17,6 @@
     "solid-js": "^1.7.6"
   },
   "dependencies": {
-    "linkedom": "^0.14.12"
+    "linkedom": "^0.14.26"
   }
 }
