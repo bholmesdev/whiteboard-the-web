@@ -1,0 +1,8 @@
+---
+import { BIG_CACHE } from "~utils";
+Astro.response.headers.set("cache-control", BIG_CACHE);
+
+return Astro.redirect(
+  "https://github.com/bholmesdev/astro-client-when-rainy-in-ny"
+);
+---
