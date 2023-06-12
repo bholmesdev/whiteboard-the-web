@@ -1,28 +1,40 @@
 ---
+import type { GetStaticPathsItem } from "astro";
 import { getCollection } from "astro:content";
 import { getEditionInfo } from "~utils";
 
-const editions = await getCollection("editions");
+export const prerender = true;
 
-if (!["yt", "tw"].includes(`${Astro.params.shortlink}`)) {
-  return Astro.redirect("/");
-}
-
-for (const { id, data } of editions) {
-  const info = getEditionInfo(id);
-  if (info) {
-    if (
-      Astro.params.edition === `${info.num}` ||
-      Astro.params.edition === info.base
-    ) {
-      if (Astro.params.shortlink === "tw") {
-        return Astro.redirect(data.twitter);
-      } else if (Astro.params.shortlink === "yt") {
-        return Astro.redirect(data.youtube);
-      }
+export async function getStaticPaths() {
+  const editions = await getCollection("editions");
+  let shortlinks: GetStaticPathsItem[] = [];
+  for (let { id, data } of editions) {
+    const info = getEditionInfo(id);
+    if (info) {
+      shortlinks.push({
+        params: {
+          shortlink: "tw",
+          edition: `${info.num}`,
+        },
+        props: { link: data.twitter },
+      });
+      shortlinks.push({
+        params: {
+          shortlink: "yt",
+          edition: `${info.num}`,
+        },
+        props: { link: data.youtube },
+      });
     }
   }
+  return shortlinks;
 }
 
-return Astro.redirect("/");
+type Props = { link: string };
+
+const { link } = Astro.props;
 ---
+
+<!DOCTYPE html>
+<title>Redirecting to: {link}</title>
+<meta http-equiv="refresh" content=`0;url=${link}` />
