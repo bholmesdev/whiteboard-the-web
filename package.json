@@ -12,7 +12,6 @@
   },
   "devDependencies": {
     "@astrojs/solid-js": "^2.2.0",
-    "@astrojs/vercel": "^3.4.1",
     "astro": "2.9.0",
     "solid-js": "^1.7.6"
   },
