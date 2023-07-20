@@ -10,15 +10,17 @@ import Subscribe from "../components/Subscribe.astro";
 import { getCollection } from "astro:content";
 
 const baseVideos = await getCollection("editions");
-const videos = baseVideos.map(v => ({
+const videos = baseVideos.map((v) => ({
   ...v,
   sortableId: getEditionInfo(v.id)?.num ?? 0,
-}))
+}));
 ---
 
 <Layout title="#whiteboardtheweb" canonicalBase="" preconnectToYoutube={true}>
   <header>
-    <h1 id="whiteboardtheweb__heading">#WhiteboardtheWeb</h1>
+    <h1 transition:name="heading" id="whiteboardtheweb__heading">
+      #WhiteboardtheWeb
+    </h1>
     <ul class="social-links" role="list">
       <li>
         <a
@@ -46,7 +48,8 @@ const videos = baseVideos.map(v => ({
   <Subscribe />
   <main class="list">
     {
-      videos.sort((a, b) => a.sortableId - b.sortableId)
+      videos
+        .sort((a, b) => a.sortableId - b.sortableId)
         .reverse()
         .map(async ({ id, slug, data, render }) => {
           const { Content, headings } = await render();
@@ -68,9 +71,9 @@ const videos = baseVideos.map(v => ({
           );
         })
     }
-    <CtaLink href="https://twitter.com/hashtag/whiteboardtheweb?f=live"
-      >Explore full #whiteboardtheweb archive</CtaLink
-    >
+    <CtaLink href="https://twitter.com/hashtag/whiteboardtheweb?f=live">
+      Explore full #whiteboardtheweb archive
+    </CtaLink>
   </main>
 </Layout>
 

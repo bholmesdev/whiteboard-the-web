@@ -1,15 +1,15 @@
 ---
-import { toRandomColorVariable } from '~utils';
+import { ViewTransitions } from "astro:transitions";
 
 type Props = {
-	title?: string;
+  title?: string;
   description?: string;
   canonicalBase?: string;
   preconnectToYoutube?: boolean;
   ogType?: string;
-}
+};
 
-const baseColor = 'purple';
+const baseColor = "purple";
 
 const {
   title,
@@ -19,185 +19,208 @@ const {
   ogType,
 } = Astro.props as Props;
 
-const canonical = typeof canonicalBase === 'string' ? new URL(`./${canonicalBase}`, Astro.site) : null;
-const socialImage = new URL('./social-banner.png', Astro.site);
-const socialImageAlt = 'Whiteboard the web - Learn the web in 1 minute';
+const canonical =
+  typeof canonicalBase === "string"
+    ? new URL(`./${canonicalBase}`, Astro.site)
+    : null;
+const socialImage = new URL("./social-banner.png", Astro.site);
+const socialImageAlt = "Whiteboard the web - Learn the web in 1 minute";
 ---
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width" />
-  {preconnectToYoutube ? (
-    <link rel="preconnect" href="https://www.youtube-nocookie.com" />
-    <link rel="preconnect" href="https://img.youtube.com" />
-  ) : null}
-  {canonical ? <link rel="canonical" href={canonical} /> : null}
-  <link rel="icon" type="image/x-icon" href="/favicon.png" />
-  <link
-    rel="preload"
-    href="/fonts/Atkinson-Hyperlegible-Regular.woff2"
-    as="font"
-    type="font/woff2"
-    crossorigin="anonymous">
-  <link
-    rel="preload"
-    href="/fonts/Atkinson-Hyperlegible-Bold.woff2"
-    as="font"
-    type="font/woff2"
-    crossorigin="anonymous">
-  <link
-    rel="preload"
-    href="/fonts/Atkinson-Hyperlegible-Italic.woff2"
-    as="font"
-    type="font/woff2"
-    crossorigin="anonymous">
-  <link
-    rel="preload"
-    href="/fonts/Atkinson-Hyperlegible-BoldItalic.woff2"
-    as="font"
-    type="font/woff2"
-    crossorigin="anonymous">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    {
+      preconnectToYoutube ? (
+        <>
+          <link rel="preconnect" href="https://www.youtube-nocookie.com" />
+          <link rel="preconnect" href="https://img.youtube.com" />
+        </>
+      ) : null
+    }
+    {canonical ? <link rel="canonical" href={canonical} /> : null}
+    <link rel="icon" type="image/x-icon" href="/favicon.png" />
     <link
-    rel="preload"
-    href="/fonts/Sriracha-Regular.ttf"
-    as="font"
-    type="font/ttf"
-    crossorigin="anonymous">
-  <link rel="stylesheet" href="/fonts.css">
-	<title>{title}</title>
-  <meta name="description" content={description} />
-  <meta name="theme-color" content="#6600FF" />
-  <meta name="generator" content={Astro.generator} />
-  <meta property="og:title" content={title} />
-  <meta property="og:description" content={description} />
-  <meta property="og:image" content={socialImage} />
-  <meta property="og:image:alt" content={socialImageAlt} />
-  <meta property="og:type" content={ogType ?? 'website'} />
-  <meta property="og:locale" content="en_US" />
-  <meta name="robots" content="follow, index" />
-  
-  <meta name="twitter:title" content={title} />
-  <meta name="twitter:description" content={description} />
-  <meta name="twitter:site" content="bholmesdev" />
-  <meta name="twitter:image" content={socialImage} />
-  <meta name="twitter:image:alt" content={socialImageAlt} />
-  <meta name="twitter:card" content="summary_large_image" />
+      rel="preload"
+      href="/fonts/Atkinson-Hyperlegible-Regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      href="/fonts/Atkinson-Hyperlegible-Bold.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      href="/fonts/Atkinson-Hyperlegible-Italic.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      href="/fonts/Atkinson-Hyperlegible-BoldItalic.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      href="/fonts/Sriracha-Regular.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/fonts.css" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#6600FF" />
+    <meta name="generator" content={Astro.generator} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:alt" content={socialImageAlt} />
+    <meta property="og:type" content={ogType ?? "website"} />
+    <meta property="og:locale" content="en_US" />
+    <meta name="robots" content="follow, index" />
 
-  <script
-    defer
-    src="/stats/js/script.js"
-    data-domain="wtw.dev"
-    data-api="/stats/api/event">
-  </script>
-</head>
-<body>
-  <div class="container">
-    <div id="color-backdrop"></div>
-    <slot />
-  </div>
-  <footer>
-    <p>Made with ❤️ by <a href="https://twitter.com/bholmesdev" target="_blank" rel="noreferrer">@bholmesdev</a></p>  
-  </footer>
-</body>
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:site" content="bholmesdev" />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content={socialImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <ViewTransitions />
+
+    <script
+      defer
+      src="/stats/js/script.js"
+      data-domain="wtw.dev"
+      data-api="/stats/api/event"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div id="color-backdrop"></div>
+      <slot />
+    </div>
+    <footer>
+      <p>
+        Made with ❤️ by <a
+          href="https://twitter.com/bholmesdev"
+          target="_blank"
+          rel="noreferrer">@bholmesdev</a
+        >
+      </p>
+    </footer>
+    <style
+      define:vars={{
+        color: `var(--${baseColor})`,
+        colorHs: `var(--${baseColor}-hs)`,
+      }}
+    >
+      :root {
+        --font-size-base: clamp(1rem, 0.34vw + 0.91rem, 1.19rem);
+        --font-size-lg: clamp(1.2rem, 0.7vw + 1.2rem, 1.5rem);
+        --font-size-xl: clamp(1.6rem, 1.4vw + 1.45rem, 2.1rem);
+        --font-size-xxl: clamp(2.3rem, 2vw + 1.85rem, 3.75rem);
+
+        --orange-hs: 7, 91%;
+        --purple-hs: 263, 100%;
+        --pink-hs: 331, 96%;
+        --green-hs: 116, 86%;
+        --orange: hsl(var(--orange-hs), 50%);
+        --purple: hsl(var(--purple-hs), 50%);
+        --pink: hsl(var(--pink-hs), 45%);
+        --green: hsl(var(--green-hs), 34%);
+
+        --color-hs: var(--colorHs);
+
+        --color-text: hsl(12, 5%, 4%);
+        --content-max-width: 55ch;
+      }
+
+      html {
+        font-family: Atkinson, system-ui, sans-serif;
+        font-size: var(--font-size-base);
+        color: var(--color-text);
+        background-color: var(--color-bg);
+      }
+
+      body {
+        margin: 0;
+      }
+
+      #color-backdrop {
+        content: "";
+        z-index: -1;
+        position: fixed;
+        inset: 0;
+        bottom: 60vh;
+        pointer-events: none;
+        background-color: hsl(var(--color-hs), 95%);
+        transition: background-color 0.2s;
+        clip-path: ellipse(100% 55% at 48% 44%);
+      }
+
+      .container {
+        margin: auto;
+        padding: 1em;
+        max-width: var(--content-max-width);
+      }
+
+      footer {
+        padding-block-start: 2rem;
+        padding-block-end: 4rem;
+        font-style: italic;
+        display: grid;
+        place-items: center;
+      }
+
+      footer a,
+      footer a:visited {
+        font-weight: bold;
+        color: currentColor;
+      }
+    </style>
+
+    <style is:global>
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+      }
+
+      h1 {
+        font-family: Sriracha, system-ui, sans-serif;
+        font-size: var(--font-size-xl);
+        letter-spacing: 0ch;
+      }
+
+      h2 {
+        font-size: var(--font-size-lg);
+      }
+
+      code {
+        font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
+          DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+      }
+
+      button {
+        all: unset;
+      }
+    </style>
+  </body>
 </html>
-
-<style define:vars={{ color: `var(--${baseColor})`, colorHs: `var(--${baseColor}-hs)` }}>
-  :root {
-    --font-size-base: clamp(1rem, 0.34vw + 0.91rem, 1.19rem);
-		--font-size-lg: clamp(1.2rem, 0.7vw + 1.2rem, 1.5rem); 
-		--font-size-xl: clamp(1.6rem, 1.4vw + 1.45rem, 2.1rem); 
-    --font-size-xxl: clamp(2.3rem, 2vw + 1.85rem, 3.75rem);
-
-    --orange-hs: 7, 91%;
-    --purple-hs: 263, 100%;
-    --pink-hs: 331, 96%;
-    --green-hs: 116, 86%;
-    --orange: hsl(var(--orange-hs), 50%);
-    --purple: hsl(var(--purple-hs), 50%);
-    --pink: hsl(var(--pink-hs), 45%);
-    --green: hsl(var(--green-hs), 34%);
-
-    --color-hs: var(--colorHs);
-
-    --color-text: hsl(12, 5%, 4%);
-    --content-max-width: 55ch;
-  }
-
-  html {
-    font-family: Atkinson, system-ui, sans-serif;
-    font-size: var(--font-size-base);
-    color: var(--color-text);
-    background-color: var(--color-bg);
-  }
-
-  body {
-    margin: 0;
-  }
-
-  #color-backdrop {
-    content: '';
-    z-index: -1;
-    position: fixed;
-    inset: 0;
-    bottom: 60vh;
-    pointer-events: none;
-    background-color: hsl(var(--color-hs), 95%);
-    transition: background-color 0.2s;
-    clip-path: ellipse(100% 55% at 48% 44%);
-  }
-
-  .container {
-		margin: auto;
-    	padding: 1em;
-		max-width: var(--content-max-width);
-	}
-
-  footer {
-    padding-block-start: 2rem;
-    padding-block-end: 4rem;
-    font-style: italic;
-    display: grid;
-    place-items: center;
-  }
-
-  footer a, footer a:visited {
-    font-weight: bold;
-    color: currentColor;
-  }
-</style>
-
-<style is:global>
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-  }
-
-
-  h1 {
-    font-family: Sriracha, system-ui, sans-serif;
-    font-size: var(--font-size-xl);
-    letter-spacing: 0ch;
-  }
-
-  h2 {
-    font-size: var(--font-size-lg);
-  }
-
-  code {
-    font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-			Bitstream Vera Sans Mono, Courier New, monospace;
-  }
-
-  button {
-    all: unset;
-  }
-</style>

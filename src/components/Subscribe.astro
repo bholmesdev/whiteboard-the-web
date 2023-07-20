@@ -2,21 +2,23 @@
 import YouTube from "./icons/YouTube.astro";
 ---
 
-<section class="newsletter-container">
-  <div class="heading-container">
-    <h2>
-      <span>New videos,</span>
-      <span>in your inbox,</span>
-      <span>every week.</span>
-    </h2>
-    <span class="eyes">👀</span>
-  </div>
-  <a
-    href="https://youtube.com/@bholmesdev?sub_confirmation=1"
-    class="subscribe-button"
-    >Subscribe on YouTube <YouTube />
-  </a>
-</section>
+<div transition:name="subscribe-container">
+  <section class="newsletter-container">
+    <div class="heading-container">
+      <h2>
+        <span>New videos,</span>
+        <span>in your inbox,</span>
+        <span>every week.</span>
+      </h2>
+      <span class="eyes">👀</span>
+    </div>
+    <a
+      href="https://youtube.com/@bholmesdev?sub_confirmation=1"
+      class="subscribe-button"
+      >Subscribe on YouTube <YouTube />
+    </a>
+  </section>
+</div>
 
 <style>
   .newsletter-container {
@@ -38,7 +40,7 @@ import YouTube from "./icons/YouTube.astro";
     .newsletter-container {
       margin-inline: -2rem;
       padding: 1.5rem;
-      border-raidius: 1.8rem;
+      border-radius: 1.8rem;
     }
   }
 
