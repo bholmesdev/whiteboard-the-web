@@ -15,6 +15,6 @@ export default defineConfig({
     "/vite-week": "https://twitter.com/BHolmesDev/status/1541423974202150913",
   },
   experimental: {
-    redirects: true,
+    viewTransitions: true,
   },
 });
