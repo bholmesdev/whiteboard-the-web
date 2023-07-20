@@ -7,7 +7,7 @@ import Twitter from "./icons/Twitter.astro";
 import YouTube from "./icons/YouTube.astro";
 
 type Props = CollectionEntry<"editions">["data"] & {
-  slug?: CollectionEntry<"editions">["slug"];
+  slug: CollectionEntry<"editions">["slug"];
   title?: string;
   showTitleAsHeading?: boolean;
   colorIntersectionObserver?: boolean;
@@ -17,7 +17,7 @@ const { title, twitter, youtube, slug } = Astro.props;
 const htmlBody = stripHtmlHeadings(await Astro.slots.render("body"));
 ---
 
-<article>
+<article style={`view-transition-name: card-${slug}`}>
   <div class="video-container">
     <slot name="video" />
   </div>

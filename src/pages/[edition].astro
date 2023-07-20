@@ -28,7 +28,7 @@ for (const edition of editions) {
 if (!matchingEdition) return Astro.redirect("/");
 
 Astro.response.headers.set("cache-control", BIG_CACHE);
-const { id, data } = matchingEdition;
+const { id, data, slug } = matchingEdition;
 const { Content, headings } = await matchingEdition.render();
 const title = headings.find((h) => h.depth === 1)?.text ?? "Whiteboard the Web";
 const canonicalBase = getEditionInfo(id)?.base;
@@ -49,7 +49,7 @@ const canonicalBase = getEditionInfo(id)?.base;
     >
   </header>
   <div>
-    <Card twitter={data.twitter} youtube={data.youtube} title={title}>
+    <Card twitter={data.twitter} youtube={data.youtube} {title} {slug}>
       <Content slot="body" />
       <Video
         slot="video"
