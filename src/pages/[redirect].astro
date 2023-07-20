@@ -1,0 +1,34 @@
+---
+import type { GetStaticPathsItem } from "astro";
+import { getCollection } from "astro:content";
+import { getEditionInfo } from "~utils";
+
+export async function getStaticPaths() {
+  const editions = await getCollection("editions");
+  let paths: GetStaticPathsItem[] = [];
+
+  for (const edition of editions) {
+    const info = getEditionInfo(edition.id);
+    if (info) {
+      paths.push({
+        params: {
+          redirect: info.num,
+        },
+        props: {
+          redirect: edition.slug,
+        },
+      });
+    }
+  }
+
+  return paths;
+}
+
+type Props = {
+  redirect: string;
+};
+
+const { redirect } = Astro.props;
+---
+
+<meta http-equiv="refresh" content={`0; url=${redirect}`} />

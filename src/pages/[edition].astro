@@ -1,5 +1,5 @@
 ---
-import { BIG_CACHE, getEditionInfo, stripHtmlHeadings } from "~utils";
+import { getEditionInfo, stripHtmlHeadings } from "~utils";
 import YouTube from "../components/icons/YouTube.astro";
 import Card from "~components/Card.astro";
 import BaseLayout from "~layouts/Layout.astro";
@@ -7,29 +7,19 @@ import CtaLink from "~components/CtaLink.astro";
 import Video from "~components/Video";
 import { CollectionEntry, getCollection } from "astro:content";
 
-if (typeof Astro.params.edition !== "string") return Astro.redirect("/");
-
-const editions = await getCollection("editions");
-
-let matchingEdition: CollectionEntry<"editions"> | undefined = undefined;
-for (const edition of editions) {
-  const info = getEditionInfo(edition.id);
-  if (info) {
-    if (Astro.params.edition === `${info.num}`) {
-      // ex. redirect wtw.dev/48 -> wtw.dev/48-is-solid-what-react-shouldve-been
-      return Astro.redirect(`/${info.base}`);
-    } else if (Astro.params.edition === info.base) {
-      matchingEdition = edition;
-      break;
-    }
-  }
+export async function getStaticPaths() {
+  const editions = await getCollection("editions");
+  return editions.map((e) => ({
+    params: { edition: e.slug },
+    props: e,
+  }));
 }
 
-if (!matchingEdition) return Astro.redirect("/");
+type Props = CollectionEntry<"editions">;
 
-Astro.response.headers.set("cache-control", BIG_CACHE);
-const { id, data } = matchingEdition;
-const { Content, headings } = await matchingEdition.render();
+const { id, data, render } = Astro.props;
+const { Content, headings } = await render();
+
 const title = headings.find((h) => h.depth === 1)?.text ?? "Whiteboard the Web";
 const canonicalBase = getEditionInfo(id)?.base;
 ---

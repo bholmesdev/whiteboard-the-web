@@ -10,9 +10,6 @@ export function toRandomColorVariable() {
   return COLOR_VARIABLES[randomIdx];
 }
 
-/** Based on Vercel recommendation - https://vercel.com/docs/concepts/functions/serverless-functions/edge-caching */
-export const BIG_CACHE = "max-age=0, s-maxage=31536000";
-
 export function colorIntersectionObserver(containerRef: HTMLElement) {
   return new IntersectionObserver(
     (changes) => {
