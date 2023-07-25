@@ -10,6 +10,7 @@ export default defineConfig({
     "/newsletter": "https://buttondown.email/bholmesdev",
     "/rainy": "https://github.com/bholmesdev/astro-client-when-rainy-in-ny",
     "/vite-week": "https://twitter.com/BHolmesDev/status/1541423974202150913",
+    "/transitions": "https://twitter.com/BHolmesDev/status/1682206832423579649",
   },
   experimental: {
     viewTransitions: true,
