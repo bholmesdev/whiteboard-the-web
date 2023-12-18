@@ -13,6 +13,8 @@ export default defineConfig({
     "/transitions": "https://twitter.com/BHolmesDev/status/1682206832423579649",
     "/linear": "https://linear-easing-generator.netlify.app",
     "/button": "https://codepen.io/bholmesdev-the-reactor/full/xxQBvqR",
+    "/react-context-setter":
+      "https://stackblitz.com/edit/vitejs-vite-3ubqht?file=src%2FApp.tsx",
   },
   experimental: {
     viewTransitions: true,
