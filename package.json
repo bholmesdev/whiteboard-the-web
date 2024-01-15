@@ -16,6 +16,7 @@
     "solid-js": "^1.7.6"
   },
   "dependencies": {
+    "astro-font": "^0.0.72",
     "linkedom": "^0.14.26"
   }
 }

@@ -1,4 +1,6 @@
 ---
+import { join } from "node:path";
+import { AstroFont } from "astro-font";
 import { ViewTransitions } from "astro:transitions";
 
 type Props = {
@@ -42,42 +44,53 @@ const socialImageAlt = "Whiteboard the web - Learn the web in 1 minute";
     }
     {canonical ? <link rel="canonical" href={canonical} /> : null}
     <link rel="icon" type="image/x-icon" href="/favicon.png" />
-    <link
-      rel="preload"
-      href="/fonts/Atkinson-Hyperlegible-Regular.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin="anonymous"
+    <AstroFont
+      config={[
+        {
+          name: "Atkinson",
+          src: [
+            {
+              style: 'normal',
+              weight: '400',
+              path: join(process.cwd(), 'public', 'fonts', 'Atkinson-Hyperlegible-Regular.woff2')
+            },
+            {
+              style: 'italic',
+              weight: '400',
+              path: join(process.cwd(), 'public', 'fonts', 'Atkinson-Hyperlegible-Italic.woff2')
+            },
+            {
+              style: 'normal',
+              weight: '700',
+              path: join(process.cwd(), 'public', 'fonts', 'Atkinson-Hyperlegible-Bold.woff2')
+            },
+            {
+              style: 'italic',
+              weight: '700',
+              path: join(process.cwd(), 'public', 'fonts', 'Atkinson-Hyperlegible-BoldItalic.woff2')
+            },
+          ],
+          preload: true,
+          display: "swap",
+          selector: "html",
+          fallback: "sans-serif",
+        },
+        {
+          name: "Sriracha",
+          src: [
+            {
+              style: 'normal',
+              weight: '400',
+              path: join(process.cwd(), 'public', 'fonts', 'Sriracha-Regular.ttf')
+            },
+          ],
+          preload: true,
+          display: "swap",
+          selector: "html",
+          fallback: "sans-serif",
+        },
+      ]}
     />
-    <link
-      rel="preload"
-      href="/fonts/Atkinson-Hyperlegible-Bold.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="preload"
-      href="/fonts/Atkinson-Hyperlegible-Italic.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="preload"
-      href="/fonts/Atkinson-Hyperlegible-BoldItalic.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="preload"
-      href="/fonts/Sriracha-Regular.ttf"
-      as="font"
-      type="font/ttf"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="/fonts.css" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#6600FF" />
@@ -147,7 +160,6 @@ const socialImageAlt = "Whiteboard the web - Learn the web in 1 minute";
       }
 
       html {
-        font-family: Atkinson, system-ui, sans-serif;
         font-size: var(--font-size-base);
         color: var(--color-text);
         background-color: var(--color-bg);
