@@ -5,7 +5,7 @@ import { getEditionInfo } from "~utils";
 import Layout from "~layouts/Layout.astro";
 import Card from "~components/Card.astro";
 import CtaLink from "~components/CtaLink.astro";
-import Video from "~components/Video";
+import Video from "~components/Video.astro";
 import Subscribe from "../components/Subscribe.astro";
 import { getCollection } from "astro:content";
 
@@ -62,9 +62,9 @@ const videos = baseVideos.map((v) => ({
               <Content slot="body" />
               <Video
                 slot="video"
-                client:load
                 title={headings.find((h) => h.depth === 1)?.text}
                 editionInfo={getEditionInfo(id)}
+                hasColorIntersectionObserver
                 {...data.youtube}
               />
             </Card>

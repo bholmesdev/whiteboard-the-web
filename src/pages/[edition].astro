@@ -4,8 +4,8 @@ import YouTube from "../components/icons/YouTube.astro";
 import Card from "~components/Card.astro";
 import BaseLayout from "~layouts/Layout.astro";
 import CtaLink from "~components/CtaLink.astro";
-import Video from "~components/Video";
-import { CollectionEntry, getCollection } from "astro:content";
+import Video from "~components/Video.astro";
+import { type CollectionEntry, getCollection } from "astro:content";
 
 export async function getStaticPaths() {
   const editions = await getCollection("editions");
@@ -43,9 +43,7 @@ const canonicalBase = getEditionInfo(id)?.base;
       <Content slot="body" />
       <Video
         slot="video"
-        client:load
         title={title}
-        hasColorIntersectionObserver={false}
         editionInfo={getEditionInfo(id)}
         {...data.youtube}
       />
@@ -88,7 +86,9 @@ const canonicalBase = getEditionInfo(id)?.base;
     border-radius: 0.6rem;
     color: white;
     font-weight: 700;
-    transition: background-color 0.2s, transform 0.2s;
+    transition:
+      background-color 0.2s,
+      transform 0.2s;
   }
 
   .subscribe-button :global(svg) {

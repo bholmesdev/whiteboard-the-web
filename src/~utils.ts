@@ -1,5 +1,5 @@
 import { parseHTML } from "linkedom";
-import { EditionInfo } from "./~types";
+import type { EditionInfo } from "~types";
 
 export const WTW = "whiteboardtheweb";
 
@@ -46,4 +46,48 @@ export function stripHtmlHeadings(rawHtml: string): string {
     document.removeChild(h);
   }
   return document.toString();
+}
+
+const templateToShownMap = new WeakMap<HTMLTemplateElement, Element>();
+
+export function showTemplate(template: HTMLTemplateElement) {
+  const content = template.content.cloneNode(true);
+  if (!(content instanceof DocumentFragment) || !content.firstElementChild) {
+    console.log(content.firstChild);
+    throw new Error(
+      "Template show failed. Template does not have any content."
+    );
+  }
+  if (!template.parentElement) {
+    throw new Error(
+      "Template show failed. Template does not have a parent element. Does the template exist in the document?"
+    );
+  }
+  const element = template.insertAdjacentElement(
+    "afterend",
+    content.firstElementChild
+  );
+  if (!element) {
+    throw new Error(
+      "Template show failed. Could not insert content after template."
+    );
+  }
+  templateToShownMap.set(template, element);
+  return element;
+}
+
+export function hideTemplate(template: HTMLTemplateElement) {
+  const shown = templateToShownMap.get(template);
+  if (shown) {
+    shown.remove();
+    templateToShownMap.delete(template);
+  }
+}
+
+export function toggleTemplate(template: HTMLTemplateElement) {
+  if (templateToShownMap.has(template)) {
+    hideTemplate(template);
+  } else {
+    showTemplate(template);
+  }
 }

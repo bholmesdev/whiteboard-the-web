@@ -10,12 +10,9 @@
     "test:watch": "vitest",
     "test": "vitest run"
   },
-  "devDependencies": {
-    "@astrojs/solid-js": "^4.0.1",
-    "astro": "4.2.6",
-    "solid-js": "^1.7.6"
-  },
   "dependencies": {
+    "@github/catalyst": "^1.6.0",
+    "astro": "^4.3.7",
     "linkedom": "^0.14.26"
   }
 }

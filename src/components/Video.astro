@@ -1,0 +1,149 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { EditionInfo } from "~types";
+import Play from "./icons/Play.astro";
+
+type Props = CollectionEntry<"editions">["data"]["youtube"] & {
+  title?: string;
+  hasColorIntersectionObserver?: boolean;
+  editionInfo?: EditionInfo;
+};
+
+const {
+  title,
+  hasColorIntersectionObserver,
+  thumbnailUrl,
+  editionInfo,
+  embedUrl,
+} = Astro.props;
+---
+
+<video-player data-color-observer={hasColorIntersectionObserver}>
+  <template data-target="video-player.embed">
+    <iframe
+      class="iframe"
+      width="225"
+      height="400"
+      src={embedUrl}
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen></iframe>
+  </template>
+  <button
+    class="thumbnail"
+    data-action="click:video-player#togglePlayback"
+    aria-label={`Watch - ${title}`}
+  >
+    <img
+      src={thumbnailUrl}
+      alt={title}
+      width={200}
+      height={356}
+      style={editionInfo?.num === 39 ? "transform: scale(1.4)" : ""}
+    />
+    <div class="iconContainer">
+      <Play />
+    </div>
+  </button>
+</video-player>
+
+<script>
+  import { controller, target, attr } from "@github/catalyst";
+  import {
+    colorIntersectionObserver,
+    hideTemplate,
+    showTemplate,
+  } from "~utils";
+
+  @controller
+  export class VideoPlayerElement extends HTMLElement {
+    @target declare embed: HTMLTemplateElement;
+    @attr playing = false;
+
+    #article = this.closest("article")!;
+
+    connectedCallback() {
+      const isOffscreenObserver = new IntersectionObserver((changes) => {
+        for (const change of changes) {
+          if (!change.isIntersecting) this.#playback(false);
+        }
+      });
+      isOffscreenObserver.observe(this.#article);
+      if (this.hasAttribute("data-color-observer")) {
+        const isTopOfPageObserver = colorIntersectionObserver(this.#article);
+        isTopOfPageObserver.observe(this.#article);
+      }
+    }
+
+    #playback(play: boolean) {
+      this.playing = play;
+      if (play) {
+        this.#article.setAttribute("data-video-playing", "");
+        showTemplate(this.embed);
+      } else {
+        this.#article.removeAttribute("data-video-playing");
+        hideTemplate(this.embed);
+      }
+    }
+
+    togglePlayback() {
+      this.#playback(!this.playing);
+    }
+  }
+</script>
+
+<style>
+  .iframe,
+  .thumbnail img {
+    border-radius: 0.4rem;
+    aspect-ratio: 9 / 16;
+    width: 100%;
+    height: auto;
+  }
+
+  .thumbnail {
+    position: relative;
+    cursor: pointer;
+    backdrop-filter: blur(2px);
+    border-radius: 0.4rem;
+    line-height: 0;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .thumbnail::after {
+    content: "";
+    border-radius: 0.4rem;
+    position: absolute;
+    inset: 0;
+    background: var(--color);
+    opacity: 0.3;
+  }
+
+  .thumbnail img {
+    filter: blur(2px);
+    object-fit: cover;
+  }
+
+  .iconContainer {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+  }
+
+  .iconContainer svg {
+    color: white;
+    background: var(--color);
+    width: 3rem;
+    height: auto;
+    padding: 1rem;
+    border-radius: 9e9px;
+    box-shadow: #0009 0 4px 0;
+  }
+
+  [data-playing] button {
+    display: none;
+  }
+</style>

@@ -1,5 +1,5 @@
 ---
-import { CollectionEntry } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 import { stripHtmlHeadings } from "~utils";
 import CtaLink from "./CtaLink.astro";
 import Link from "./icons/Link.astro";
@@ -103,7 +103,9 @@ const htmlBody = stripHtmlHeadings(await Astro.slots.render("body"));
     z-index: -1;
     border-radius: inherit;
     transform: translateY(4px);
-    transition: transform 0.2s, background-color 0.2s;
+    transition:
+      transform 0.2s,
+      background-color 0.2s;
   }
 
   /* video playing outline color */
@@ -119,7 +121,9 @@ const htmlBody = stripHtmlHeadings(await Astro.slots.render("body"));
       hsl(var(--color-hs), 98%) 50%
     );
     background-size: 100% 200%;
-    transition: background-position-y 0.2s, inset 0.2s;
+    transition:
+      background-position-y 0.2s,
+      inset 0.2s;
   }
 
   article[data-video-playing]::after {
