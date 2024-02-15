@@ -14,6 +14,9 @@ dependencies:
   astro:
     specifier: ^4.3.7
     version: 4.3.7
+  github-slugger:
+    specifier: ^2.0.0
+    version: 2.0.0
   linkedom:
     specifier: ^0.14.26
     version: 0.14.26
