@@ -1,19 +1,23 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import type { EditionInfo } from "~types";
 import Play from "./icons/Play.astro";
 
-type Props = CollectionEntry<"editions">["data"]["youtube"] & {
-  title?: string;
+type Props = {
+  id: number;
+  title: string;
+  thumbnailUrl: string;
+  thumbnailWidth: number;
+  thumbnailHeight: number;
   hasColorIntersectionObserver?: boolean;
-  editionInfo?: EditionInfo;
+  embedUrl: string;
 };
 
 const {
+  id,
   title,
   hasColorIntersectionObserver,
   thumbnailUrl,
-  editionInfo,
+  thumbnailWidth,
+  thumbnailHeight,
   embedUrl,
 } = Astro.props;
 ---
@@ -38,9 +42,9 @@ const {
     <img
       src={thumbnailUrl}
       alt={title}
-      width={200}
-      height={356}
-      style={editionInfo?.num === 39 ? "transform: scale(1.4)" : ""}
+      width={thumbnailWidth}
+      height={thumbnailHeight}
+      style={id === 39 ? "transform: scale(1.4)" : ""}
     />
     <div class="iconContainer">
       <Play />
@@ -58,7 +62,7 @@ const {
 
   @controller
   export class VideoPlayerElement extends HTMLElement {
-    @target declare embed: HTMLTemplateElement;
+    @target embed!: HTMLTemplateElement;
     @attr playing = false;
 
     #article = this.closest("article")!;

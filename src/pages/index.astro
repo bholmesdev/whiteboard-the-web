@@ -1,18 +1,19 @@
 ---
 export const prerender = true;
 
-import { getEditionInfo } from "~utils";
 import Layout from "~layouts/Layout.astro";
 import Card from "~components/Card.astro";
 import CtaLink from "~components/CtaLink.astro";
-import Video from "~components/Video.astro";
+import VideoEmbed from "~components/Video.astro";
 import Subscribe from "../components/Subscribe.astro";
-import { getCollection } from "astro:content";
+import { asc, db, desc, Video } from "astro:db";
+import Slugger from "github-slugger";
 
-const baseVideos = await getCollection("editions");
-const videos = baseVideos.map((v) => ({
+const dbVideos = await db.select().from(Video).orderBy(asc(Video.id));
+const slugger = new Slugger();
+const videos = dbVideos.map((v) => ({
   ...v,
-  sortableId: getEditionInfo(v.id)?.num ?? 0,
+  slug: `${v.id}-${slugger.slug(v.title)}`,
 }));
 ---
 
@@ -48,28 +49,24 @@ const videos = baseVideos.map((v) => ({
   <Subscribe />
   <main class="list">
     {
-      videos
-        .sort((a, b) => a.sortableId - b.sortableId)
-        .reverse()
-        .map(async ({ id, slug, data, render }) => {
-          const { Content, headings } = await render();
-          return (
-            <Card
-              title={headings.find((h) => h.depth === 1)?.text}
-              {slug}
-              {...data}
-            >
-              <Content slot="body" />
-              <Video
-                slot="video"
-                title={headings.find((h) => h.depth === 1)?.text}
-                editionInfo={getEditionInfo(id)}
-                hasColorIntersectionObserver
-                {...data.youtube}
-              />
-            </Card>
-          );
-        })
+      videos.map(async (v) => {
+        return (
+          <Card title={v.title} slug={v.slug} youtubeUrl={v.youtubeUrl}>
+            {/* TODO: parse markdown*/}
+            <div set:text={v.description} slot="body" />
+            <VideoEmbed
+              slot="video"
+              title={v.title}
+              id={v.id}
+              embedUrl={v.embedUrl}
+              thumbnailUrl={v.thumbnailUrl}
+              thumbnailWidth={v.thumbnailWidth}
+              thumbnailHeight={v.thumbnailHeight}
+              hasColorIntersectionObserver
+            />
+          </Card>
+        );
+      })
     }
     <CtaLink href="https://twitter.com/hashtag/whiteboardtheweb?f=live">
       Explore full #whiteboardtheweb archive

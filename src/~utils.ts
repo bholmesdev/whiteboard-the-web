@@ -1,5 +1,6 @@
 import { parseHTML } from "linkedom";
 import type { EditionInfo } from "~types";
+import Slugger from "github-slugger";
 
 export const WTW = "whiteboardtheweb";
 
