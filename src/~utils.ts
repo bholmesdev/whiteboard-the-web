@@ -49,11 +49,6 @@ export function stripHtmlHeadings(rawHtml: string): string {
   return document.toString();
 }
 
-export function createVideoSlugger() {
-  const slugger = new Slugger();
-  return (id: number, title: string) => `${id}-${slugger.slug(title)}`;
-}
-
 const templateToShownMap = new WeakMap<HTMLTemplateElement, Element>();
 
 export function showTemplate(template: HTMLTemplateElement) {
