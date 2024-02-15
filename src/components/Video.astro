@@ -58,7 +58,7 @@ const {
 
   @controller
   export class VideoPlayerElement extends HTMLElement {
-    @target declare embed: HTMLTemplateElement;
+    @target embed!: HTMLTemplateElement;
     @attr playing = false;
 
     #article = this.closest("article")!;
