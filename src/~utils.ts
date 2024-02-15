@@ -85,10 +85,10 @@ export function hideTemplate(template: HTMLTemplateElement) {
   }
 }
 
-export function toggleTemplate(template: HTMLTemplateElement) {
-  if (templateToShownMap.has(template)) {
-    hideTemplate(template);
-  } else {
+export function toggleTemplate(template: HTMLTemplateElement, force?: boolean) {
+  if (force ?? !templateToShownMap.has(template)) {
     showTemplate(template);
+  } else {
+    hideTemplate(template);
   }
 }

@@ -54,11 +54,7 @@ const {
 
 <script>
   import { controller, target, attr } from "@github/catalyst";
-  import {
-    colorIntersectionObserver,
-    hideTemplate,
-    showTemplate,
-  } from "~utils";
+  import { colorIntersectionObserver, toggleTemplate } from "~utils";
 
   @controller
   export class VideoPlayerElement extends HTMLElement {
@@ -82,13 +78,8 @@ const {
 
     #playback(play: boolean) {
       this.playing = play;
-      if (play) {
-        this.#article.setAttribute("data-video-playing", "");
-        showTemplate(this.embed);
-      } else {
-        this.#article.removeAttribute("data-video-playing");
-        hideTemplate(this.embed);
-      }
+      this.#article.toggleAttribute("data-video-playing", play);
+      toggleTemplate(this.embed, play);
     }
 
     togglePlayback() {
