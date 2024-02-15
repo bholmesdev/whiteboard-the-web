@@ -21,7 +21,6 @@ const youtubeApiResponse = z.object({
   prevPageToken: z.string().optional(),
   items: z.array(
     z.object({
-      id: z.string(),
       snippet: z.object({
         title: z.string(),
         description: z.string(),
@@ -30,6 +29,10 @@ const youtubeApiResponse = z.object({
           medium: thumbnailResponse.optional(),
           high: thumbnailResponse.optional(),
         }),
+        resourceId: z.object({
+          videoId: z.string(),
+        }),
+        publishedAt: z.coerce.date(),
       }),
     })
   ),
@@ -64,6 +67,8 @@ export const data = defineData(async ({ seed }) => {
     pagesCollected++;
   }
 
+  items.reverse();
+
   await seed(
     Video,
     items.map((i, idx) => {
@@ -73,8 +78,8 @@ export const data = defineData(async ({ seed }) => {
       return {
         id: idx + 36, // 36 was the first video uploaded to YouTube
         title: i.snippet.title,
-        embedUrl: `https://www.youtube-nocookie.com/embed/${i.id}`,
-        youtubeUrl: `https://www.youtube.com/watch?v=${i.id}&list=${YOUTUBE_PLAYLIST_ID}`,
+        embedUrl: `https://www.youtube-nocookie.com/embed/${i.snippet.resourceId.videoId}?autoplay=1`,
+        youtubeUrl: `https://www.youtube.com/watch?v=${i.snippet.resourceId.videoId}&list=${YOUTUBE_PLAYLIST_ID}`,
         thumbnailUrl: thumbnail.url,
         thumbnailWidth: thumbnail.width,
         thumbnailHeight: thumbnail.height,

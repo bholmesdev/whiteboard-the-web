@@ -1,0 +1,20 @@
+---
+import { getVideos } from "../db";
+
+export async function getStaticPaths() {
+  const videos = await getVideos();
+
+  return videos.map((v) => ({
+    params: { id: v.id },
+    props: { redirect: v.slug },
+  }));
+}
+
+type Props = {
+  redirect: string;
+};
+
+const { redirect } = Astro.props;
+---
+
+<meta http-equiv="refresh" content={`0; url=${redirect}`} />

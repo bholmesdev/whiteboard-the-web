@@ -6,11 +6,11 @@ import YouTube from "./icons/YouTube.astro";
 
 type Props = {
   title: string;
-  slug: string;
+  permalink?: string;
   youtubeUrl: string;
 };
 
-const { title, youtubeUrl, slug } = Astro.props;
+const { title, youtubeUrl, permalink: slug } = Astro.props;
 const htmlBody = stripHtmlHeadings(await Astro.slots.render("body"));
 ---
 
@@ -23,19 +23,15 @@ const htmlBody = stripHtmlHeadings(await Astro.slots.render("body"));
     <Fragment set:html={htmlBody} />
   </div>
   <div class="ctas">
+    <CtaLink href={youtubeUrl} target="_blank" rel="noreferrer">
+      <Fragment slot="label">YouTube</Fragment>
+      <YouTube slot="icon" />
+    </CtaLink>
     {
       slug ? (
         <CtaLink href={slug}>
           <Fragment slot="label">Permalink</Fragment>
           <Link slot="icon" />
-        </CtaLink>
-      ) : null
-    }
-    {
-      youtubeUrl ? (
-        <CtaLink href={youtubeUrl} target="_blank" rel="noreferrer">
-          <Fragment slot="label">YouTube</Fragment>
-          <YouTube slot="icon" />
         </CtaLink>
       ) : null
     }

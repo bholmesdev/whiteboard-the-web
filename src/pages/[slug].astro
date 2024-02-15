@@ -1,32 +1,37 @@
 ---
-import { getEditionInfo, stripHtmlHeadings } from "~utils";
 import YouTube from "../components/icons/YouTube.astro";
 import Card from "~components/Card.astro";
 import BaseLayout from "~layouts/Layout.astro";
 import CtaLink from "~components/CtaLink.astro";
 import Video from "~components/Video.astro";
-import { type CollectionEntry, getCollection } from "astro:content";
+import { getVideos, type VideoType } from "../db";
 
 export async function getStaticPaths() {
-  const editions = await getCollection("editions");
-  return editions.map((e) => ({
-    params: { edition: e.slug },
-    props: e,
+  const videos = await getVideos();
+  return videos.map((v) => ({
+    params: { slug: v.slug },
+    props: v,
   }));
 }
 
-type Props = CollectionEntry<"editions">;
+type Props = VideoType;
 
-const { id, data, render } = Astro.props;
-const { Content, headings } = await render();
-
-const title = headings.find((h) => h.depth === 1)?.text ?? "Whiteboard the Web";
-const canonicalBase = getEditionInfo(id)?.base;
+const {
+  id,
+  title,
+  slug,
+  youtubeUrl,
+  embedUrl,
+  description,
+  thumbnailUrl,
+  thumbnailHeight,
+  thumbnailWidth,
+} = Astro.props;
 ---
 
 <BaseLayout
-  title={title}
-  canonicalBase={canonicalBase}
+  {title}
+  canonicalBase={slug}
   ogType="video.other"
   preconnectToYoutube={true}
 >
@@ -39,13 +44,16 @@ const canonicalBase = getEditionInfo(id)?.base;
     >
   </header>
   <div>
-    <Card twitter={data.twitter} youtube={data.youtube} title={title}>
-      <Content slot="body" />
+    <Card {title} {youtubeUrl}>
+      <div set:text={description} slot="body" />
       <Video
         slot="video"
-        title={title}
-        editionInfo={getEditionInfo(id)}
-        {...data.youtube}
+        {id}
+        {title}
+        {thumbnailUrl}
+        {thumbnailHeight}
+        {thumbnailWidth}
+        {embedUrl}
       />
     </Card>
     <CtaLink href="/">Hey, I learned something. Gimme more!</CtaLink>

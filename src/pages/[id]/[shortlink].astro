@@ -1,0 +1,22 @@
+---
+import { getVideos } from "../../db";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const videos = await getVideos();
+
+  return videos.map((v) => ({
+    params: { shortlink: "yt", id: v.id },
+    props: { redirect: v.youtubeUrl },
+  }));
+}
+
+type Props = { redirect: string };
+
+const { redirect } = Astro.props;
+---
+
+<!doctype html>
+<title>Redirecting to: {redirect}</title>
+<meta http-equiv="refresh" content=`0;url=${redirect}` />
