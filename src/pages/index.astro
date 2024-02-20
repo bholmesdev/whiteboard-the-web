@@ -43,22 +43,32 @@ const videos = await getVideosWithThumbnail();
   <Subscribe />
   <main class="list">
     {
-      videos.map(async (v) => {
-        return (
-          <Card title={v.title} permalink={v.slug} youtubeUrl={v.youtubeUrl}>
-            {/* TODO: parse markdown*/}
-            <div set:text={v.description} slot="body" />
-            <VideoEmbed
-              slot="video"
-              title={v.title}
-              id={v.id}
-              embedUrl={v.embedUrl}
-              thumbnails={v.thumbnails}
-              hasColorIntersectionObserver
-            />
-          </Card>
-        );
-      })
+      videos.map(
+        async ({
+          id,
+          title,
+          description,
+          slug,
+          youtubeUrl,
+          embedUrl,
+          thumbnails,
+        }) => {
+          return (
+            <Card {title} {slug} {youtubeUrl}>
+              {/* TODO: parse markdown*/}
+              <div set:html={description} slot="body" />
+              <VideoEmbed
+                slot="video"
+                {id}
+                {title}
+                {embedUrl}
+                {thumbnails}
+                hasColorIntersectionObserver
+              />
+            </Card>
+          );
+        }
+      )
     }
     <CtaLink href="https://twitter.com/hashtag/whiteboardtheweb?f=live">
       Explore full #whiteboardtheweb archive

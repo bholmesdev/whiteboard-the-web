@@ -6,11 +6,11 @@ import YouTube from "./icons/YouTube.astro";
 
 type Props = {
   title: string;
-  permalink?: string;
+  slug?: string;
   youtubeUrl: string;
 };
 
-const { title, youtubeUrl, permalink: slug } = Astro.props;
+const { title, youtubeUrl, slug } = Astro.props;
 const htmlBody = stripHtmlHeadings(await Astro.slots.render("body"));
 ---
 

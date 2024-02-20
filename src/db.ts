@@ -2,6 +2,8 @@ import { Thumbnail, Video, db, eq } from "astro:db";
 import Slugger from "github-slugger";
 import groupBy from "just-group-by";
 import emojiRegex from "emoji-regex";
+import hashtagRegex from "hashtag-regex";
+import sanitize from "sanitize-html";
 
 export type VideoWithThumbnail = typeof Video.$inferSelect & {
   slug: string;
@@ -13,25 +15,23 @@ export type VideoWithThumbnail = typeof Video.$inferSelect & {
   }>;
 };
 
-function createVideoSlugger() {
-  const slugger = new Slugger();
-  /** slugger misses these when stripping emojis */
-  return (id: number, rawTitle: string) => {
-    const title = rawTitle.replace(emojiRegex(), "").trim();
-    return `${id}-${slugger.slug(title)}`;
-  };
-}
-
 export async function getVideos(): Promise<
   Array<typeof Video.$inferSelect & { slug: string }>
 > {
   const dbVideos = await db.select().from(Video);
 
   const slugger = createVideoSlugger();
-  return dbVideos.map((video) => ({
-    ...video,
-    slug: slugger(video.id, video.title),
-  }));
+  return dbVideos.map((video) => {
+    const title = formatTitle(video.title);
+    const description = formatDescription(video.description);
+    const slug = slugger(video.id, title);
+    return {
+      ...video,
+      title,
+      description,
+      slug,
+    };
+  });
 }
 
 export async function getVideosWithThumbnail(): Promise<VideoWithThumbnail[]> {
@@ -58,12 +58,42 @@ export async function getVideosWithThumbnail(): Promise<VideoWithThumbnail[]> {
   const videos = Object.values(videosById)
     .map((videos) => {
       const { thumbnail, ...video } = videos[0]!;
+      const title = formatTitle(video.title);
+      const description = formatDescription(video.description);
+      const slug = slugger(video.id, title);
       return {
         ...video,
-        slug: slugger(video.id, video.title),
+        title,
+        description,
+        slug,
         thumbnails: videos.map((v) => v.thumbnail),
       };
     })
     .sort((a, b) => b.id - a.id);
   return videos;
+}
+
+function createVideoSlugger() {
+  const slugger = new Slugger();
+  /** slugger misses these when stripping emojis */
+  return (id: number, rawTitle: string) => {
+    const title = rawTitle.replace(emojiRegex(), "").trim();
+    return `${id}-${slugger.slug(title)}`;
+  };
+}
+
+function formatTitle(text: string) {
+  return text.replace(hashtagRegex(), "").trim();
+}
+
+function formatDescription(text: string) {
+  return (
+    sanitize(text)
+      .replace(hashtagRegex(), "")
+      // Support basic YouTube comment formatting
+      .replace(/\*(.*?)\*/g, "<strong>$1</strong>")
+      .replace(/_(.*?)_/g, "<em>$1</em>")
+      .replace(/`(.*?)`/g, "<code>$1</code>")
+      .trim()
+  );
 }

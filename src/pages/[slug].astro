@@ -36,7 +36,7 @@ const { id, title, slug, youtubeUrl, embedUrl, description, thumbnails } =
   </header>
   <div>
     <Card {title} {youtubeUrl}>
-      <div set:text={description} slot="body" />
+      <div set:html={description} slot="body" />
       <Video slot="video" {id} {title} {thumbnails} {embedUrl} />
     </Card>
     <CtaLink href="/">Hey, I learned something. Gimme more!</CtaLink>
