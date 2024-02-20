@@ -74,7 +74,7 @@ const videos = await getVideosWithThumbnail(query ?? undefined);
           return (
             <Card {title} {slug} {youtubeUrl}>
               {/* TODO: parse markdown*/}
-              <div set:html={description} slot="body" />
+              <Fragment set:html={description} slot="body" />
               <VideoEmbed
                 slot="video"
                 {id}

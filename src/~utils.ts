@@ -1,7 +1,3 @@
-import { parseHTML } from "linkedom";
-import type { EditionInfo } from "~types";
-import Slugger from "github-slugger";
-
 export const WTW = "whiteboardtheweb";
 
 const COLOR_VARIABLES = ["orange", "green", "pink", "purple"];
@@ -26,27 +22,6 @@ export function colorIntersectionObserver(containerRef: HTMLElement) {
     },
     { rootMargin: "0px 0px -70% 0px", threshold: 0 }
   );
-}
-
-export function getEditionInfo(id: string): EditionInfo | undefined {
-  // matches file basename and first digit after the last "/" in a collection id
-  // ex. "/example/44/32-eslint-prettier.md" will match "32-eslint-prettier" and "32"
-  const match = id.match(/((\d+)(\w|-)+)(\w|-|\.)+$/);
-  if (!match) return undefined;
-
-  const [, base, rawNum] = match;
-  const num = Number.parseInt(rawNum);
-  if (Number.isNaN(num)) return undefined;
-
-  return { base, num };
-}
-
-export function stripHtmlHeadings(rawHtml: string): string {
-  const { document } = parseHTML(rawHtml);
-  for (const h of document.querySelectorAll("h1,h2,h3,h4,h5,h6")) {
-    document.removeChild(h);
-  }
-  return document.toString();
 }
 
 const templateToShownMap = new WeakMap<HTMLTemplateElement, Element>();
