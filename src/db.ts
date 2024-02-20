@@ -94,9 +94,10 @@ function formatDescription(text: string) {
       .replace(/\*(.*?)\*/g, "<strong>$1</strong>")
       .replace(/_(.*?)_/g, "<em>$1</em>")
       .replace(/`(.*?)`/g, "<code>$1</code>")
-      .replace(/\bhttps?:\/\/\S+\b/g, function (match) {
-        return '<a href="' + match + '">' + match + "</a>";
-      })
+      .replace(
+        /\bhttps?:\/\/\S+\b/g,
+        (match) => `<a href="${match}">${match}</a>`
+      )
       .trim()
   );
 }
