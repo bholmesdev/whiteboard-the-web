@@ -9,7 +9,7 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "@astrojs/db": "^0.3.2",
+    "@astrojs/db": "^0.3.5",
     "@astrojs/vercel": "^7.3.1",
     "@github/catalyst": "^1.6.0",
     "astro": "^4.3.7",
