@@ -14,6 +14,7 @@
     "@astrojs/db": "^0.3.2",
     "@github/catalyst": "^1.6.0",
     "astro": "^4.3.7",
+    "emoji-regex": "^10.3.0",
     "github-slugger": "^2.0.0",
     "just-group-by": "^2.2.0",
     "linkedom": "^0.14.26",
