@@ -54,7 +54,6 @@ const templateToShownMap = new WeakMap<HTMLTemplateElement, Element>();
 export function showTemplate(template: HTMLTemplateElement) {
   const content = template.content.cloneNode(true);
   if (!(content instanceof DocumentFragment) || !content.firstElementChild) {
-    console.log(content.firstChild);
     throw new Error(
       "Template show failed. Template does not have any content."
     );
