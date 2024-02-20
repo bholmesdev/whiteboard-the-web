@@ -1,8 +1,6 @@
 import { getCollection } from "astro:content";
 import { getEditionInfo } from "~utils";
 
-export const prerender = true;
-
 export async function get() {
   const editions = await getCollection("editions");
   const editionsWithHeadings = (

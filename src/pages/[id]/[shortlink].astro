@@ -1,8 +1,6 @@
 ---
 import { getVideos } from "../../db";
 
-export const prerender = true;
-
 export async function getStaticPaths() {
   const videos = await getVideos();
 
