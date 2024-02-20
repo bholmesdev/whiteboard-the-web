@@ -16,11 +16,15 @@
     "astro": "^4.3.7",
     "emoji-regex": "^10.3.0",
     "github-slugger": "^2.0.0",
+    "hashtag-regex": "^2.2.0",
     "just-group-by": "^2.2.0",
     "linkedom": "^0.14.26",
+    "sanitize-html": "^2.11.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/hashtag-regex": "^2.0.3",
+    "@types/sanitize-html": "^2.11.0",
     "vite": "^5.1.1"
   }
 }
