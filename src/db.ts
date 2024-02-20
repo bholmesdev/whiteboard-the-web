@@ -1,4 +1,4 @@
-import { Thumbnail, Video, db, eq } from "astro:db";
+import { Thumbnail, Video, db, eq, like, or } from "astro:db";
 import Slugger from "github-slugger";
 import groupBy from "just-group-by";
 import emojiRegex from "emoji-regex";
@@ -34,7 +34,10 @@ export async function getVideos(): Promise<
   });
 }
 
-export async function getVideosWithThumbnail(): Promise<VideoWithThumbnail[]> {
+export async function getVideosWithThumbnail(
+  query = ""
+): Promise<VideoWithThumbnail[]> {
+  console.log(query);
   const dbVideos = await db
     .select({
       id: Video.id,
@@ -51,7 +54,10 @@ export async function getVideosWithThumbnail(): Promise<VideoWithThumbnail[]> {
       },
     })
     .from(Video)
-    .innerJoin(Thumbnail, eq(Thumbnail.videoId, Video.id));
+    .innerJoin(Thumbnail, eq(Thumbnail.videoId, Video.id))
+    .where(
+      or(like(Video.title, `%${query}%`), like(Video.description, `%${query}%`))
+    );
 
   const slugger = createVideoSlugger();
   const videosById = groupBy(dbVideos, (v) => v.id);
