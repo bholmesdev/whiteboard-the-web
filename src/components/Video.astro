@@ -1,25 +1,17 @@
 ---
+import type { Thumbnail } from "astro:db";
 import Play from "./icons/Play.astro";
 
 type Props = {
   id: number;
   title: string;
-  thumbnailUrl: string;
-  thumbnailWidth: number;
-  thumbnailHeight: number;
+  thumbnails: Array<Omit<typeof Thumbnail.$inferSelect, "videoId">>;
   hasColorIntersectionObserver?: boolean;
   embedUrl: string;
 };
 
-const {
-  id,
-  title,
-  hasColorIntersectionObserver,
-  thumbnailUrl,
-  thumbnailWidth,
-  thumbnailHeight,
-  embedUrl,
-} = Astro.props;
+const { id, title, hasColorIntersectionObserver, thumbnails, embedUrl } =
+  Astro.props;
 ---
 
 <video-player data-color-observer={hasColorIntersectionObserver}>
@@ -40,10 +32,11 @@ const {
     aria-label={`Watch - ${title}`}
   >
     <img
-      src={thumbnailUrl}
+      srcset={thumbnails
+        .map((thumbnail) => `${thumbnail.url} ${thumbnail.width * 2}w`)
+        .join(", ")}
+      sizes="(max-width: 55ch) 100vw, 55ch"
       alt={title}
-      width={thumbnailWidth}
-      height={thumbnailHeight}
       style={id === 39 ? "transform: scale(1.4)" : ""}
     />
     <div class="iconContainer">

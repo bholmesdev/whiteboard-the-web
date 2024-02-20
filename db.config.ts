@@ -1,5 +1,4 @@
-import { defineData } from "@astrojs/db";
-import { Video } from "./astro.config";
+import { defineData, defineCollection, field } from "@astrojs/db";
 import { loadEnv } from "vite";
 import { z } from "zod";
 
@@ -32,15 +31,40 @@ const youtubeApiResponse = z.object({
         resourceId: z.object({
           videoId: z.string(),
         }),
-        publishedAt: z.coerce.date(),
+      }),
+      contentDetails: z.object({
+        videoPublishedAt: z.coerce.date(),
       }),
     })
   ),
 });
 
+export const Video = defineCollection({
+  fields: {
+    id: field.number({ primaryKey: true }),
+    title: field.text(),
+    embedUrl: field.text(),
+    youtubeUrl: field.text(),
+    description: field.text(),
+    publishedAt: field.date(),
+  },
+});
+
+export const Thumbnail = defineCollection({
+  fields: {
+    videoId: field.number({ references: () => Video.fields.id }),
+    // TODO: enum validator with zod?
+    quality: field.text(),
+    url: field.text(),
+    width: field.number(),
+    height: field.number(),
+  },
+});
+
 export const data = defineData(async ({ seed }) => {
   const url = new URL("https://www.googleapis.com/youtube/v3/playlistItems");
   url.searchParams.append("part", "snippet");
+  url.searchParams.append("part", "contentDetails");
   url.searchParams.append("playlistId", YOUTUBE_PLAYLIST_ID);
   url.searchParams.append("key", YOUTUBE_API_KEY);
   url.searchParams.append("maxResults", "50");
@@ -67,24 +91,33 @@ export const data = defineData(async ({ seed }) => {
     pagesCollected++;
   }
 
-  items.reverse();
+  const sortedItems = items.sort((a, b) => {
+    return (
+      b.contentDetails.videoPublishedAt.getTime() -
+      a.contentDetails.videoPublishedAt.getTime()
+    );
+  });
 
-  await seed(
-    Video,
-    items.map((i, idx) => {
-      const thumbnail =
-        i.snippet.thumbnails.high ?? i.snippet.thumbnails.default;
-
-      return {
-        id: idx + 36, // 36 was the first video uploaded to YouTube
-        title: i.snippet.title,
-        embedUrl: `https://www.youtube-nocookie.com/embed/${i.snippet.resourceId.videoId}?autoplay=1`,
-        youtubeUrl: `https://www.youtube.com/watch?v=${i.snippet.resourceId.videoId}&list=${YOUTUBE_PLAYLIST_ID}`,
-        thumbnailUrl: thumbnail.url,
-        thumbnailWidth: thumbnail.width,
-        thumbnailHeight: thumbnail.height,
-        description: i.snippet.description,
-      };
-    })
-  );
+  for (const [idx, item] of sortedItems.entries()) {
+    await seed(Video, {
+      id: idx + 36, // edition 36 was my first upload to YouTube
+      title: item.snippet.title,
+      embedUrl: `https://www.youtube-nocookie.com/embed/${item.snippet.resourceId.videoId}?autoplay=1`,
+      youtubeUrl: `https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}&list=${YOUTUBE_PLAYLIST_ID}`,
+      description: item.snippet.description,
+      publishedAt: item.contentDetails.videoPublishedAt,
+    });
+    for (const [quality, thumbnail] of Object.entries(
+      item.snippet.thumbnails
+    )) {
+      if (!thumbnail) continue;
+      await seed(Thumbnail, {
+        videoId: idx,
+        quality,
+        url: thumbnail.url,
+        width: thumbnail.width,
+        height: thumbnail.height,
+      });
+    }
+  }
 });

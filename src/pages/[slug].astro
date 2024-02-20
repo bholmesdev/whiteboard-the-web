@@ -4,29 +4,20 @@ import Card from "~components/Card.astro";
 import BaseLayout from "~layouts/Layout.astro";
 import CtaLink from "~components/CtaLink.astro";
 import Video from "~components/Video.astro";
-import { getVideos, type VideoType } from "../db";
+import { getVideosWithThumbnail, type VideoWithThumbnail } from "../db";
 
 export async function getStaticPaths() {
-  const videos = await getVideos();
+  const videos = await getVideosWithThumbnail();
   return videos.map((v) => ({
     params: { slug: v.slug },
     props: v,
   }));
 }
 
-type Props = VideoType;
+type Props = VideoWithThumbnail;
 
-const {
-  id,
-  title,
-  slug,
-  youtubeUrl,
-  embedUrl,
-  description,
-  thumbnailUrl,
-  thumbnailHeight,
-  thumbnailWidth,
-} = Astro.props;
+const { id, title, slug, youtubeUrl, embedUrl, description, thumbnails } =
+  Astro.props;
 ---
 
 <BaseLayout
@@ -46,15 +37,7 @@ const {
   <div>
     <Card {title} {youtubeUrl}>
       <div set:text={description} slot="body" />
-      <Video
-        slot="video"
-        {id}
-        {title}
-        {thumbnailUrl}
-        {thumbnailHeight}
-        {thumbnailWidth}
-        {embedUrl}
-      />
+      <Video slot="video" {id} {title} {thumbnails} {embedUrl} />
     </Card>
     <CtaLink href="/">Hey, I learned something. Gimme more!</CtaLink>
   </div>

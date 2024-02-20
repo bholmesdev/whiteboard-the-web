@@ -1,27 +1,14 @@
 import { defineConfig } from "astro/config";
 import solid from "@astrojs/solid-js";
-import db, { defineCollection, field } from "@astrojs/db";
-import { data } from "./db";
-
-export const Video = defineCollection({
-  fields: {
-    id: field.number({ primaryKey: true }),
-    title: field.text(),
-    embedUrl: field.text(),
-    youtubeUrl: field.text(),
-    thumbnailUrl: field.text(),
-    thumbnailWidth: field.number(),
-    thumbnailHeight: field.number(),
-    description: field.text(),
-  },
-});
+import db from "@astrojs/db";
+import { Thumbnail, Video, data } from "./db.config";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://wtw.dev",
   integrations: [solid(), db()],
   db: {
-    collections: { Video },
+    collections: { Video, Thumbnail },
     data,
   },
   redirects: {
