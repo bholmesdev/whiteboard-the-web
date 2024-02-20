@@ -17,6 +17,9 @@ dependencies:
   github-slugger:
     specifier: ^2.0.0
     version: 2.0.0
+  just-group-by:
+    specifier: ^2.2.0
+    version: 2.2.0
   linkedom:
     specifier: ^0.14.26
     version: 0.14.26
@@ -2132,6 +2135,10 @@ packages:
     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
     engines: {node: '>=6'}
     hasBin: true
+    dev: false
+
+  /just-group-by@2.2.0:
+    resolution: {integrity: sha512-brZocDSmkvDYc+FOr07GiTar4cp7K6OB9huVOrj5LX+iXfCe3hTvn2KGM811LE/SBQkCzuYDDEcG8HA/dKDrnw==}
     dev: false
 
   /kind-of@6.0.3:
