@@ -1,6 +1,7 @@
 import { Thumbnail, Video, db, eq } from "astro:db";
 import Slugger from "github-slugger";
 import groupBy from "just-group-by";
+import emojiRegex from "emoji-regex";
 
 export type VideoWithThumbnail = typeof Video.$inferSelect & {
   slug: string;
@@ -15,12 +16,8 @@ export type VideoWithThumbnail = typeof Video.$inferSelect & {
 function createVideoSlugger() {
   const slugger = new Slugger();
   /** slugger misses these when stripping emojis */
-  const encodedEmoji = ["⚛️", "❤️"];
   return (id: number, rawTitle: string) => {
-    let title = rawTitle;
-    for (const emoji of encodedEmoji) {
-      title = title.replace(new RegExp(emoji, "g"), "");
-    }
+    const title = rawTitle.replace(emojiRegex(), "").trim();
     return `${id}-${slugger.slug(title)}`;
   };
 }
