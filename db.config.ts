@@ -93,13 +93,13 @@ export const data = defineData(async ({ seed }) => {
 
   const sortedItems = items.sort((a, b) => {
     return (
-      b.contentDetails.videoPublishedAt.getTime() -
-      a.contentDetails.videoPublishedAt.getTime()
+      a.contentDetails.videoPublishedAt.getTime() -
+      b.contentDetails.videoPublishedAt.getTime()
     );
   });
 
   for (const [idx, item] of sortedItems.entries()) {
-    await seed(Video, {
+    const { id } = await seed(Video, {
       id: idx + 36, // edition 36 was my first upload to YouTube
       title: item.snippet.title,
       embedUrl: `https://www.youtube-nocookie.com/embed/${item.snippet.resourceId.videoId}?autoplay=1`,
@@ -112,7 +112,7 @@ export const data = defineData(async ({ seed }) => {
     )) {
       if (!thumbnail) continue;
       await seed(Thumbnail, {
-        videoId: idx,
+        videoId: id,
         quality,
         url: thumbnail.url,
         width: thumbnail.width,

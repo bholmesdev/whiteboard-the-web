@@ -1,4 +1,4 @@
-import { Thumbnail, Video, db, desc, eq } from "astro:db";
+import { Thumbnail, Video, db, eq } from "astro:db";
 import Slugger from "github-slugger";
 import groupBy from "just-group-by";
 
@@ -54,18 +54,19 @@ export async function getVideosWithThumbnail(): Promise<VideoWithThumbnail[]> {
       },
     })
     .from(Video)
-    .innerJoin(Thumbnail, eq(Thumbnail.videoId, Video.id))
-    .orderBy(desc(Video.id));
+    .innerJoin(Thumbnail, eq(Thumbnail.videoId, Video.id));
 
   const slugger = createVideoSlugger();
   const videosById = groupBy(dbVideos, (v) => v.id);
-  const videos = Object.values(videosById).map((videos) => {
-    const { thumbnail, ...video } = videos[0]!;
-    return {
-      ...video,
-      slug: slugger(video.id, video.title),
-      thumbnails: videos.map((v) => v.thumbnail),
-    };
-  });
+  const videos = Object.values(videosById)
+    .map((videos) => {
+      const { thumbnail, ...video } = videos[0]!;
+      return {
+        ...video,
+        slug: slugger(video.id, video.title),
+        thumbnails: videos.map((v) => v.thumbnail),
+      };
+    })
+    .sort((a, b) => b.id - a.id);
   return videos;
 }
