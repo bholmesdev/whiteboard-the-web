@@ -73,7 +73,6 @@ const videos = await getVideosWithThumbnail(query ?? undefined);
         }) => {
           return (
             <Card {title} {slug} {youtubeUrl}>
-              {/* TODO: parse markdown*/}
               <Fragment set:html={description} slot="body" />
               <VideoEmbed
                 slot="video"
@@ -109,7 +108,7 @@ const videos = await getVideosWithThumbnail(query ?? undefined);
 
   @controller
   class WtwSearchElement extends HTMLElement {
-    @target declare input: HTMLInputElement;
+    @target input!: HTMLInputElement;
 
     onSearch = debounce(this.#handleInput, 300);
 
