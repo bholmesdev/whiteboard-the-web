@@ -61,7 +61,7 @@ export const Thumbnail = defineCollection({
   },
 });
 
-export const data = defineData(async ({ seed }) => {
+export const data = defineData(async ({ seed, seedReturning }) => {
   const url = new URL("https://www.googleapis.com/youtube/v3/playlistItems");
   url.searchParams.append("part", "snippet");
   url.searchParams.append("part", "contentDetails");
@@ -99,7 +99,7 @@ export const data = defineData(async ({ seed }) => {
   });
 
   for (const [idx, item] of sortedItems.entries()) {
-    const { id } = await seed(Video, {
+    const { id } = await seedReturning(Video, {
       id: idx + 36, // edition 36 was my first upload to YouTube
       title: item.snippet.title,
       embedUrl: `https://www.youtube-nocookie.com/embed/${item.snippet.resourceId.videoId}?autoplay=1`,
