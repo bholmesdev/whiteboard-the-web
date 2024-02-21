@@ -10,13 +10,13 @@ dependencies:
     version: 0.3.5
   '@astrojs/vercel':
     specifier: ^7.3.1
-    version: 7.3.1(astro@4.4.1)
+    version: 7.3.1(astro@4.4.2)
   '@github/catalyst':
     specifier: ^1.6.0
     version: 1.6.0
   astro:
-    specifier: ^4.4.1
-    version: 4.4.1
+    specifier: ^4.4.2
+    version: 4.4.2
   emoji-regex:
     specifier: ^10.3.0
     version: 10.3.0
@@ -145,7 +145,7 @@ packages:
       - supports-color
     dev: false
 
-  /@astrojs/vercel@7.3.1(astro@4.4.1):
+  /@astrojs/vercel@7.3.1(astro@4.4.2):
     resolution: {integrity: sha512-nzpvuRIJMbmLXd0nQpVrOGCPOEx792aAI25aFNK3uC0lD/yGyAlY4nHkCeaE/c+0vkiRdCbfGlHujz3emWpg2w==}
     peerDependencies:
       astro: ^4.2.0
@@ -153,7 +153,7 @@ packages:
       '@astrojs/internal-helpers': 0.2.1
       '@vercel/analytics': 1.2.2
       '@vercel/nft': 0.24.4
-      astro: 4.4.1
+      astro: 4.4.2
       esbuild: 0.19.12
       fast-glob: 3.3.2
       set-cookie-parser: 2.6.0
@@ -1130,8 +1130,8 @@ packages:
     resolution: {integrity: sha512-sNRaPGh9nnmdC8Zf+pT3UqP8rnWj5Hf9wiFGsX3wUQ2yVSIhO2ShFwCoceIPpB41QF6i2OEmrHmCo36xronCVA==}
     dev: false
 
-  /astro@4.4.1:
-    resolution: {integrity: sha512-nJLgNg8UXKBJYXjWtekgv1TYZES++LAdShgyKL8L5yJMeiqlDSO+/Laq5VfRKoL9hzBdyolJMB0WDE/+bRZytg==}
+  /astro@4.4.2:
+    resolution: {integrity: sha512-r1djG61ABvZ9n73vaTW6nTKnMvWY1LQhPpBtzoA2OI2RAk/ptzsqK9ozkAG1qXO2bW3NLJi6pfMxxpngNAALyQ==}
     engines: {node: '>=18.14.1', npm: '>=6.14.0'}
     hasBin: true
     dependencies:
