@@ -29,4 +29,9 @@ export default defineConfig({
     "/tw-text":
       "https://www.fluid-type-scale.com/calculate?minFontSize=16&minWidth=400&minRatio=1.25&maxFontSize=19&maxWidth=1280&maxRatio=1.333&steps=sm,base,lg,xl,2xl,3xl,4xl,5xl,6xl&baseStep=base&prefix=font-size&decimals=2&useRems=on&remValue=16&previewFont=Italiana&previewText=Almost+before+we+knew+it,+we+had+left+the+ground&previewWidth=1280",
   },
+  vite: {
+    esbuild: {
+      keepNames: true,
+    },
+  },
 });
