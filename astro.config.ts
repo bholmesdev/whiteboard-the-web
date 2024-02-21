@@ -10,7 +10,7 @@ export default defineConfig({
   site: "https://wtw.dev",
   integrations: [db()],
   db: {
-    collections: {
+    tables: {
       Video,
       Thumbnail,
     },

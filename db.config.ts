@@ -1,4 +1,4 @@
-import { defineData, defineCollection, field } from "@astrojs/db";
+import { defineData, defineReadableTable, column } from "@astrojs/db";
 import { loadEnv } from "vite";
 import { z } from "zod";
 
@@ -39,25 +39,25 @@ const youtubeApiResponse = z.object({
   ),
 });
 
-export const Video = defineCollection({
-  fields: {
-    id: field.number({ primaryKey: true }),
-    title: field.text(),
-    embedUrl: field.text(),
-    youtubeUrl: field.text(),
-    description: field.text(),
-    publishedAt: field.date(),
+export const Video = defineReadableTable({
+  columns: {
+    id: column.number({ primaryKey: true }),
+    title: column.text(),
+    embedUrl: column.text(),
+    youtubeUrl: column.text(),
+    description: column.text(),
+    publishedAt: column.date(),
   },
 });
 
-export const Thumbnail = defineCollection({
-  fields: {
-    videoId: field.number({ references: () => Video.fields.id }),
+export const Thumbnail = defineReadableTable({
+  columns: {
+    videoId: column.number({ references: () => Video.columns.id }),
     // TODO: enum validator with zod?
-    quality: field.text(),
-    url: field.text(),
-    width: field.number(),
-    height: field.number(),
+    quality: column.text(),
+    url: column.text(),
+    width: column.number(),
+    height: column.number(),
   },
 });
 
