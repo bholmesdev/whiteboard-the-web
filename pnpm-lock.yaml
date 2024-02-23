@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@astrojs/db':
-    specifier: ^0.3.5
-    version: 0.3.5
+    specifier: ^0.4.0
+    version: 0.4.0
   '@astrojs/vercel':
     specifier: ^7.3.3
     version: 7.3.3(astro@4.4.2)
@@ -64,8 +64,8 @@ packages:
     resolution: {integrity: sha512-jzj01BRv/fmo+9Mr2FhocywGzEYiyiP2GVHje1ziGNU6c97kwhYGsnvwMkHrncAy9T9Vi54cjaMK7UE4ClX4vA==}
     dev: false
 
-  /@astrojs/db@0.3.5:
-    resolution: {integrity: sha512-Eilm1w5wLygxLlxTJV4emDBLLAmP9Utvj59AlkWkrqcvIV4k0RlyobVQN3/wvv0v2O+S1lNk3HVHdZcFw6grxA==}
+  /@astrojs/db@0.4.0:
+    resolution: {integrity: sha512-Gc/2oivw1iZnM5lMEyCpiQvThnGhZBZNsawZkRSPzDOJQ4z4pgqf2B5iSjRGxRlo4Ao2mVmFvENIeqCWmSoBBg==}
     dependencies:
       '@libsql/client': 0.4.3
       deep-diff: 1.0.2
