@@ -37,7 +37,6 @@ export async function getVideos(): Promise<
 export async function getVideosWithThumbnail(
   query = ""
 ): Promise<VideoWithThumbnail[]> {
-  console.log(query);
   const dbVideos = await db
     .select({
       id: Video.id,
