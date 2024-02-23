@@ -66,14 +66,3 @@ export function toggleTemplate(template: HTMLTemplateElement, force?: boolean) {
     hideTemplate(template);
   }
 }
-
-export function debounce<T extends (...args: any[]) => any>(
-  fn: T,
-  ms: number
-): T {
-  let timeout: NodeJS.Timeout;
-  return function (this: any, ...args: Parameters<T>) {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => fn.apply(this, args), ms);
-  } as T;
-}

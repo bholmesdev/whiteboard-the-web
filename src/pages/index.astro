@@ -95,9 +95,10 @@ const videos = await getVideosWithThumbnail(query ?? undefined);
 </Layout>
 
 <script>
-  import { colorIntersectionObserver, debounce } from "~utils";
+  import { colorIntersectionObserver } from "~utils";
   import { controller, target } from "@github/catalyst";
   import { navigate } from "astro:transitions/client";
+  import { debounce } from "@github/mini-throttle/decorators";
 
   // shift bg color back to heading color
   // when heading scrolls into view
@@ -111,9 +112,8 @@ const videos = await getVideosWithThumbnail(query ?? undefined);
   class WtwSearchElement extends HTMLElement {
     @target input!: HTMLInputElement;
 
-    onSearch = debounce(this.#handleInput, 300);
-
-    #handleInput() {
+    @debounce(300)
+    onSearch() {
       navigate(`/?query=${this.input.value}`);
     }
   }
