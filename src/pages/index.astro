@@ -12,10 +12,6 @@ import { getVideosWithThumbnail } from "../db";
 const { searchParams } = new URL(Astro.request.url);
 const query = searchParams.get("query");
 
-if (query || searchParams.size === 0) {
-  Astro.response.headers.set("Cache-Control", "max-age=86400, s-maxage=86400");
-}
-
 const videos = await getVideosWithThumbnail(query ?? undefined);
 ---
 

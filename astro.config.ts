@@ -6,11 +6,10 @@ import { Thumbnail, Video, data } from "./db.config";
 // https://astro.build/config
 export default defineConfig({
   output: "hybrid",
-  adapter: vercel(),
+  adapter: vercel({ isr: true }),
   site: "https://wtw.dev",
   integrations: [db()],
   db: {
-    studio: true,
     tables: {
       Video,
       Thumbnail,
