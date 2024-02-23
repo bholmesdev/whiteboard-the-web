@@ -1,21 +1,17 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import type { EditionInfo } from "~types";
+import type { Thumbnail } from "astro:db";
 import Play from "./icons/Play.astro";
 
-type Props = CollectionEntry<"editions">["data"]["youtube"] & {
-  title?: string;
+type Props = {
+  id: number;
+  title: string;
+  thumbnails: Array<Omit<typeof Thumbnail.$inferSelect, "videoId">>;
   hasColorIntersectionObserver?: boolean;
-  editionInfo?: EditionInfo;
+  embedUrl: string;
 };
 
-const {
-  title,
-  hasColorIntersectionObserver,
-  thumbnailUrl,
-  editionInfo,
-  embedUrl,
-} = Astro.props;
+const { id, title, hasColorIntersectionObserver, thumbnails, embedUrl } =
+  Astro.props;
 ---
 
 <video-player data-color-observer={hasColorIntersectionObserver}>
@@ -36,11 +32,12 @@ const {
     aria-label={`Watch - ${title}`}
   >
     <img
-      src={thumbnailUrl}
+      srcset={thumbnails
+        .map((thumbnail) => `${thumbnail.url} ${thumbnail.width * 2}w`)
+        .join(", ")}
+      sizes="(max-width: 55ch) 100vw, 55ch"
       alt={title}
-      width={200}
-      height={356}
-      style={editionInfo?.num === 39 ? "transform: scale(1.4)" : ""}
+      style={id === 39 ? "transform: scale(1.4)" : ""}
     />
     <div class="iconContainer">
       <Play />
@@ -50,11 +47,7 @@ const {
 
 <script>
   import { controller, target, attr } from "@github/catalyst";
-  import {
-    colorIntersectionObserver,
-    hideTemplate,
-    showTemplate,
-  } from "~utils";
+  import { colorIntersectionObserver, toggleTemplate } from "~utils";
 
   @controller
   export class VideoPlayerElement extends HTMLElement {
@@ -78,13 +71,8 @@ const {
 
     #playback(play: boolean) {
       this.playing = play;
-      if (play) {
-        this.#article.setAttribute("data-video-playing", "");
-        showTemplate(this.embed);
-      } else {
-        this.#article.removeAttribute("data-video-playing");
-        hideTemplate(this.embed);
-      }
+      this.#article.toggleAttribute("data-video-playing", play);
+      toggleTemplate(this.embed, play);
     }
 
     togglePlayback() {

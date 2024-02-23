@@ -1,6 +1,3 @@
-import { parseHTML } from "linkedom";
-import type { EditionInfo } from "~types";
-
 export const WTW = "whiteboardtheweb";
 
 const COLOR_VARIABLES = ["orange", "green", "pink", "purple"];
@@ -27,33 +24,11 @@ export function colorIntersectionObserver(containerRef: HTMLElement) {
   );
 }
 
-export function getEditionInfo(id: string): EditionInfo | undefined {
-  // matches file basename and first digit after the last "/" in a collection id
-  // ex. "/example/44/32-eslint-prettier.md" will match "32-eslint-prettier" and "32"
-  const match = id.match(/((\d+)(\w|-)+)(\w|-|\.)+$/);
-  if (!match) return undefined;
-
-  const [, base, rawNum] = match;
-  const num = Number.parseInt(rawNum);
-  if (Number.isNaN(num)) return undefined;
-
-  return { base, num };
-}
-
-export function stripHtmlHeadings(rawHtml: string): string {
-  const { document } = parseHTML(rawHtml);
-  for (const h of document.querySelectorAll("h1,h2,h3,h4,h5,h6")) {
-    document.removeChild(h);
-  }
-  return document.toString();
-}
-
 const templateToShownMap = new WeakMap<HTMLTemplateElement, Element>();
 
 export function showTemplate(template: HTMLTemplateElement) {
   const content = template.content.cloneNode(true);
   if (!(content instanceof DocumentFragment) || !content.firstElementChild) {
-    console.log(content.firstChild);
     throw new Error(
       "Template show failed. Template does not have any content."
     );
@@ -84,10 +59,10 @@ export function hideTemplate(template: HTMLTemplateElement) {
   }
 }
 
-export function toggleTemplate(template: HTMLTemplateElement) {
-  if (templateToShownMap.has(template)) {
-    hideTemplate(template);
-  } else {
+export function toggleTemplate(template: HTMLTemplateElement, force?: boolean) {
+  if (force ?? !templateToShownMap.has(template)) {
     showTemplate(template);
+  } else {
+    hideTemplate(template);
   }
 }

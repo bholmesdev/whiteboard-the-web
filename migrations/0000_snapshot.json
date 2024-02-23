@@ -1,0 +1,132 @@
+{
+  "experimentalVersion": 1,
+  "schema": {
+    "Video": {
+      "columns": {
+        "id": {
+          "type": "number",
+          "schema": {
+            "unique": false,
+            "name": "id",
+            "collection": "Video",
+            "primaryKey": true
+          }
+        },
+        "title": {
+          "type": "text",
+          "schema": {
+            "unique": false,
+            "name": "title",
+            "collection": "Video",
+            "primaryKey": false,
+            "optional": false
+          }
+        },
+        "embedUrl": {
+          "type": "text",
+          "schema": {
+            "unique": false,
+            "name": "embedUrl",
+            "collection": "Video",
+            "primaryKey": false,
+            "optional": false
+          }
+        },
+        "youtubeUrl": {
+          "type": "text",
+          "schema": {
+            "unique": false,
+            "name": "youtubeUrl",
+            "collection": "Video",
+            "primaryKey": false,
+            "optional": false
+          }
+        },
+        "description": {
+          "type": "text",
+          "schema": {
+            "unique": false,
+            "name": "description",
+            "collection": "Video",
+            "primaryKey": false,
+            "optional": false
+          }
+        },
+        "publishedAt": {
+          "type": "date",
+          "schema": {
+            "optional": false,
+            "unique": false,
+            "name": "publishedAt",
+            "collection": "Video"
+          }
+        }
+      },
+      "writable": false
+    },
+    "Thumbnail": {
+      "columns": {
+        "videoId": {
+          "type": "number",
+          "schema": {
+            "unique": false,
+            "name": "videoId",
+            "collection": "Thumbnail",
+            "primaryKey": false,
+            "optional": false,
+            "references": {
+              "type": "number",
+              "schema": {
+                "unique": false,
+                "name": "id",
+                "collection": "Video",
+                "primaryKey": true
+              }
+            }
+          }
+        },
+        "quality": {
+          "type": "text",
+          "schema": {
+            "unique": false,
+            "name": "quality",
+            "collection": "Thumbnail",
+            "primaryKey": false,
+            "optional": false
+          }
+        },
+        "url": {
+          "type": "text",
+          "schema": {
+            "unique": false,
+            "name": "url",
+            "collection": "Thumbnail",
+            "primaryKey": false,
+            "optional": false
+          }
+        },
+        "width": {
+          "type": "number",
+          "schema": {
+            "unique": false,
+            "name": "width",
+            "collection": "Thumbnail",
+            "primaryKey": false,
+            "optional": false
+          }
+        },
+        "height": {
+          "type": "number",
+          "schema": {
+            "unique": false,
+            "name": "height",
+            "collection": "Thumbnail",
+            "primaryKey": false,
+            "optional": false
+          }
+        }
+      },
+      "writable": false
+    }
+  }
+}

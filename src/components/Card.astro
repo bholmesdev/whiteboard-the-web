@@ -1,20 +1,15 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import { stripHtmlHeadings } from "~utils";
 import CtaLink from "./CtaLink.astro";
 import Link from "./icons/Link.astro";
-import Twitter from "./icons/Twitter.astro";
 import YouTube from "./icons/YouTube.astro";
 
-type Props = CollectionEntry<"editions">["data"] & {
-  slug?: CollectionEntry<"editions">["slug"];
-  title?: string;
-  showTitleAsHeading?: boolean;
-  colorIntersectionObserver?: boolean;
+type Props = {
+  title: string;
+  slug?: string;
+  youtubeUrl: string;
 };
 
-const { title, twitter, youtube, slug } = Astro.props;
-const htmlBody = stripHtmlHeadings(await Astro.slots.render("body"));
+const { title, youtubeUrl, slug } = Astro.props;
 ---
 
 <article>
@@ -23,30 +18,18 @@ const htmlBody = stripHtmlHeadings(await Astro.slots.render("body"));
   </div>
   <div class="body-container">
     {title ? <h2>{title}</h2> : null}
-    <Fragment set:html={htmlBody} />
+    <slot name="body" />
   </div>
   <div class="ctas">
+    <CtaLink href={youtubeUrl} target="_blank" rel="noreferrer">
+      <Fragment slot="label">YouTube</Fragment>
+      <YouTube slot="icon" />
+    </CtaLink>
     {
       slug ? (
         <CtaLink href={slug}>
           <Fragment slot="label">Permalink</Fragment>
           <Link slot="icon" />
-        </CtaLink>
-      ) : null
-    }
-    {
-      twitter ? (
-        <CtaLink href={twitter} target="_blank" rel="noreferrer">
-          <Fragment slot="label">Twitter</Fragment>
-          <Twitter slot="icon" />
-        </CtaLink>
-      ) : null
-    }
-    {
-      youtube ? (
-        <CtaLink href={youtube.url} target="_blank" rel="noreferrer">
-          <Fragment slot="label">YouTube</Fragment>
-          <YouTube slot="icon" />
         </CtaLink>
       ) : null
     }
@@ -76,7 +59,6 @@ const htmlBody = stripHtmlHeadings(await Astro.slots.render("body"));
     display: flex;
     gap: 1rem;
     justify-content: flex-end;
-    max-width: 10rem;
     margin-inline-start: auto;
   }
 

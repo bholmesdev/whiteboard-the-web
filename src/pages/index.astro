@@ -1,26 +1,27 @@
 ---
-export const prerender = true;
+export const prerender = false;
 
-import { getEditionInfo } from "~utils";
 import Layout from "~layouts/Layout.astro";
 import Card from "~components/Card.astro";
 import CtaLink from "~components/CtaLink.astro";
-import Video from "~components/Video.astro";
+import VideoEmbed from "~components/Video.astro";
 import Subscribe from "../components/Subscribe.astro";
-import { getCollection } from "astro:content";
+import Search from "../components/icons/Search.astro";
+import { getVideosWithThumbnail } from "../db";
 
-const baseVideos = await getCollection("editions");
-const videos = baseVideos.map((v) => ({
-  ...v,
-  sortableId: getEditionInfo(v.id)?.num ?? 0,
-}));
+const { searchParams } = new URL(Astro.request.url);
+const query = searchParams.get("query");
+
+const videos = await getVideosWithThumbnail(query ?? undefined);
 ---
 
 <Layout title="#whiteboardtheweb" canonicalBase="" preconnectToYoutube={true}>
   <header>
-    <h1 transition:name="heading" id="whiteboardtheweb__heading">
-      #WhiteboardtheWeb
-    </h1>
+    <div class="heading">
+      <h1 transition:name="heading" id="whiteboardtheweb__heading">
+        #WhiteboardtheWeb
+      </h1>
+    </div>
     <ul class="social-links" role="list">
       <li>
         <a
@@ -44,32 +45,48 @@ const videos = baseVideos.map((v) => ({
         >
       </li>
     </ul>
+    <Subscribe />
+    <wtw-search>
+      <form>
+        <input
+          type="search"
+          name="query"
+          data-target="wtw-search.input"
+          data-action="input:wtw-search#onSearch"
+          transition:persist
+          placeholder="React, Tailwind, Astro..."
+        />
+        <Search />
+      </form>
+    </wtw-search>
   </header>
-  <Subscribe />
   <main class="list">
     {
-      videos
-        .sort((a, b) => a.sortableId - b.sortableId)
-        .reverse()
-        .map(async ({ id, slug, data, render }) => {
-          const { Content, headings } = await render();
+      videos.map(
+        async ({
+          id,
+          title,
+          description,
+          slug,
+          youtubeUrl,
+          embedUrl,
+          thumbnails,
+        }) => {
           return (
-            <Card
-              title={headings.find((h) => h.depth === 1)?.text}
-              {slug}
-              {...data}
-            >
-              <Content slot="body" />
-              <Video
+            <Card {title} {slug} {youtubeUrl}>
+              <Fragment set:html={description} slot="body" />
+              <VideoEmbed
                 slot="video"
-                title={headings.find((h) => h.depth === 1)?.text}
-                editionInfo={getEditionInfo(id)}
+                {id}
+                {title}
+                {embedUrl}
+                {thumbnails}
                 hasColorIntersectionObserver
-                {...data.youtube}
               />
             </Card>
           );
-        })
+        }
+      )
     }
     <CtaLink href="https://twitter.com/hashtag/whiteboardtheweb?f=live">
       Explore full #whiteboardtheweb archive
@@ -79,6 +96,9 @@ const videos = baseVideos.map((v) => ({
 
 <script>
   import { colorIntersectionObserver } from "~utils";
+  import { controller, target } from "@github/catalyst";
+  import { navigate } from "astro:transitions/client";
+  import { debounce } from "@github/mini-throttle/decorators";
 
   // shift bg color back to heading color
   // when heading scrolls into view
@@ -87,12 +107,22 @@ const videos = baseVideos.map((v) => ({
     const isTopOfPageObserver = colorIntersectionObserver(heading);
     isTopOfPageObserver.observe(heading);
   }
+
+  @controller
+  class WtwSearchElement extends HTMLElement {
+    @target input!: HTMLInputElement;
+
+    @debounce(300)
+    onSearch() {
+      navigate(`/?query=${this.input.value}`);
+    }
+  }
 </script>
 
 <style>
-  header {
+  .heading {
     display: grid;
-    margin-block: 2rem;
+    margin-block: 1rem;
   }
 
   h1 {
@@ -104,6 +134,7 @@ const videos = baseVideos.map((v) => ({
 
   .social-links {
     padding: 0;
+    margin-block-end: 3rem;
     list-style: none;
     display: flex;
     gap: 1rem;
@@ -146,5 +177,40 @@ const videos = baseVideos.map((v) => ({
   .list :global(article):nth-child(4n + 4) {
     --color: var(--purple);
     --color-hs: var(--purple-hs);
+  }
+
+  form {
+    display: flex;
+    align-items: center;
+    margin-block-end: 1rem;
+    background-color: hsl(var(--color-hs), 95%);
+    border-radius: 0.5rem;
+    color: hsl(var(--color-hs), 30%);
+    padding-inline: 1.6rem;
+    gap: 0.8rem;
+  }
+
+  form input {
+    border-radius: inherit;
+    background-color: inherit;
+    border: none;
+    padding-block: 0.6rem;
+    font-size: inherit;
+    font-family: inherit;
+    flex: 1;
+  }
+  form input::placeholder {
+    color: hsl(var(--color-hs), 70%);
+  }
+  form:focus-within {
+    outline: hsl(var(--color-hs), 50%) auto 2px;
+  }
+  form input:focus {
+    outline: none;
+  }
+  form :global(svg) {
+    color: hsl(var(--color-hs), 30%);
+    width: 1.2em;
+    height: 1.2em;
   }
 </style>
