@@ -14,6 +14,9 @@ dependencies:
   '@github/catalyst':
     specifier: ^1.6.0
     version: 1.6.0
+  '@github/mini-throttle':
+    specifier: ^2.1.1
+    version: 2.1.1
   astro:
     specifier: ^4.4.2
     version: 4.4.2
@@ -601,6 +604,10 @@ packages:
 
   /@github/catalyst@1.6.0:
     resolution: {integrity: sha512-u8A+DameixqpeyHzvnJWTGj+wfiskQOYHzSiJscCWVfMkIT3rxnbHMtGh3lMthaRY21nbUOK71WcsCnCrXhBJQ==}
+    dev: false
+
+  /@github/mini-throttle@2.1.1:
+    resolution: {integrity: sha512-KtOPaB+FiKJ6jcKm9UKyaM5fPURHGf+xcp+b4Mzoi81hOc6M1sIGpMZMAVbNzfa2lW5+RPGKq888Px0j76OZ/A==}
     dev: false
 
   /@jridgewell/gen-mapping@0.3.3:
