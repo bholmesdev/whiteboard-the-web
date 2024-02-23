@@ -9,8 +9,8 @@ dependencies:
     specifier: ^0.3.5
     version: 0.3.5
   '@astrojs/vercel':
-    specifier: ^7.3.1
-    version: 7.3.1(astro@4.4.2)
+    specifier: ^7.3.3
+    version: 7.3.3(astro@4.4.2)
   '@github/catalyst':
     specifier: ^1.6.0
     version: 1.6.0
@@ -145,8 +145,8 @@ packages:
       - supports-color
     dev: false
 
-  /@astrojs/vercel@7.3.1(astro@4.4.2):
-    resolution: {integrity: sha512-nzpvuRIJMbmLXd0nQpVrOGCPOEx792aAI25aFNK3uC0lD/yGyAlY4nHkCeaE/c+0vkiRdCbfGlHujz3emWpg2w==}
+  /@astrojs/vercel@7.3.3(astro@4.4.2):
+    resolution: {integrity: sha512-C7F05yvRJHEh/nPm9MBcRX1ANpIHOU23X/MO8+LFXOjC/Teju6ZjIXz/xmXJqOhItqsHcJihfQaH0+AJ9bOYKg==}
     peerDependencies:
       astro: ^4.2.0
     dependencies:
