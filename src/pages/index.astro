@@ -120,6 +120,18 @@ const videos = await getVideosWithThumbnail(query ?? undefined);
 </script>
 
 <style>
+  html {
+    scroll-snap-type: y mandatory;
+  }
+
+  header {
+    scroll-snap-align: start;
+  }
+
+  footer {
+    scroll-snap-align: end;
+  }
+
   .heading {
     display: grid;
     margin-block: 1rem;

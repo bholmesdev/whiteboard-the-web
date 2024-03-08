@@ -52,6 +52,11 @@ const { title, youtubeUrl, slug } = Astro.props;
     column-gap: 1.5rem;
     row-gap: 1rem;
     background-color: hsl(var(--color-hs), 99%);
+    scroll-snap-align: start;
+    scroll-margin-top: 0.9rem;
+    
+    /* Can remove this if you want to glide through the vids */
+    scroll-snap-stop: always;
   }
 
   .ctas {
@@ -69,6 +74,8 @@ const { title, youtubeUrl, slug } = Astro.props;
       grid-template-areas:
         "video body"
         "video ctas";
+      scroll-snap-align: center;
+      scroll-margin-top: unset;
     }
 
     .ctas {
