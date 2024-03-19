@@ -1,22 +1,12 @@
 ---
-export const prerender = false;
+export const prerender = true;
 
 import Layout from "~layouts/Layout.astro";
-import Card from "~components/Card.astro";
 import CtaLink from "~components/CtaLink.astro";
-import VideoEmbed from "~components/Video.astro";
 import Subscribe from "../components/Subscribe.astro";
 import Search from "../components/icons/Search.astro";
-import { getVideosWithThumbnail } from "../db";
-
-const { searchParams } = new URL(Astro.request.url);
-const query = searchParams.get("query");
-
-if (query || searchParams.size === 0) {
-  Astro.response.headers.set("Cache-Control", "max-age=86400, s-maxage=86400");
-}
-
-const videos = await getVideosWithThumbnail(query ?? undefined);
+import SearchResults from "./search.astro";
+import { Frame } from "simple:frame";
 ---
 
 <Layout title="#whiteboardtheweb" canonicalBase="" preconnectToYoutube={true}>
@@ -51,7 +41,7 @@ const videos = await getVideosWithThumbnail(query ?? undefined);
     </ul>
     <Subscribe />
     <wtw-search>
-      <form>
+      <form data-frame="search" data-mirror-query="false">
         <input
           type="search"
           name="query"
@@ -64,44 +54,15 @@ const videos = await getVideosWithThumbnail(query ?? undefined);
       </form>
     </wtw-search>
   </header>
-  <main class="list">
-    {
-      videos.map(
-        async ({
-          id,
-          title,
-          description,
-          slug,
-          youtubeUrl,
-          embedUrl,
-          thumbnails,
-        }) => {
-          return (
-            <Card {title} {slug} {youtubeUrl}>
-              <Fragment set:html={description} slot="body" />
-              <VideoEmbed
-                slot="video"
-                {id}
-                {title}
-                {embedUrl}
-                {thumbnails}
-                hasColorIntersectionObserver
-              />
-            </Card>
-          );
-        }
-      )
-    }
-    <CtaLink href="https://twitter.com/hashtag/whiteboardtheweb?f=live">
-      Explore full #whiteboardtheweb archive
-    </CtaLink>
-  </main>
+  <Frame component={SearchResults} />
+  <CtaLink href="https://twitter.com/hashtag/whiteboardtheweb?f=live">
+    Explore full #whiteboardtheweb archive
+  </CtaLink>
 </Layout>
 
 <script>
   import { colorIntersectionObserver } from "~utils";
   import { controller, target } from "@github/catalyst";
-  import { navigate } from "astro:transitions/client";
   import { debounce } from "@github/mini-throttle/decorators";
 
   // shift bg color back to heading color
@@ -117,8 +78,9 @@ const videos = await getVideosWithThumbnail(query ?? undefined);
     @target input!: HTMLInputElement;
 
     @debounce(300)
-    onSearch() {
-      navigate(`/?query=${this.input.value}`);
+    onSearch(e: InputEvent) {
+      const target = e.target as HTMLInputElement;
+      target.form?.requestSubmit();
     }
   }
 </script>
@@ -155,32 +117,6 @@ const videos = await getVideosWithThumbnail(query ?? undefined);
 
   .social-links a:hover {
     opacity: 0.7;
-  }
-
-  .list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .list :global(article):nth-child(4n + 1) {
-    --color: var(--orange);
-    --color-hs: var(--orange-hs);
-  }
-
-  .list :global(article):nth-child(4n + 2) {
-    --color: var(--green);
-    --color-hs: var(--green-hs);
-  }
-
-  .list :global(article):nth-child(4n + 3) {
-    --color: var(--pink);
-    --color-hs: var(--pink-hs);
-  }
-
-  .list :global(article):nth-child(4n + 4) {
-    --color: var(--purple);
-    --color-hs: var(--purple-hs);
   }
 
   form {
