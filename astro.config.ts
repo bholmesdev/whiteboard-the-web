@@ -1,22 +1,14 @@
 import { defineConfig } from "astro/config";
 import db from "@astrojs/db";
 import vercel from "@astrojs/vercel/serverless";
-import { Thumbnail, Video, data } from "./db.config";
+import simpleStackFrame from "simple-stack-frame";
 
 // https://astro.build/config
 export default defineConfig({
   output: "hybrid",
   adapter: vercel(),
   site: "https://wtw.dev",
-  integrations: [db()],
-  db: {
-    studio: true,
-    tables: {
-      Video,
-      Thumbnail,
-    },
-    data,
-  },
+  integrations: [db(), simpleStackFrame()],
   vite: {
     esbuild: {
       keepNames: true,
