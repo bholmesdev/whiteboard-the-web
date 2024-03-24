@@ -19,19 +19,26 @@ export default defineConfig({
         load(id, options) {
           if (id.includes("/src/pages/")) {
             if (options?.ssr) return;
+            // TODO: use pagesDir and id resolve
+            const pagesDir = new URL("src/pages/", import.meta.url).pathname;
+            const path = id.replace(pagesDir, "").replace(/\.(ts|js)$/, "");
             return `
-            export const actions = {
-              checkout: async (formData) => {
-                const res = await fetch('api.checkout', {
-                  method: 'POST',
-                  body: formData,
-                  headers: {
-                    Accept: 'application/json',
-                  }
-                });
-                return res.json();
-              }
-            }
+            const actionProxy = new Proxy({}, {
+              get: (_, action) => {
+                return async (formData) => {
+                  const res = await fetch(\`${path}.\${action}\`, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                      Accept: 'application/json',
+                    }
+                  });
+                  return res.json();
+                };
+              },
+            });
+
+            export const actions = actionProxy;
           `;
           }
         },
