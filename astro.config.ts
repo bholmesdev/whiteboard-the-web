@@ -5,7 +5,7 @@ import simpleStackFrame from "simple-stack-frame";
 
 // https://astro.build/config
 export default defineConfig({
-  output: "hybrid",
+  output: "server",
   adapter: vercel(),
   site: "https://wtw.dev",
   integrations: [db(), simpleStackFrame()],
@@ -13,5 +13,29 @@ export default defineConfig({
     esbuild: {
       keepNames: true,
     },
+    plugins: [
+      {
+        name: "action-resolver",
+        load(id, options) {
+          if (id.includes("/src/pages/")) {
+            if (options?.ssr) return;
+            return `
+            export const actions = {
+              checkout: async (formData) => {
+                const res = await fetch('api.checkout', {
+                  method: 'POST',
+                  body: formData,
+                  headers: {
+                    Accept: 'application/json',
+                  }
+                });
+                return res.json();
+              }
+            }
+          `;
+          }
+        },
+      },
+    ],
   },
 });

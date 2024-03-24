@@ -27,7 +27,7 @@ const socialImage = new URL("./social-banner.png", Astro.site);
 const socialImageAlt = "Whiteboard the web - Learn the web in 1 minute";
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -99,11 +99,16 @@ const socialImageAlt = "Whiteboard the web - Learn the web in 1 minute";
 
     <ViewTransitions />
 
-    <script
-      defer
-      src="/stats/js/script.js"
-      data-domain="wtw.dev"
-      data-api="/stats/api/event"></script>
+    {
+      import.meta.env.PROD && (
+        <script
+          defer
+          src="/stats/js/script.js"
+          data-domain="wtw.dev"
+          data-api="/stats/api/event"
+        />
+      )
+    }
   </head>
   <body>
     <div class="container">
@@ -214,8 +219,15 @@ const socialImageAlt = "Whiteboard the web - Learn the web in 1 minute";
       }
 
       code {
-        font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-          DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+        font-family:
+          Menlo,
+          Monaco,
+          Lucida Console,
+          Liberation Mono,
+          DejaVu Sans Mono,
+          Bitstream Vera Sans Mono,
+          Courier New,
+          monospace;
       }
 
       button {
