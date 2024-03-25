@@ -3,26 +3,27 @@ import db from "@astrojs/db";
 import vercel from "@astrojs/vercel/serverless";
 import simpleStackFrame from "simple-stack-frame";
 
+import react from "@astrojs/react";
+
 // https://astro.build/config
 export default defineConfig({
   output: "server",
   adapter: vercel(),
   site: "https://wtw.dev",
-  integrations: [db(), simpleStackFrame()],
+  integrations: [db(), simpleStackFrame(), react()],
   vite: {
     esbuild: {
-      keepNames: true,
+      keepNames: true
     },
-    plugins: [
-      {
-        name: "action-resolver",
-        load(id, options) {
-          if (id.includes("/src/pages/")) {
-            if (options?.ssr) return;
-            // TODO: use pagesDir and id resolve
-            const pagesDir = new URL("src/pages/", import.meta.url).pathname;
-            const path = id.replace(pagesDir, "").replace(/\.(ts|js)$/, "");
-            return `
+    plugins: [{
+      name: "action-resolver",
+      load(id, options) {
+        if (id.includes("/src/pages/")) {
+          if (options?.ssr) return;
+          // TODO: use pagesDir and id resolve
+          const pagesDir = new URL("src/pages/", import.meta.url).pathname;
+          const path = id.replace(pagesDir, "").replace(/\.(ts|js)$/, "");
+          return `
             const actionProxy = new Proxy({}, {
               get: (_, action) => {
                 return async (formData) => {
@@ -40,9 +41,8 @@ export default defineConfig({
 
             export const actions = actionProxy;
           `;
-          }
-        },
-      },
-    ],
-  },
+        }
+      }
+    }]
+  }
 });
