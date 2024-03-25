@@ -5,14 +5,12 @@ import Subscribe from "../components/Subscribe.astro";
 import Search from "../components/icons/Search.astro";
 import SearchResults from "./search.astro";
 import { Frame } from "simple:frame";
-import { actions } from "./api";
+import { Like } from "~components/LikeButton";
 ---
 
 <Layout title="#whiteboardtheweb" canonicalBase="" preconnectToYoutube={true}>
-  <form method="POST" action={actions.checkout}>
-    <input type="hidden" name="sku" value="sku_12345" />
-    <button>Submit action</button>
-  </form>
+  <button id="like-button">❤️ 0</button>
+  <Like client:load />
   <header>
     <div class="heading">
       <h1 transition:name="heading" id="whiteboardtheweb__heading">
@@ -69,7 +67,12 @@ import { actions } from "./api";
   import { debounce } from "@github/mini-throttle/decorators";
   import { actions } from "./api";
 
-  console.log(await actions.checkout(new FormData()));
+  const likeButton = document.querySelector("#like-button")!;
+
+  likeButton.addEventListener("click", async () => {
+    const { likes } = await new Promise(actions.like);
+    likeButton.textContent = `❤️ ${likes}`;
+  });
 
   // shift bg color back to heading color
   // when heading scrolls into view

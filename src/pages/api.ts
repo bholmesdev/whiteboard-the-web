@@ -1,6 +1,13 @@
 async function checkout(formData: FormData) {
-  console.log("calculated");
   return { success: true };
 }
 
-export const actions = { checkout };
+let likes = 0;
+
+async function like() {
+  likes++;
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  return { likes };
+}
+
+export const actions = { checkout, like };
