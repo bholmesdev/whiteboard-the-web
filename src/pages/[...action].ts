@@ -1,6 +1,11 @@
 import type { APIContext } from "astro";
 import { z } from "zod";
 
+const formContentTypes = [
+  "application/x-www-form-urlencoded",
+  "multipart/form-data",
+];
+
 export const POST = async ({ request, redirect }: APIContext) => {
   // TODO: run from virtual module for caching
   const actionHandlers = setupActionHandlers();
@@ -12,12 +17,11 @@ export const POST = async ({ request, redirect }: APIContext) => {
 
   // TODO: JSON vs formdata based on content-type
   let args: unknown;
-  if (request.headers.get("Content-Type") === "application/json") {
+  const contentType = request.headers.get("Content-Type");
+  if (contentType === "application/json") {
     args = await request.json();
   }
-  if (
-    request.headers.get("Content-Type") === "application/x-www-form-urlencoded"
-  ) {
+  if (formContentTypes.some((f) => contentType?.startsWith(f))) {
     args = await request.formData();
   }
   const result = await handler(args);
