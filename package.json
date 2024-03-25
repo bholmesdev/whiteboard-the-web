@@ -18,6 +18,7 @@
     "@types/react-dom": "^18.2.22",
     "astro": "^4.5.6",
     "emoji-regex": "^10.3.0",
+    "es-module-lexer": "^1.4.2",
     "github-slugger": "^2.0.0",
     "hashtag-regex": "^2.2.0",
     "just-group-by": "^2.2.0",
