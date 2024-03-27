@@ -27,12 +27,17 @@ export default defineConfig({
             const hasNonActionExports = exports.some(
               (exp) => exp.n !== "actions" && exp.n !== "prerender"
             );
+            const formattedId = id.slice(id.indexOf("/src/pages/") + 11);
             if (hasNonActionExports) {
-              const formattedId = id.slice(id.indexOf("/src/pages/") + 11);
               throw new Error(
                 `API route **${formattedId}** cannot have other exports when using 'actions'. Move other exports to a separate file.`
               );
             }
+            // TODO: magic string
+            return `${code}
+            for (const [key, action] of Object.entries(actions)) {
+              action.toString = () => 'testing'
+            }`;
           }
         },
         load(id, options) {

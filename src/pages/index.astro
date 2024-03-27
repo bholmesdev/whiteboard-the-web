@@ -70,7 +70,8 @@ import { Like } from "~components/LikeButton";
   const likeButton = document.querySelector("#like-button")!;
 
   likeButton.addEventListener("click", async () => {
-    const { likes } = await new Promise(actions.like);
+    console.log(actions.like);
+    const { likes } = await actions.like();
     likeButton.textContent = `❤️ ${likes}`;
   });
 
