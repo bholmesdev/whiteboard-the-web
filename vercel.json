@@ -11,6 +11,11 @@
   ],
   "redirects": [
     {
+      "source": "/141",
+      "destination": "https://www.youtube.com/shorts/2mVhiBciTlM"
+    },
+
+    {
       "source": "/chat",
       "destination": "https://discord.gg/Udf8fJdtpZ"
     },
