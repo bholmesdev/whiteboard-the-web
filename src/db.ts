@@ -1,82 +1,28 @@
-import { Thumbnail, Video, db, eq, like, or } from "astro:db";
 import Slugger from "github-slugger";
-import groupBy from "just-group-by";
 import emojiRegex from "emoji-regex";
 import hashtagRegex from "hashtag-regex";
 import sanitize from "sanitize-html";
+import { z } from "zod";
 
-export type VideoWithThumbnail = typeof Video.$inferSelect & {
-  slug: string;
-  thumbnails: Array<{
-    quality: string;
-    url: string;
-    width: number;
-    height: number;
-  }>;
+export type Thumbnail = {
+  quality: string;
+  url: string;
+  width: number;
+  height: number;
 };
 
-export async function getVideos(): Promise<
-  Array<typeof Video.$inferSelect & { slug: string }>
-> {
-  const dbVideos = await db.select().from(Video);
-
-  const slugger = createVideoSlugger();
-  return dbVideos.map((video) => {
-    const title = formatTitle(video.title);
-    const description = formatDescription(video.description);
-    const slug = slugger(video.id, title);
-    return {
-      ...video,
-      title,
-      description,
-      slug,
-    };
-  });
-}
-
-export async function getVideosWithThumbnail(
-  query = ""
-): Promise<VideoWithThumbnail[]> {
-  const dbVideos = await db
-    .select({
-      id: Video.id,
-      title: Video.title,
-      embedUrl: Video.embedUrl,
-      youtubeUrl: Video.youtubeUrl,
-      publishedAt: Video.publishedAt,
-      description: Video.description,
-      thumbnail: {
-        quality: Thumbnail.quality,
-        url: Thumbnail.url,
-        width: Thumbnail.width,
-        height: Thumbnail.height,
-      },
-    })
-    .from(Video)
-    .innerJoin(Thumbnail, eq(Thumbnail.videoId, Video.id))
-    .where(
-      or(like(Video.title, `%${query}%`), like(Video.description, `%${query}%`))
-    );
-
-  const slugger = createVideoSlugger();
-  const videosById = groupBy(dbVideos, (v) => v.id);
-  const videos = Object.values(videosById)
-    .map((videos) => {
-      const { thumbnail, ...video } = videos[0]!;
-      const title = formatTitle(video.title);
-      const description = formatDescription(video.description);
-      const slug = slugger(video.id, title);
-      return {
-        ...video,
-        title,
-        description,
-        slug,
-        thumbnails: videos.map((v) => v.thumbnail),
-      };
-    })
-    .sort((a, b) => b.id - a.id);
-  return videos;
-}
+export type VideoWithThumbnail = {
+  id: number;
+  title: string;
+  description: string;
+  unformattedTitle: string;
+  unformattedDescription: string;
+  embedUrl: string;
+  youtubeUrl: string;
+  publishedAt: Date;
+  slug: string;
+  thumbnails: Thumbnail[];
+};
 
 function createVideoSlugger() {
   const slugger = new Slugger();
@@ -105,4 +51,140 @@ function formatDescription(text: string) {
       )
       .trim()
   );
+}
+
+export async function getPlaylist(
+  query?: string
+): Promise<VideoWithThumbnail[]> {
+  const { YOUTUBE_API_KEY, YOUTUBE_PLAYLIST_ID } = import.meta.env;
+  const url = new URL("https://www.googleapis.com/youtube/v3/playlistItems");
+  url.searchParams.append("part", "snippet");
+  url.searchParams.append("part", "contentDetails");
+  url.searchParams.append("playlistId", YOUTUBE_PLAYLIST_ID);
+  url.searchParams.append("key", YOUTUBE_API_KEY);
+  url.searchParams.append("maxResults", "50");
+
+  let nextPageToken: string | undefined;
+  const items: z.infer<typeof youtubeApiResponse>["items"] = [];
+  let pagesCollected = 0;
+  const rawResponse = await fetch(url);
+  const response = youtubeApiResponse.parse(await rawResponse.json());
+  nextPageToken = response.nextPageToken;
+  items.push(...response.items);
+
+  while (nextPageToken) {
+    if (pagesCollected > 20) {
+      throw new Error(
+        "Fetched from YouTube many times! Either there's over 1000 videos in the playlist, or the YouTube API is returning unexpected results."
+      );
+    }
+    url.searchParams.set("pageToken", nextPageToken);
+    const rawResponse = await fetchWithDevCache(url.href);
+    const response = youtubeApiResponse.parse(await rawResponse.json());
+    nextPageToken = response.nextPageToken;
+    items.push(...response.items);
+    pagesCollected++;
+  }
+
+  const slugger = createVideoSlugger();
+  const mappedItems = items
+    .filter(
+      (item): item is z.infer<typeof videoSchema> =>
+        item.snippet.title !== "Deleted video"
+    )
+    .sort(
+      (a, b) =>
+        b.contentDetails.videoPublishedAt.getTime() -
+        a.contentDetails.videoPublishedAt.getTime()
+    )
+    .map((item, idx) => {
+      const id = items.length - 1 - idx + 35; // edition 35 was my first upload to YouTube
+      const title = formatTitle(item.snippet.title);
+      const description = formatDescription(item.snippet.description);
+      const slug = slugger(id, title);
+      return {
+        id,
+        title,
+        description,
+        unformattedTitle: item.snippet.title,
+        unformattedDescription: item.snippet.description,
+        slug,
+        embedUrl: `https://www.youtube-nocookie.com/embed/${item.snippet.resourceId.videoId}?autoplay=1`,
+        youtubeUrl: `https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}&list=${YOUTUBE_PLAYLIST_ID}`,
+        publishedAt: item.contentDetails.videoPublishedAt,
+        thumbnails: Object.entries(item.snippet.thumbnails)
+          .map(([quality, thumbnail]) => {
+            if (!thumbnail) return;
+            return {
+              quality,
+              url: thumbnail.url,
+              width: thumbnail.width,
+              height: thumbnail.height,
+            };
+          })
+          .filter((item): item is NonNullable<typeof item> => Boolean(item)),
+      };
+    });
+
+  if (!query) return mappedItems;
+
+  return mappedItems.filter((item) => {
+    return (
+      item.unformattedTitle.toLowerCase().includes(query.toLowerCase()) ||
+      item.unformattedDescription.toLowerCase().includes(query.toLowerCase())
+    );
+  });
+}
+
+const thumbnailResponse = z.object({
+  url: z.string(),
+  width: z.number(),
+  height: z.number(),
+});
+
+const deletedVideoSchema = z.object({
+  snippet: z.object({
+    title: z.literal("Deleted video"),
+  }),
+});
+
+const videoSchema = z.object({
+  snippet: z.object({
+    title: z.string(),
+    description: z.string(),
+    thumbnails: z.object({
+      default: thumbnailResponse,
+      medium: thumbnailResponse.optional(),
+      high: thumbnailResponse.optional(),
+    }),
+    resourceId: z.object({
+      videoId: z.string(),
+    }),
+  }),
+  contentDetails: z.object({
+    videoPublishedAt: z.coerce.date(),
+  }),
+});
+
+// @see https://developers.google.com/youtube/v3/docs/search#resource
+const youtubeApiResponse = z.object({
+  nextPageToken: z.string().optional(),
+  prevPageToken: z.string().optional(),
+  items: z.array(deletedVideoSchema.or(videoSchema)),
+});
+
+async function fetchWithDevCache(url: URL | string, init: RequestInit = {}) {
+  if (import.meta.env.DEV) {
+    const { default: EleventyFetch } = await import("@11ty/eleventy-fetch");
+    const res = await EleventyFetch(url.toString(), {
+      duration: "1h",
+      type: "json",
+    });
+    return new Response(JSON.stringify(res), {
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+  }
+  return await fetch(url, init);
 }

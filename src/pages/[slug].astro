@@ -4,10 +4,10 @@ import Card from "~components/Card.astro";
 import BaseLayout from "~layouts/Layout.astro";
 import CtaLink from "~components/CtaLink.astro";
 import Video from "~components/Video.astro";
-import { getVideosWithThumbnail, type VideoWithThumbnail } from "../db";
+import { getPlaylist, type VideoWithThumbnail } from "../db";
 
 export async function getStaticPaths() {
-  const videos = await getVideosWithThumbnail();
+  const videos = await getPlaylist();
   return videos.map((v) => ({
     params: { slug: v.slug },
     props: v,

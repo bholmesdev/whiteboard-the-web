@@ -1,8 +1,8 @@
 ---
-import { getVideos } from "../db";
+import { getPlaylist } from "../db";
 
 export async function getStaticPaths() {
-  const videos = await getVideos();
+  const videos = await getPlaylist();
 
   return videos.map((v) => ({
     params: { id: v.id },

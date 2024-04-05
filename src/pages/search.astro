@@ -3,14 +3,14 @@ export const prerender = false;
 
 import Card from "~components/Card.astro";
 import VideoEmbed from "~components/Video.astro";
-import { getVideosWithThumbnail } from "../db";
+import { getPlaylist } from "../db";
 
 const { searchParams } = new URL(Astro.request.url);
 const query = searchParams.get("query");
 
 Astro.response.headers.set("Cache-Control", "max-age=86400, s-maxage=86400");
 
-const videos = await getVideosWithThumbnail(query ?? undefined);
+const videos = await getPlaylist(query ?? undefined);
 ---
 
 <main class="list">

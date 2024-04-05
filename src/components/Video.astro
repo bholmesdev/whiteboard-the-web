@@ -1,11 +1,11 @@
 ---
-import type { Thumbnail } from "astro:db";
+import type { Thumbnail } from "../db";
 import Play from "./icons/Play.astro";
 
 type Props = {
   id: number;
   title: string;
-  thumbnails: Array<Omit<typeof Thumbnail.$inferSelect, "videoId">>;
+  thumbnails: Thumbnail[];
   hasColorIntersectionObserver?: boolean;
   embedUrl: string;
 };
