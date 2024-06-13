@@ -14,7 +14,10 @@
       "source": "/141",
       "destination": "https://www.youtube.com/shorts/2mVhiBciTlM"
     },
-
+    {
+      "source": "/climate",
+      "destination": "https://github.com/bholmesdev/womp/blob/main/src/middleware/co2.ts"
+    },
     {
       "source": "/chat",
       "destination": "https://discord.gg/Udf8fJdtpZ"
