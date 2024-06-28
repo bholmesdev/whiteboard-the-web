@@ -19,6 +19,10 @@
       "destination": "https://github.com/bholmesdev/womp/blob/main/src/middleware/co2.ts"
     },
     {
+      "source": "/talkco2",
+      "destination": "https://www.youtube.com/live/29wHaG7eVPM?si=hSc45quHG7gNpSYF&t=10759"
+    },
+    {
       "source": "/chat",
       "destination": "https://discord.gg/Udf8fJdtpZ"
     },
