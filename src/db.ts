@@ -67,8 +67,8 @@ export async function getPlaylist(
   let nextPageToken: string | undefined;
   const items: z.infer<typeof youtubeApiResponse>["items"] = [];
   let pagesCollected = 0;
-  const rawResponse = await fetch(url);
-  const response = youtubeApiResponse.parse(await rawResponse.json());
+  const rawResponse = await fetchWithDevCache(url).then((res) => res.json());
+  const response = youtubeApiResponse.parse(rawResponse);
   nextPageToken = response.nextPageToken;
   items.push(...response.items);
 
@@ -79,8 +79,10 @@ export async function getPlaylist(
       );
     }
     url.searchParams.set("pageToken", nextPageToken);
-    const rawResponse = await fetchWithDevCache(url.href);
-    const response = youtubeApiResponse.parse(await rawResponse.json());
+    const rawResponse = await fetchWithDevCache(url.href).then((res) =>
+      res.json()
+    );
+    const response = youtubeApiResponse.parse(rawResponse);
     nextPageToken = response.nextPageToken;
     items.push(...response.items);
     pagesCollected++;
@@ -90,7 +92,8 @@ export async function getPlaylist(
   const mappedItems = items
     .filter(
       (item): item is z.infer<typeof videoSchema> =>
-        item.snippet.title !== "Deleted video"
+        item.snippet.title !== "Deleted video" &&
+        item.snippet.title !== "Private video"
     )
     .sort(
       (a, b) =>
@@ -148,6 +151,12 @@ const deletedVideoSchema = z.object({
   }),
 });
 
+const privateVideoSchema = z.object({
+  snippet: z.object({
+    title: z.literal("Private video"),
+  }),
+});
+
 const videoSchema = z.object({
   snippet: z.object({
     title: z.string(),
@@ -170,7 +179,7 @@ const videoSchema = z.object({
 const youtubeApiResponse = z.object({
   nextPageToken: z.string().optional(),
   prevPageToken: z.string().optional(),
-  items: z.array(deletedVideoSchema.or(videoSchema)),
+  items: z.array(deletedVideoSchema.or(privateVideoSchema).or(videoSchema)),
 });
 
 async function fetchWithDevCache(url: URL | string, init: RequestInit = {}) {
