@@ -1,5 +1,4 @@
 import { defineConfig } from "astro/config";
-import db from "@astrojs/db";
 import vercel from "@astrojs/vercel/serverless";
 import simpleStackFrame from "simple-stack-frame";
 
@@ -8,7 +7,7 @@ export default defineConfig({
   output: "hybrid",
   adapter: vercel(),
   site: "https://wtw.dev",
-  integrations: [db(), simpleStackFrame()],
+  integrations: [simpleStackFrame()],
   vite: {
     esbuild: {
       keepNames: true,
