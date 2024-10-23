@@ -65,6 +65,10 @@
     {
       "source": "/tensorflow",
       "destination": "https://github.com/bholmesdev/local-first-vite-conf-2024"
+    },
+    {
+      "source": "/native",
+      "destination": "https://evilmartians.com/chronicles/how-to-make-absolutely-any-app-look-like-a-macos-app"
     }
   ]
 }
