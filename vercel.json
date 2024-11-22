@@ -69,6 +69,10 @@
     {
       "source": "/native",
       "destination": "https://evilmartians.com/chronicles/how-to-make-absolutely-any-app-look-like-a-macos-app"
+    },
+    {
+      "source": "/tw-gradients",
+      "destination": "https://gist.github.com/bholmesdev/f326094e2097068c5de8f818f9aa8713"
     }
   ]
 }
