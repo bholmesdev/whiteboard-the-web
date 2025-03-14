@@ -73,6 +73,10 @@
     {
       "source": "/tw-gradients",
       "destination": "https://gist.github.com/bholmesdev/f326094e2097068c5de8f818f9aa8713"
+    },
+    {
+      "source": "/sql",
+      "destination": "https://simple-sync-engine-conf.up.railway.app/"
     }
   ]
 }
