@@ -23,10 +23,6 @@
       "destination": "https://www.youtube.com/live/29wHaG7eVPM?si=hSc45quHG7gNpSYF&t=10759"
     },
     {
-      "source": "/chat",
-      "destination": "https://discord.gg/Udf8fJdtpZ"
-    },
-    {
       "source": "/newsletter",
       "destination": "https://buttondown.email/bholmesdev"
     },
@@ -73,10 +69,6 @@
     {
       "source": "/tw-gradients",
       "destination": "https://gist.github.com/bholmesdev/f326094e2097068c5de8f818f9aa8713"
-    },
-    {
-      "source": "/sql",
-      "destination": "https://simple-sync-engine-conf.up.railway.app/"
     }
   ]
 }

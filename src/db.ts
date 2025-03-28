@@ -3,6 +3,7 @@ import emojiRegex from "emoji-regex";
 import hashtagRegex from "hashtag-regex";
 import sanitize from "sanitize-html";
 import { z } from "zod";
+import { sqlLikeMatch } from "./util";
 
 export type Thumbnail = {
   quality: string;
@@ -133,8 +134,8 @@ export async function getPlaylist(
 
   return mappedItems.filter((item) => {
     return (
-      item.unformattedTitle.toLowerCase().includes(query.toLowerCase()) ||
-      item.unformattedDescription.toLowerCase().includes(query.toLowerCase())
+      sqlLikeMatch(query, item.unformattedTitle) ||
+      sqlLikeMatch(query, item.unformattedDescription)
     );
   });
 }

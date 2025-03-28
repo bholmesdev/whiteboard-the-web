@@ -1,0 +1,38 @@
+---
+import { getPlaylist } from "../db";
+import { formatSearchQuery, isEmptyString, safeParseNumber } from "../util";
+
+const videos = await getPlaylist();
+
+const searchParam = Astro.params.search;
+if (!searchParam || isEmptyString(searchParam)) {
+  return new Response(
+    "No search query provided. Try formatting your request like `https://wtw.dev/react-hooks`",
+    { status: 400 }
+  );
+}
+
+const potentialId = safeParseNumber(searchParam);
+const video = videos.find((v) => v.id === potentialId);
+if (video) {
+  // set CDN cache header that lasts forever
+  Astro.response.headers.set("Cache-Control", "public, s-maxage=31536000");
+  return Astro.redirect(video.youtubeUrl);
+}
+
+// fall back to search query
+const searchQuery = formatSearchQuery(searchParam);
+const searchResults = await getPlaylist(searchQuery);
+
+const firstResult = searchResults[0];
+if (!firstResult) {
+  return new Response(`No results found for \`${searchQuery}\``, {
+    status: 200,
+  });
+}
+
+// set CDN cache header that lasts a few days
+Astro.response.headers.set("Cache-Control", "public, s-maxage=604800");
+
+return Astro.redirect(firstResult.youtubeUrl);
+---
