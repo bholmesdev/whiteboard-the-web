@@ -6,9 +6,4 @@ export default defineConfig({
   output: "server",
   adapter: vercel(),
   site: "https://wtw.dev",
-  vite: {
-    esbuild: {
-      keepNames: true,
-    },
-  },
 });
