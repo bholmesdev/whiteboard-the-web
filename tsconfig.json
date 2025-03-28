@@ -1,15 +1,4 @@
 {
   "extends": "astro/tsconfigs/strict",
-  "compilerOptions": {
-    "target": "ES2020",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "baseUrl": ".",
-    "paths": {
-      "~types": ["src/~types.ts"],
-      "~utils": ["src/~utils.ts"],
-      "~components/*": ["src/components/*"],
-      "~layouts/*": ["src/layouts/*"]
-    }
-  }
+  "include": ["src/**/*.astro", "src/**/*.ts"]
 }
