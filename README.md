@@ -1,42 +1,90 @@
-# Welcome to [Astro](https://astro.build)
+# Whiteboard the Web API
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
+> wtw.dev/anything
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+A serverless API built with Astro and Vercel for searching all of my YouTube videos.
 
-## 🚀 Project Structure
+## Project Overview
 
-Inside of your Astro project, you'll see the following folders and files:
+This project implements a serverless API that enables:
+
+- YouTube video searching with cached results
+- Direct video lookups by ID
+- Automatic redirection to video URLs
+
+## Project Structure
 
 ```
 /
 ├── public/
 │   └── favicon.ico
 ├── src/
-│   ├── components/
-│   │   └── Layout.astro
 │   └── pages/
-│       └── index.astro
-└── package.json
+│       ├── index.astro
+│       ├── videos.json.ts
+│       └── [search].ts
+├── package.json
+└── vercel.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Development Setup
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components or layouts.
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+3. Configure environment variables:
+   Create a `.env` file with:
+   ```
+   YOUTUBE_API_KEY=your_api_key
+   YOUTUBE_PLAYLIST_ID=your_playlist_id
+   ```
+4. Start the development server:
+   ```bash
+   pnpm run dev
+   ```
 
-Any static assets, like images, can be placed in the `public/` directory.
+## API breakdown
 
-## 🧞 Commands
+### Direct Video Lookup (`/[search]`)
 
-All commands are run from the root of the project, from a terminal:
+Redirects to YouTube video by exact ID (ex. wtw.dev/141), or falls back to a search query (ex. wtw.dev/react-hooks or wtw.dev/react+hooks). It'll redirect to the first search result that matches.
 
-| Command           | Action                                       |
-| :---------------- | :------------------------------------------- |
-| `npm install`     | Installs dependencies                        |
-| `npm run dev`     | Starts local dev server at `localhost:3000`  |
-| `npm run build`   | Build your production site to `./dist/`      |
-| `npm run preview` | Preview your build locally, before deploying |
+### JSON for all videos (`/videos.json`)
 
-## 👀 Want to learn more?
+Returns a list of all video information as JSON.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Deployment Instructions
+
+1. Fork or clone this repository
+2. Create a new project on Vercel
+3. Connect your repository
+4. Configure environment variables in Vercel:
+   - `YOUTUBE_API_KEY`
+   - `YOUTUBE_PLAYLIST_ID`
+5. Deploy!
+
+## Cache Behavior
+
+The API implements two caching strategies:
+
+- Search results: Cached for several days to balance freshness and performance
+- Direct ID lookups: Permanently cached as video IDs are immutable
+
+## Tech Stack and Dependencies
+
+- [Astro](https://astro.build) - Web framework
+- Vercel - Serverless deployment platform
+- YouTube Data API - Video data source
+
+## Commands
+
+All commands are run from the root of the project:
+
+| Command            | Action                                                  |
+| :----------------- | :------------------------------------------------------ |
+| `pnpm install`     | Install dependencies                                    |
+| `pnpm run dev`     | Start local dev server at `localhost:4321`              |
+| `pnpm run build`   | Check types and build your production site to `./dist/` |
+| `pnpm run preview` | Preview your build locally before deploying             |
