@@ -1,5 +1,3 @@
-import Slugger from "github-slugger";
-import emojiRegex from "emoji-regex";
 import hashtagRegex from "hashtag-regex";
 import sanitize from "sanitize-html";
 import { z } from "zod";
@@ -21,18 +19,8 @@ export type VideoWithThumbnail = {
   embedUrl: string;
   youtubeUrl: string;
   publishedAt: Date;
-  slug: string;
   thumbnails: Thumbnail[];
 };
-
-function createVideoSlugger() {
-  const slugger = new Slugger();
-  /** slugger misses these when stripping emojis */
-  return (id: number, rawTitle: string) => {
-    const title = rawTitle.replace(emojiRegex(), "").trim();
-    return `${id}-${slugger.slug(title)}`;
-  };
-}
 
 function formatTitle(text: string) {
   return text.replace(hashtagRegex(), "").trim();
@@ -89,7 +77,6 @@ export async function getPlaylist(
     pagesCollected++;
   }
 
-  const slugger = createVideoSlugger();
   const mappedItems = items
     .filter(
       (item): item is z.infer<typeof videoSchema> =>
@@ -105,14 +92,12 @@ export async function getPlaylist(
       const id = items.length - 1 - idx + 35; // edition 35 was my first upload to YouTube
       const title = formatTitle(item.snippet.title);
       const description = formatDescription(item.snippet.description);
-      const slug = slugger(id, title);
       return {
         id,
         title,
         description,
         unformattedTitle: item.snippet.title,
         unformattedDescription: item.snippet.description,
-        slug,
         embedUrl: `https://www.youtube-nocookie.com/embed/${item.snippet.resourceId.videoId}?autoplay=1`,
         youtubeUrl: `https://www.youtube.com/watch?v=${item.snippet.resourceId.videoId}&list=${YOUTUBE_PLAYLIST_ID}`,
         publishedAt: item.contentDetails.videoPublishedAt,
