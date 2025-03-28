@@ -1,6 +1,12 @@
 ---
 import { getPlaylist } from "../db";
-import { formatSearchQuery, isEmptyString, safeParseNumber } from "../util";
+import {
+  CACHE_FOR_A_FEW_DAYS,
+  CACHE_FOREVER,
+  formatSearchQuery,
+  isEmptyString,
+  safeParseNumber,
+} from "../util";
 
 const videos = await getPlaylist();
 
@@ -15,8 +21,7 @@ if (!searchParam || isEmptyString(searchParam)) {
 const potentialId = safeParseNumber(searchParam);
 const video = videos.find((v) => v.id === potentialId);
 if (video) {
-  // set CDN cache header that lasts forever
-  Astro.response.headers.set("Cache-Control", "public, s-maxage=31536000");
+  Astro.response.headers.set("Cache-Control", CACHE_FOREVER);
   return Astro.redirect(video.youtubeUrl);
 }
 
@@ -31,8 +36,7 @@ if (!firstResult) {
   });
 }
 
-// set CDN cache header that lasts a few days
-Astro.response.headers.set("Cache-Control", "public, s-maxage=604800");
+Astro.response.headers.set("Cache-Control", CACHE_FOR_A_FEW_DAYS);
 
 return Astro.redirect(firstResult.youtubeUrl);
 ---

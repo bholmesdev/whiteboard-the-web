@@ -27,3 +27,6 @@ export function sqlLikeMatch(query: string, str: string) {
     str.toLowerCase().includes(word.toLowerCase())
   );
 }
+
+export const CACHE_FOR_A_FEW_DAYS = "public, s-maxage=604800";
+export const CACHE_FOREVER = "public, s-maxage=31536000";
