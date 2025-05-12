@@ -69,6 +69,10 @@
     {
       "source": "/tw-gradients",
       "destination": "https://gist.github.com/bholmesdev/f326094e2097068c5de8f818f9aa8713"
+    },
+    {
+      "source": "/simple-streaming",
+      "destination": "https://github.com/bholmesdev/simple-streaming"
     }
   ]
 }
