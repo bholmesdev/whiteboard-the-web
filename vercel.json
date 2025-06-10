@@ -73,6 +73,10 @@
     {
       "source": "/simple-streaming",
       "destination": "https://github.com/bholmesdev/simple-streaming"
+    },
+    {
+      "source": "/async-svelte",
+      "destination": "https://github.com/sveltejs/svelte/discussions/15845"
     }
   ]
 }
