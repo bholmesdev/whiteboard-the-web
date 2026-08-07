@@ -77,6 +77,10 @@
     {
       "source": "/async-svelte",
       "destination": "https://github.com/sveltejs/svelte/discussions/15845"
+    },
+    {
+        "source": "/pr-review",
+        "destination": "https://github.com/bholmesdev/whiteboard-the-web.git"
     }
   ]
 }
