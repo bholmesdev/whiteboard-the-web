@@ -1,4 +1,6 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "npx --yes pnpm@11.9.0 install --frozen-lockfile",
   "rewrites": [
     {
       "source": "/stats/js/script.js",
