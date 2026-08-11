@@ -83,7 +83,7 @@
     },
     {
         "source": "/pr-review",
-        "destination": "https://github.com/bholmesdev/whiteboard-the-web.git"
+        "destination": "https://github.com/bholmesdev/hubble.md/blob/main/.github/workflows/review-pull-requests.yml"
     }
   ]
 }
