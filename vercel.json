@@ -84,6 +84,10 @@
     {
         "source": "/pr-review",
         "destination": "https://github.com/bholmesdev/hubble.md/blob/main/.github/workflows/review-pull-requests.yml"
+    },
+    {
+        "source": "/5-skills",
+        "destination": "https://gist.github.com/bholmesdev/d935f397248ee6f37d402bc292534141"
     }
   ]
 }
